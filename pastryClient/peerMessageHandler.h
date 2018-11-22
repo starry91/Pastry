@@ -6,12 +6,16 @@
 
 #include <iostream>
 #include <string>
-#include "message.h"
+#include "message.pb.h"
 class PeerMessageHandler
 {
   public:
-    ChunkInfoResponse handleChunkInfoRequest(std::vector<char> b);
-    SendChunkResponse handlesendChunkRequest(std::vector<char> b);
+    void handleJoinMeRequest(message::Message);
+    void handleJoinRequest(message::Message);
+    void handleRoutingUpdateRequest(message::Message);
+    void handleAllStateUpdateRequest(message::Message);
+    void handleGetValRequest(message::Message);
+    void handleSetValRequest(message::Message);
 };
 
 #endif

@@ -1,9 +1,7 @@
 #include "peerHandler.h"
 #include "networkInterfacer.h"
-#include "decoder.h"
 #include "peerMessageHandler.h"
-#include "message.h"
-#include "encoder.h"
+#include "message.pb.h"
 #include "logHandler.h"
 #include "errorMsg.h"
 #include "clientDatabase.h"
@@ -11,43 +9,48 @@
 
 using std::cout;
 using std::endl;
-
+using namespace std;
 void PeerHandler::handleRpc(int client_fd)
 {
     try
     {
-       // cout << "in PeerHandler::handleRpc() with fd: " << client_fd << endl;
         while (true)
         {
             NetworkReader reader(client_fd);
             auto byte_data = reader.readFromNetwork();
-           // std::cout << "PeerHandler::handleRpc() byte_data size: " << byte_data.size() << std::endl;
-            Decoder decoder;
-            Encoder encoder;
-            auto rpcbytepair = decoder.decodeMsgType(byte_data);
-            auto request = rpcbytepair.first;
-            byte_data = rpcbytepair.second;
-            // if (byte_data.size() == 0)
-            // {
-            // }
-            //std::string request = msg->getType();
+            message::Message reqMsg;
+            reqMsg.ParseFromString(string(byte_data.data()));
             PeerMessageHandler msgHandler;
             NetworkWriter writer(client_fd);
-            if (request == "CHUNKINFOREQUEST")
+            if (reqMsg.type() == "JoinMe")
             {
-                //std::cout << "Recieved ChunkInfoRequest on" << ClientDatabase::getInstance().getHost().getPort() << std::endl;
-                LogHandler::getInstance().logMsg("Recieved ChunkInfoRequest request");
-                //std::cout << "PeerHandler::handleRpc() hello1" << std::endl;
-                auto res = msgHandler.handleChunkInfoRequest(byte_data);
-                writer.writeToNetwork(encoder.encode(std::string("CHUNKINFORESPONSE"), res.getBytes()));
+                LogHandler::getInstance().logMsg("Recieved JoinMe request");
+                msgHandler.handleJoinMeRequest(reqMsg);
             }
-            else if (request == "SENDCHUNKREQUEST")
+            else if (reqMsg.type() == "Join")
             {
-                //std::cout << "Recieved Send Chunk request on" << ClientDatabase::getInstance().getHost().getPort() << std::endl;
-                LogHandler::getInstance().logMsg("Recieved Send Chunk request");
-                //std::cout << "PeerHandler::handleRpc() hello2" << std::endl;
-                auto res = msgHandler.handlesendChunkRequest(byte_data);
-                writer.writeToNetwork(encoder.encode(std::string("SENDCHUNKRESPONSE"), res.getBytes()));
+                LogHandler::getInstance().logMsg("Recieved Join request");
+                msgHandler.handleJoinRequest(reqMsg);
+            }
+            else if (reqMsg.type() == "RoutingUpdate")
+            {
+                LogHandler::getInstance().logMsg("Recieved RoutingUpdate request");
+                msgHandler.handleRoutingUpdateRequest(reqMsg);
+            }
+            else if (reqMsg.type() == "AllStateUpdate")
+            {
+                LogHandler::getInstance().logMsg("Recieved AllStateUpdate request");
+                msgHandler.handleAllStateUpdateRequest(reqMsg);
+            }
+            else if (reqMsg.type() == "GetVal")
+            {
+                LogHandler::getInstance().logMsg("Recieved GetVal request");
+                msgHandler.handleGetValRequest(reqMsg);
+            }
+            else if (reqMsg.type() == "SetVal")
+            {
+                LogHandler::getInstance().logMsg("Recieved SetVal request");
+                msgHandler.handleSetValRequest(reqMsg);
             }
         }
     }

@@ -5,8 +5,8 @@
 using namespace std;
 
 ClientDatabase::ClientDatabase(){
-    this->row = ceil((log(this->N)*1.000)/log(pow(2,this->b)));
-    this->col = pow(2,this->b) - 1;
+    this->row = ceil((log((N))*1.000)/log(pow(2,b)));
+    this->col = pow(2,(b)) - 1;
     this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col));
 };
 

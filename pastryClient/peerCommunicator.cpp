@@ -1,4 +1,4 @@
-#include "encoder.h"
+
 #include "networkInterfacer.h"
 #include "utils.h"
 #include <syslog.h>
@@ -26,7 +26,7 @@ PeerCommunicator::PeerCommunicator(Node peer)
 
 PeerCommunicator::~PeerCommunicator()
 {
-    syslog(LOG_INFO, "### Closing TrackerServiceServer() with fd: %d", this->peer_fd);
+    syslog(LOG_INFO, "### Closing PeerCommunicator() with fd: %d", this->peer_fd);
     close(this->peer_fd);
 }
 

@@ -14,16 +14,19 @@
 #include "utils.h"
 #include <vector>
 
+//Pastry parameters
+#define b 8
+#define N 10000
+
+
 class ClientDatabase
 {
 private:
-  int b;
-  int N;
   int row;
   int col;
-  std::pair<set<node_Sptr, leafComparator>,set<node_Sptr, leafComparator>> leafSet;
-  vector<vector<node_Sptr>> routingTable;
-  set<node_Sptr, neighbourComparator> neighbourSet;
+  std::pair<std::set<node_Sptr, leafComparator>,std::set<node_Sptr, leafComparator>> leafSet;
+  std::vector<std::vector<node_Sptr>> routingTable;
+  std::set<node_Sptr, neighbourComparator> neighbourSet;
   node_Sptr listener;
   ClientDatabase();
 
@@ -31,10 +34,10 @@ public:
   static ClientDatabase &getInstance();
   void setListener(Node);
   node_Sptr getListener();
-  node_Sptr getNextRoutingNode(string nodeID);
-  vector<vector<node_Sptr>> getRoutingTable();
-  std::pair<set<node_Sptr, leafComparator>,set<node_Sptr, leafComparator>> getLeafSet();
-  set<node_Sptr, neighbourComparator> getNeighbourSet();
+  node_Sptr getNextRoutingNode(std::string nodeID);
+  std::vector<std::vector<node_Sptr>> getRoutingTable();
+  std::pair<std::set<node_Sptr, leafComparator>,std::set<node_Sptr, leafComparator>> getLeafSet();
+  std::set<node_Sptr, neighbourComparator> getNeighbourSet();
 };
 
 #endif
