@@ -1,0 +1,86 @@
+// See README.txt for information and build instructions.
+//
+// Note: START and END tags are used in comments to define sections used in
+// tutorials.  They are not part of the syntax for Protocol Buffers.
+//
+// To get an in-depth walkthrough of this file and the related examples, see:
+// https://developers.google.com/protocol-buffers/docs/tutorials
+
+// [START declaration]
+syntax = "proto3";
+package message;
+
+import "google/protobuf/timestamp.proto";
+// [END declaration]
+
+// [START messages]
+message JoinMe {
+  string nodeID = 1;
+  string IP = 2;
+  string port = 3;
+}
+
+message Join {
+  string nodeID = 1;
+  string IP = 2;
+  string port = 3;
+  int32 row_index = 4;
+}
+
+message Node {
+  string nodeID = 1;
+  string IP = 2;
+  string port = 3;
+}
+
+message List {
+  repeated Node node = 1;
+}
+
+message RoutingUpdate {
+  bool buddy = 1;
+  bool terminal = 2;
+  List leaf = 3;
+  List neighbours = 4;
+  message RoutingEntry {
+    string index = 1;
+    repeated List node = 2;
+  }
+  RoutingEntry routingEntires = 5;
+} 
+
+message AllStateUpdate {
+  repeated List leaf = 1;
+  repeated List routingTable = 2;
+  repeated List neighbours = 3;
+}
+
+message GetVal {
+  string key = 1;
+  Node node = 2;
+}
+
+message SetVal {
+  string key = 1;
+  string val = 2;
+}
+
+message Message {
+  string type = 1;
+  oneof msg {
+    JoinMe joinMeMsg = 2;
+    Join joinMsg = 3;
+    GetVal getMsg = 4;
+    SetVal setMsg = 5;
+    RoutingUpdate routingUpdate = 6;
+    AllStateUpdate allStateUpdate = 7;
+  }
+}
+
+message Response {
+  string status = 1;
+}
+
+
+
+// [END messages]
