@@ -7,7 +7,6 @@
 #include <limits>
 #include <math.h>
 #include <syslog.h>
-#include "node.h"
 #include "errorMsg.h"
 #include <openssl/md5.h>
 #include "md5.h"

@@ -16,7 +16,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	message::Message routingUpdate;
 	routingUpdate.set_type("RoutingUpdate");
 	auto *temp = routingUpdate.mutable_routingupdate();
-	temp->buddy = true;
+	temp->set_buddy(true);
 
 	auto new_routingList = temp->mutable_routingentires();
 	auto new_neighbour_set = temp->mutable_neighbours();
@@ -61,7 +61,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		auto new_leaf_set = temp->mutable_leaf();
-		temp->terminal = true;
+		temp->set_terminal(true);
 		auto leafSet = ClientDatabase::getInstance().getLeafSet();
 		for (auto leaf_node : leafSet.first)
 		{
@@ -100,7 +100,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	message::Message routingUpdate;
 	routingUpdate.set_type("RoutingUpdate");
 	auto *temp = routingUpdate.mutable_routingupdate();
-	temp->buddy = true;
+	temp->set_buddy(true);
 
 	auto new_routingList = temp->mutable_routingentires();
 
@@ -131,7 +131,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		auto new_leaf_set = temp->mutable_leaf();
-		temp->terminal = true;
+		temp->set_terminal(true);
 		auto leafSet = ClientDatabase::getInstance().getLeafSet();
 		for (auto leaf_node : leafSet.first)
 		{
@@ -177,7 +177,7 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 			node_Sptr new_node;
 			if (nodeFrmMsg.nodeid() == "-1")
 			{
-				new_node = make_shared<Node>(nullptr);
+				new_node = NULL; //make_shared<Node>(nullptr);
 			}
 			else
 			{
@@ -188,7 +188,7 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 			ClientDatabase::getInstance().updateRoutingTable(tempNodeList, temp.index());
 		}
 	}
-	if (req.buddy)
+	if (req.buddy())
 	{
 		for (int j = 0; j < req.neighbours().node_size(); j++)
 		{
@@ -202,7 +202,7 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 			}
 		}
 	}
-	if (req.terminal)
+	if (req.terminal())
 	{
 		for (int j = 0; j < req.leaf().node_size(); j++)
 		{
@@ -224,14 +224,14 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 		auto leaf_entry = req.leaf().node().Get(i);
 		node_Sptr node_from_msg;
 		node_from_msg = make_shared<Node>(leaf_entry.ip(), leaf_entry.port(), leaf_entry.nodeid());
-		ClientDatabase ::getInstance().addToLeafSet(node_from_msg);
+		ClientDatabase::getInstance().addToLeafSet(node_from_msg);
 	}
 	for (int i = 0; i < req.neighbours().node_size(); i++)
 	{
 		auto neighbour = req.neighbours().node().Get(i);
 		node_Sptr node_from_msg;
 		node_from_msg = make_shared<Node>(neighbour.ip(), neighbour.port(), neighbour.nodeid());
-		ClientDatabase ::getInstance().addToNeighhbourSet(node_from_msg);
+		ClientDatabase::getInstance().addToNeighhbourSet(node_from_msg);
 	}
 	for (int i = 0; i < req.routingtable_size(); i++)
 	{
@@ -251,14 +251,14 @@ void PeerMessageHandler::handleGetValRequest(message::Message)
 void PeerMessageHandler::handleSetValRequest(message::Message)
 {
 }
-vector<pair<string, string>> PeerMessageHandler ::getRelevantKeyValuePairs(string nodeID){
-	string myNodeId = ClientDatabase::getInstance().getListener().getNodeID();
-	auto hash_table = ClientDatabase::getInstance().getHashTable();
-	vector<pair<string, string> > result;
-	for(auto message: hash_table){
-		if(is_better_node_for_message(nodeID, myNodeId, message.first)){
-			result.push_back(message);
-		}
-	}
-	return result;
-}
+// vector<pair<string, string>> PeerMessageHandler ::getRelevantKeyValuePairs(string nodeID){
+// 	string myNodeId = ClientDatabase::getInstance().getListener()->getNodeID();
+// 	auto hash_table = ClientDatabase::getInstance()->getHashTable();
+// 	vector<pair<string, string> > result;
+// 	for(auto message: hash_table){
+// 		if(is_better_node_for_message(nodeID, myNodeId, message.first)){
+// 			result.push_back(message);
+// 		}
+// 	}
+// 	return result;
+// }

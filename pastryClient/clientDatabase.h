@@ -15,8 +15,8 @@
 #include <vector>
 
 //Pastry parameters
-#define b 8
-#define N 10000
+#define parameter_b 8
+#define parameter_N 10000
 
 class ClientDatabase
 {
@@ -34,7 +34,7 @@ class ClientDatabase
 
   public:
 	static ClientDatabase &getInstance();
-	void setListener(Node);
+	void setListener(node_Sptr);
 	node_Sptr getListener();
 	node_Sptr getNextRoutingNode(std::string nodeID);
 	std::vector<std::vector<node_Sptr>> getRoutingTable();
@@ -42,13 +42,13 @@ class ClientDatabase
 	std::set<node_Sptr, neighbourComparator> getNeighbourSet();
 	void addToNeighhbourSet(node_Sptr node); // add this node to Neighbour set
 	void addToLeafSet(node_Sptr node);		 // add this node to leaf set
-	void addToRoutingTable(node_Sptr node, int prefix = -1);
+	void addToRoutingTable(node_Sptr node, int = -1);
 	void updateAllState(node_Sptr node);							 // give node pointer for updating it in table
-	void updateRoutingTable(vector<node_Sptr> row_entry, int index); //give roww and index
+	void updateRoutingTable(std::vector<node_Sptr> row_entry, int index); //give roww and index
 	int getRowSize();
 	int getColSize();
 	void setTotalRouteLength(int s);
-	void incrementRecievedUpdateCount(int n = 1);
+	void incrementRecievedUpdateCount(int = 1);
 	int getRecievedUpdateCount();
 	void resetUpdateValues();
 };

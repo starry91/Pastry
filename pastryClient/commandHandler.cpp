@@ -29,9 +29,9 @@ void CommandHandler::handleCommand(std::string command)
         std::vector<std::string> args = extractArgs(command);
         if (args.size() == 3 && args[0] == "port")
         {
-            auto nodeID = getHash(args[1]+args[2], (b)); //b macro defined in Client Database
+            auto nodeID = getHash(args[1]+args[2], (parameter_b)); //b macro defined in Client Database
             auto trimmedNodeID = trimString(nodeID, ClientDatabase::getInstance().getRowSize());
-            ClientDatabase::getInstance().setListener(Node(args[1], args[2], trimmedNodeID));
+            ClientDatabase::getInstance().setListener(make_shared<Node>(Node(args[1], args[2], trimmedNodeID)));
         }
         else if (args.size() == 3 && args[0] == "create")
         {
@@ -72,7 +72,7 @@ void CommandHandler::handleCommand(std::string command)
             auto nextNode = ClientDatabase::getInstance().getNextRoutingNode(key);
             PeerCommunicator peercommunicator(*ClientDatabase::getInstance().getListener());
             auto resp = peercommunicator.sendMsg(msg);
-            if (resp.status == "FAIL")
+            if (resp.status() == "FAIL")
             {
                 LogHandler::getInstance().logError("SET - FAIL");
                 throw ErrorMsg("Failed Join Me msg");
@@ -90,9 +90,9 @@ void CommandHandler::handleCommand(std::string command)
             auto *temp = msg.mutable_getvalmsg();
             temp->set_key(key);
             auto nextNode = ClientDatabase::getInstance().getNextRoutingNode(key);
-            PeerCommunicator peercommunicator(*ClientDatabase::getInstance().getListener());
+            PeerCommunicator peercommunicator(*(ClientDatabase::getInstance().getListener()));
             auto resp = peercommunicator.sendMsg(msg);
-            if (resp.status == "FAIL")
+            if (resp.status() == "FAIL")
             {
                 LogHandler::getInstance().logError("GET - FAIL");
                 throw ErrorMsg("Failed Join Me msg");

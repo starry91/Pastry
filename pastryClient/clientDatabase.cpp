@@ -7,8 +7,8 @@ using namespace std;
 ClientDatabase::ClientDatabase()
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
-	this->row = ceil((log((N)) * 1.000) / log(pow(2, b)));
-	this->col = pow(2, (b));
+	this->row = ceil((log((parameter_N)) * 1.000) / log(pow(2, parameter_b)));
+	this->col = pow(2, (parameter_b));
 	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col));
 	this->recieved_update_count = 0;
 	this->total_route_length = this->row;
@@ -18,6 +18,16 @@ ClientDatabase &ClientDatabase::getInstance()
 {
 	static ClientDatabase res;
 	return res;
+}
+
+node_Sptr ClientDatabase::getListener()
+{
+	return this->listener;
+}
+
+void ClientDatabase::setListener(node_Sptr temp)
+{
+	this->listener = temp;
 }
 
 node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
@@ -153,7 +163,7 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 	return;
 }
 
-void ClientDatabase ::addToRoutingTable(node_Sptr node, int prefix = -1)
+void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (prefix == -1)
@@ -203,7 +213,7 @@ void ClientDatabase::setTotalRouteLength(int s)
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->total_route_length = s;
 }
-void ClientDatabase::incrementRecievedUpdateCount(int n = 1)
+void ClientDatabase::incrementRecievedUpdateCount(int n)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->total_route_length + n;

@@ -17,7 +17,8 @@ class PeerMessageHandler
     void handleAllStateUpdateRequest(message::Message);
     void handleGetValRequest(message::Message);
     void handleSetValRequest(message::Message);
-    std :: vector<std :: pair<std :: string, std :: string>> PeerMessageHandler ::getRelevantKeyValuePairs(std :: string nodeID)
+    // ClientDatabase::getInstance()->getHashTable();
+    std::vector<std::pair<std::string, std::string>> getRelevantKeyValuePairs(std::string nodeID);
 };
 
 #endif

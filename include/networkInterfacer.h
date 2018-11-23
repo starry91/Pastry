@@ -7,7 +7,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "message.pb.h"
 #define magicStart "starry@iit0"
 #define magicEnd "starry@iit1"
 

@@ -27,11 +27,16 @@ std::string Node::getPort()
 {
     return this->port;
 }
-std::string Node::getPort()
+std::string Node::getNodeID()
 {
     return this->nodeID;
 }
 Node::Node()
 {
 }
-void setProximity(int)
+void Node::setProximity(int) {
+
+}
+int Node::getProximity() {
+    return this->proximity;
+}

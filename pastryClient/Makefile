@@ -1,14 +1,14 @@
 
 
-CLIENT_OBJS = client_main.o clientDatabase.o mtorrent.o chunkDownloader.o fileHandler.o commandHandler.o peerHandler.o peerListener.o peerMessageHandler.o download.o downloadManager.o chunkSaver.o
-LDFLAGS +=  -lpthread -lcrypto -lssl
+CLIENT_OBJS = clientDatabase.o client_main.o commandHandler.o message.pb.o node.o peerCommunicator.o peerHandler.o peerListener.o peerMessageHandler.o 
+LDFLAGS +=  -lpthread -lcrypto -lssl -lprotobuf
 CFLAGS += -g -I$(PROJECT_ROOT)/include
 
 COMMON_OBJS := $(wildcard $(PROJECT_ROOT)/common/*.o)
 
-all: tclient
+all: pastryClient
 
-tclient: $(CLIENT_OBJS)
+pastryClient: $(CLIENT_OBJS)
 	$(CXX) -o $@ $^ $(COMMON_OBJS) $(LDFLAGS)
 
 %.o: %.cpp
