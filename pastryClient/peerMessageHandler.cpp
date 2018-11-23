@@ -6,7 +6,7 @@
 #include <syslog.h>
 #include <string>
 #include <vector>
-
+#include "peerCommunicator.h"
 using namespace std;
 
 void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
@@ -78,19 +78,15 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 			lnode->set_nodeid(leaf_node->getNodeID());
 		}
 	}
-	int sock_fd = createTCPClient(req.ip(), req.port());
-	NetworkWriter writer(sock_fd);
-	auto reply_string = routingUpdate.SerializeAsString();
-	writer.writeToNetwork(vector<char>(reply_string.begin(), reply_string.end()));
-	delete &writer; //closing connection after writing
+	PeerCommunicator peercommunicator(Node(req.ip(), req.port(),req.nodeid()));
+	auto resp = peercommunicator.sendMsg(routingUpdate);
+	delete &peercommunicator; //closing connection after writing
 
-	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
+	if (next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
 	{
-		int sock_fd = createTCPClient(next_node_sptr->getIp(), next_node_sptr->getPort());
-		NetworkWriter writer(sock_fd);
-		auto reply_string = routingUpdate.SerializeAsString();
-		writer.writeToNetwork(vector<char>(reply_string.begin(), reply_string.end()));
-		delete &writer; //closing connection after writing
+		PeerCommunicator peercommunicator(*next_node_sptr);
+		auto resp = peercommunicator.sendMsg(routingUpdate);
+		delete &peercommunicator; //closing connection after writing
 	}
 }
 void PeerMessageHandler::handleJoinRequest(message::Message msg)
@@ -148,19 +144,15 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 			lnode->set_nodeid(leaf_node->getNodeID());
 		}
 	}
-	int sock_fd = createTCPClient(req.ip(), req.port());
-	NetworkWriter writer(sock_fd);
-	auto reply_string = routingUpdate.SerializeAsString();
-	writer.writeToNetwork(vector<char>(reply_string.begin(), reply_string.end()));
-	delete &writer; //closing connection after writing
+	PeerCommunicator peercommunicator(Node(req.ip(), req.port(),req.nodeid()));
+	auto resp = peercommunicator.sendMsg(routingUpdate);
+	delete &peercommunicator; //closing connection after writing
 
-	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
+	if (next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
 	{
-		int sock_fd = createTCPClient(next_node_sptr->getIp(), next_node_sptr->getPort());
-		NetworkWriter writer(sock_fd);
-		auto reply_string = routingUpdate.SerializeAsString();
-		writer.writeToNetwork(vector<char>(reply_string.begin(), reply_string.end()));
-		delete &writer; //closing connection after writing
+		PeerCommunicator peercommunicator(*next_node_sptr);
+		auto resp = peercommunicator.sendMsg(routingUpdate);
+		delete &peercommunicator; //closing connection after writing
 	}
 }
 void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
@@ -215,7 +207,19 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 			}
 		}
 	}
+	ClientDatabase::getInstance().incrementRecievedUpdateCount();
+	if(ClientDatabase::getInstance().getRecievedUpdateCount() == ClientDatabase::getInstance().getTotalRouteLength())
+	{
+		this->sendAllStateUpdate();
+	}
 }
+
+void PeerMessageHandler::sendAllStateUpdate()
+{
+	// add code
+}
+
+
 void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 {
 	auto req = msg.allstateupdate();
@@ -245,11 +249,42 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 		}
 	}
 }
-void PeerMessageHandler::handleGetValRequest(message::Message)
+void PeerMessageHandler::handleGetValRequest(message::Message msg)
 {
+	auto req = msg.getvalmsg();
+	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.key());
+	
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
+	{
+		message::Message resp;
+		resp.set_type("GetValResponse");
+		auto temp = resp.mutable_getvalresponse();
+		temp->set_key(req.key());
+		//set value from hash table
+		PeerCommunicator peercommunicator(Node(req.node().ip(), req.node().port(),req.node().nodeid()));
+		peercommunicator.sendMsg(resp);
+		delete &peercommunicator; //closing connection after writing
+	}
+	else {
+		PeerCommunicator peercommunicator(*next_node_sptr);
+		peercommunicator.sendMsg(msg);
+		delete &peercommunicator; //closing connection after writing
+	}
 }
-void PeerMessageHandler::handleSetValRequest(message::Message)
+void PeerMessageHandler::handleSetValRequest(message::Message msg)
 {
+	auto req = msg.setvalmsg();
+	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.key());
+	
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
+	{
+		//update local hash table
+	}
+	else {
+		PeerCommunicator peercommunicator(*next_node_sptr);
+		auto resp = peercommunicator.sendMsg(msg);
+		delete &peercommunicator; //closing connection after writing
+	}	
 }
 // vector<pair<string, string>> PeerMessageHandler ::getRelevantKeyValuePairs(string nodeID){
 // 	string myNodeId = ClientDatabase::getInstance().getListener()->getNodeID();

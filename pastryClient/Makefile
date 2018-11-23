@@ -15,4 +15,4 @@ pastryClient: $(CLIENT_OBJS)
 	$(CXX) -c $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $@ $<
 
 clean:
-	rm tclient $(CLIENT_OBJS)
+	rm pastryClient $(CLIENT_OBJS)

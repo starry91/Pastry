@@ -37,7 +37,7 @@ namespace protobuf_message_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[11];
+  static const ::google::protobuf::internal::ParseTable schema[12];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -59,6 +59,8 @@ void InitDefaultsAllStateUpdateImpl();
 void InitDefaultsAllStateUpdate();
 void InitDefaultsGetValImpl();
 void InitDefaultsGetVal();
+void InitDefaultsGetValResponseImpl();
+void InitDefaultsGetValResponse();
 void InitDefaultsSetValImpl();
 void InitDefaultsSetVal();
 void InitDefaultsMessageImpl();
@@ -74,6 +76,7 @@ inline void InitDefaults() {
   InitDefaultsRoutingUpdate();
   InitDefaultsAllStateUpdate();
   InitDefaultsGetVal();
+  InitDefaultsGetValResponse();
   InitDefaultsSetVal();
   InitDefaultsMessage();
   InitDefaultsResponse();
@@ -86,6 +89,9 @@ extern AllStateUpdateDefaultTypeInternal _AllStateUpdate_default_instance_;
 class GetVal;
 class GetValDefaultTypeInternal;
 extern GetValDefaultTypeInternal _GetVal_default_instance_;
+class GetValResponse;
+class GetValResponseDefaultTypeInternal;
+extern GetValResponseDefaultTypeInternal _GetValResponse_default_instance_;
 class Join;
 class JoinDefaultTypeInternal;
 extern JoinDefaultTypeInternal _Join_default_instance_;
@@ -1133,6 +1139,128 @@ class GetVal : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 };
 // -------------------------------------------------------------------
 
+class GetValResponse : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:message.GetValResponse) */ {
+ public:
+  GetValResponse();
+  virtual ~GetValResponse();
+
+  GetValResponse(const GetValResponse& from);
+
+  inline GetValResponse& operator=(const GetValResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  GetValResponse(GetValResponse&& from) noexcept
+    : GetValResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline GetValResponse& operator=(GetValResponse&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const GetValResponse& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GetValResponse* internal_default_instance() {
+    return reinterpret_cast<const GetValResponse*>(
+               &_GetValResponse_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    8;
+
+  void Swap(GetValResponse* other);
+  friend void swap(GetValResponse& a, GetValResponse& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GetValResponse* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  GetValResponse* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const GetValResponse& from);
+  void MergeFrom(const GetValResponse& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(GetValResponse* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // string key = 1;
+  void clear_key();
+  static const int kKeyFieldNumber = 1;
+  const ::std::string& key() const;
+  void set_key(const ::std::string& value);
+  #if LANG_CXX11
+  void set_key(::std::string&& value);
+  #endif
+  void set_key(const char* value);
+  void set_key(const char* value, size_t size);
+  ::std::string* mutable_key();
+  ::std::string* release_key();
+  void set_allocated_key(::std::string* key);
+
+  // string value = 2;
+  void clear_value();
+  static const int kValueFieldNumber = 2;
+  const ::std::string& value() const;
+  void set_value(const ::std::string& value);
+  #if LANG_CXX11
+  void set_value(::std::string&& value);
+  #endif
+  void set_value(const char* value);
+  void set_value(const char* value, size_t size);
+  ::std::string* mutable_value();
+  ::std::string* release_value();
+  void set_allocated_value(::std::string* value);
+
+  // @@protoc_insertion_point(class_scope:message.GetValResponse)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr key_;
+  ::google::protobuf::internal::ArenaStringPtr value_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_message_2eproto::TableStruct;
+  friend void ::protobuf_message_2eproto::InitDefaultsGetValResponseImpl();
+};
+// -------------------------------------------------------------------
+
 class SetVal : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:message.SetVal) */ {
  public:
   SetVal();
@@ -1168,7 +1296,7 @@ class SetVal : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
                &_SetVal_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    8;
+    9;
 
   void Swap(SetVal* other);
   friend void swap(SetVal& a, SetVal& b) {
@@ -1243,12 +1371,29 @@ class SetVal : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::std::string* release_val();
   void set_allocated_val(::std::string* val);
 
+  // .message.Node node = 3;
+  bool has_node() const;
+  void clear_node();
+  static const int kNodeFieldNumber = 3;
+  const ::message::Node& node() const;
+  ::message::Node* release_node();
+  ::message::Node* mutable_node();
+  void set_allocated_node(::message::Node* node);
+
+  // bool terminal = 4;
+  void clear_terminal();
+  static const int kTerminalFieldNumber = 4;
+  bool terminal() const;
+  void set_terminal(bool value);
+
   // @@protoc_insertion_point(class_scope:message.SetVal)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr key_;
   ::google::protobuf::internal::ArenaStringPtr val_;
+  ::message::Node* node_;
+  bool terminal_;
   mutable int _cached_size_;
   friend struct ::protobuf_message_2eproto::TableStruct;
   friend void ::protobuf_message_2eproto::InitDefaultsSetValImpl();
@@ -1291,6 +1436,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     kSetValMsg = 5,
     kRoutingUpdate = 6,
     kAllStateUpdate = 7,
+    kGetValResponse = 8,
     MSG_NOT_SET = 0,
   };
 
@@ -1300,7 +1446,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
                &_Message_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    9;
+    10;
 
   void Swap(Message* other);
   friend void swap(Message& a, Message& b) {
@@ -1415,6 +1561,15 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::message::AllStateUpdate* mutable_allstateupdate();
   void set_allocated_allstateupdate(::message::AllStateUpdate* allstateupdate);
 
+  // .message.GetValResponse getValResponse = 8;
+  bool has_getvalresponse() const;
+  void clear_getvalresponse();
+  static const int kGetValResponseFieldNumber = 8;
+  const ::message::GetValResponse& getvalresponse() const;
+  ::message::GetValResponse* release_getvalresponse();
+  ::message::GetValResponse* mutable_getvalresponse();
+  void set_allocated_getvalresponse(::message::GetValResponse* getvalresponse);
+
   MsgCase msg_case() const;
   // @@protoc_insertion_point(class_scope:message.Message)
  private:
@@ -1424,6 +1579,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void set_has_setvalmsg();
   void set_has_routingupdate();
   void set_has_allstateupdate();
+  void set_has_getvalresponse();
 
   inline bool has_msg() const;
   void clear_msg();
@@ -1439,6 +1595,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     ::message::SetVal* setvalmsg_;
     ::message::RoutingUpdate* routingupdate_;
     ::message::AllStateUpdate* allstateupdate_;
+    ::message::GetValResponse* getvalresponse_;
   } msg_;
   mutable int _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -1483,7 +1640,7 @@ class Response : public ::google::protobuf::Message /* @@protoc_insertion_point(
                &_Response_default_instance_);
   }
   static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
-    10;
+    11;
 
   void Swap(Response* other);
   friend void swap(Response& a, Response& b) {
@@ -2570,6 +2727,116 @@ inline void GetVal::set_allocated_node(::message::Node* node) {
 
 // -------------------------------------------------------------------
 
+// GetValResponse
+
+// string key = 1;
+inline void GetValResponse::clear_key() {
+  key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& GetValResponse::key() const {
+  // @@protoc_insertion_point(field_get:message.GetValResponse.key)
+  return key_.GetNoArena();
+}
+inline void GetValResponse::set_key(const ::std::string& value) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:message.GetValResponse.key)
+}
+#if LANG_CXX11
+inline void GetValResponse::set_key(::std::string&& value) {
+  
+  key_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:message.GetValResponse.key)
+}
+#endif
+inline void GetValResponse::set_key(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:message.GetValResponse.key)
+}
+inline void GetValResponse::set_key(const char* value, size_t size) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:message.GetValResponse.key)
+}
+inline ::std::string* GetValResponse::mutable_key() {
+  
+  // @@protoc_insertion_point(field_mutable:message.GetValResponse.key)
+  return key_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* GetValResponse::release_key() {
+  // @@protoc_insertion_point(field_release:message.GetValResponse.key)
+  
+  return key_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void GetValResponse::set_allocated_key(::std::string* key) {
+  if (key != NULL) {
+    
+  } else {
+    
+  }
+  key_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), key);
+  // @@protoc_insertion_point(field_set_allocated:message.GetValResponse.key)
+}
+
+// string value = 2;
+inline void GetValResponse::clear_value() {
+  value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& GetValResponse::value() const {
+  // @@protoc_insertion_point(field_get:message.GetValResponse.value)
+  return value_.GetNoArena();
+}
+inline void GetValResponse::set_value(const ::std::string& value) {
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:message.GetValResponse.value)
+}
+#if LANG_CXX11
+inline void GetValResponse::set_value(::std::string&& value) {
+  
+  value_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:message.GetValResponse.value)
+}
+#endif
+inline void GetValResponse::set_value(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:message.GetValResponse.value)
+}
+inline void GetValResponse::set_value(const char* value, size_t size) {
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:message.GetValResponse.value)
+}
+inline ::std::string* GetValResponse::mutable_value() {
+  
+  // @@protoc_insertion_point(field_mutable:message.GetValResponse.value)
+  return value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* GetValResponse::release_value() {
+  // @@protoc_insertion_point(field_release:message.GetValResponse.value)
+  
+  return value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void GetValResponse::set_allocated_value(::std::string* value) {
+  if (value != NULL) {
+    
+  } else {
+    
+  }
+  value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set_allocated:message.GetValResponse.value)
+}
+
+// -------------------------------------------------------------------
+
 // SetVal
 
 // string key = 1;
@@ -2676,6 +2943,70 @@ inline void SetVal::set_allocated_val(::std::string* val) {
   }
   val_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), val);
   // @@protoc_insertion_point(field_set_allocated:message.SetVal.val)
+}
+
+// .message.Node node = 3;
+inline bool SetVal::has_node() const {
+  return this != internal_default_instance() && node_ != NULL;
+}
+inline void SetVal::clear_node() {
+  if (GetArenaNoVirtual() == NULL && node_ != NULL) {
+    delete node_;
+  }
+  node_ = NULL;
+}
+inline const ::message::Node& SetVal::node() const {
+  const ::message::Node* p = node_;
+  // @@protoc_insertion_point(field_get:message.SetVal.node)
+  return p != NULL ? *p : *reinterpret_cast<const ::message::Node*>(
+      &::message::_Node_default_instance_);
+}
+inline ::message::Node* SetVal::release_node() {
+  // @@protoc_insertion_point(field_release:message.SetVal.node)
+  
+  ::message::Node* temp = node_;
+  node_ = NULL;
+  return temp;
+}
+inline ::message::Node* SetVal::mutable_node() {
+  
+  if (node_ == NULL) {
+    node_ = new ::message::Node;
+  }
+  // @@protoc_insertion_point(field_mutable:message.SetVal.node)
+  return node_;
+}
+inline void SetVal::set_allocated_node(::message::Node* node) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete node_;
+  }
+  if (node) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      node = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, node, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  node_ = node;
+  // @@protoc_insertion_point(field_set_allocated:message.SetVal.node)
+}
+
+// bool terminal = 4;
+inline void SetVal::clear_terminal() {
+  terminal_ = false;
+}
+inline bool SetVal::terminal() const {
+  // @@protoc_insertion_point(field_get:message.SetVal.terminal)
+  return terminal_;
+}
+inline void SetVal::set_terminal(bool value) {
+  
+  terminal_ = value;
+  // @@protoc_insertion_point(field_set:message.SetVal.terminal)
 }
 
 // -------------------------------------------------------------------
@@ -2975,6 +3306,46 @@ inline ::message::AllStateUpdate* Message::mutable_allstateupdate() {
   return msg_.allstateupdate_;
 }
 
+// .message.GetValResponse getValResponse = 8;
+inline bool Message::has_getvalresponse() const {
+  return msg_case() == kGetValResponse;
+}
+inline void Message::set_has_getvalresponse() {
+  _oneof_case_[0] = kGetValResponse;
+}
+inline void Message::clear_getvalresponse() {
+  if (has_getvalresponse()) {
+    delete msg_.getvalresponse_;
+    clear_has_msg();
+  }
+}
+inline ::message::GetValResponse* Message::release_getvalresponse() {
+  // @@protoc_insertion_point(field_release:message.Message.getValResponse)
+  if (has_getvalresponse()) {
+    clear_has_msg();
+      ::message::GetValResponse* temp = msg_.getvalresponse_;
+    msg_.getvalresponse_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::message::GetValResponse& Message::getvalresponse() const {
+  // @@protoc_insertion_point(field_get:message.Message.getValResponse)
+  return has_getvalresponse()
+      ? *msg_.getvalresponse_
+      : *reinterpret_cast< ::message::GetValResponse*>(&::message::_GetValResponse_default_instance_);
+}
+inline ::message::GetValResponse* Message::mutable_getvalresponse() {
+  if (!has_getvalresponse()) {
+    clear_msg();
+    set_has_getvalresponse();
+    msg_.getvalresponse_ = new ::message::GetValResponse;
+  }
+  // @@protoc_insertion_point(field_mutable:message.Message.getValResponse)
+  return msg_.getvalresponse_;
+}
+
 inline bool Message::has_msg() const {
   return msg_case() != MSG_NOT_SET;
 }
@@ -3044,6 +3415,8 @@ inline void Response::set_allocated_status(::std::string* status) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -213,6 +213,10 @@ void ClientDatabase::setTotalRouteLength(int s)
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->total_route_length = s;
 }
+
+int ClientDatabase::getTotalRouteLength() {
+	return this->total_route_length;
+}
 void ClientDatabase::incrementRecievedUpdateCount(int n)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);

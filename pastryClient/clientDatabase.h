@@ -48,6 +48,7 @@ class ClientDatabase
 	int getRowSize();
 	int getColSize();
 	void setTotalRouteLength(int s);
+	int getTotalRouteLength();
 	void incrementRecievedUpdateCount(int = 1);
 	int getRecievedUpdateCount();
 	void resetUpdateValues();
