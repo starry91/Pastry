@@ -723,38 +723,27 @@ class RoutingUpdate_RoutingEntry : public ::google::protobuf::Message /* @@proto
 
   // accessors -------------------------------------------------------
 
-  // repeated .message.List node = 2;
-  int node_size() const;
-  void clear_node();
-  static const int kNodeFieldNumber = 2;
-  const ::message::List& node(int index) const;
-  ::message::List* mutable_node(int index);
-  ::message::List* add_node();
-  ::google::protobuf::RepeatedPtrField< ::message::List >*
-      mutable_node();
-  const ::google::protobuf::RepeatedPtrField< ::message::List >&
-      node() const;
+  // .message.List nodeList = 2;
+  bool has_nodelist() const;
+  void clear_nodelist();
+  static const int kNodeListFieldNumber = 2;
+  const ::message::List& nodelist() const;
+  ::message::List* release_nodelist();
+  ::message::List* mutable_nodelist();
+  void set_allocated_nodelist(::message::List* nodelist);
 
-  // string index = 1;
+  // int32 index = 1;
   void clear_index();
   static const int kIndexFieldNumber = 1;
-  const ::std::string& index() const;
-  void set_index(const ::std::string& value);
-  #if LANG_CXX11
-  void set_index(::std::string&& value);
-  #endif
-  void set_index(const char* value);
-  void set_index(const char* value, size_t size);
-  ::std::string* mutable_index();
-  ::std::string* release_index();
-  void set_allocated_index(::std::string* index);
+  ::google::protobuf::int32 index() const;
+  void set_index(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:message.RoutingUpdate.RoutingEntry)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::message::List > node_;
-  ::google::protobuf::internal::ArenaStringPtr index_;
+  ::message::List* nodelist_;
+  ::google::protobuf::int32 index_;
   mutable int _cached_size_;
   friend struct ::protobuf_message_2eproto::TableStruct;
   friend void ::protobuf_message_2eproto::InitDefaultsRoutingUpdate_RoutingEntryImpl();
@@ -2118,87 +2107,68 @@ List::node() const {
 
 // RoutingUpdate_RoutingEntry
 
-// string index = 1;
+// int32 index = 1;
 inline void RoutingUpdate_RoutingEntry::clear_index() {
-  index_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  index_ = 0;
 }
-inline const ::std::string& RoutingUpdate_RoutingEntry::index() const {
+inline ::google::protobuf::int32 RoutingUpdate_RoutingEntry::index() const {
   // @@protoc_insertion_point(field_get:message.RoutingUpdate.RoutingEntry.index)
-  return index_.GetNoArena();
+  return index_;
 }
-inline void RoutingUpdate_RoutingEntry::set_index(const ::std::string& value) {
+inline void RoutingUpdate_RoutingEntry::set_index(::google::protobuf::int32 value) {
   
-  index_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  index_ = value;
   // @@protoc_insertion_point(field_set:message.RoutingUpdate.RoutingEntry.index)
 }
-#if LANG_CXX11
-inline void RoutingUpdate_RoutingEntry::set_index(::std::string&& value) {
-  
-  index_.SetNoArena(
-    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:message.RoutingUpdate.RoutingEntry.index)
+
+// .message.List nodeList = 2;
+inline bool RoutingUpdate_RoutingEntry::has_nodelist() const {
+  return this != internal_default_instance() && nodelist_ != NULL;
 }
-#endif
-inline void RoutingUpdate_RoutingEntry::set_index(const char* value) {
-  GOOGLE_DCHECK(value != NULL);
-  
-  index_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:message.RoutingUpdate.RoutingEntry.index)
+inline void RoutingUpdate_RoutingEntry::clear_nodelist() {
+  if (GetArenaNoVirtual() == NULL && nodelist_ != NULL) {
+    delete nodelist_;
+  }
+  nodelist_ = NULL;
 }
-inline void RoutingUpdate_RoutingEntry::set_index(const char* value, size_t size) {
-  
-  index_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:message.RoutingUpdate.RoutingEntry.index)
+inline const ::message::List& RoutingUpdate_RoutingEntry::nodelist() const {
+  const ::message::List* p = nodelist_;
+  // @@protoc_insertion_point(field_get:message.RoutingUpdate.RoutingEntry.nodeList)
+  return p != NULL ? *p : *reinterpret_cast<const ::message::List*>(
+      &::message::_List_default_instance_);
 }
-inline ::std::string* RoutingUpdate_RoutingEntry::mutable_index() {
+inline ::message::List* RoutingUpdate_RoutingEntry::release_nodelist() {
+  // @@protoc_insertion_point(field_release:message.RoutingUpdate.RoutingEntry.nodeList)
   
-  // @@protoc_insertion_point(field_mutable:message.RoutingUpdate.RoutingEntry.index)
-  return index_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::message::List* temp = nodelist_;
+  nodelist_ = NULL;
+  return temp;
 }
-inline ::std::string* RoutingUpdate_RoutingEntry::release_index() {
-  // @@protoc_insertion_point(field_release:message.RoutingUpdate.RoutingEntry.index)
+inline ::message::List* RoutingUpdate_RoutingEntry::mutable_nodelist() {
   
-  return index_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (nodelist_ == NULL) {
+    nodelist_ = new ::message::List;
+  }
+  // @@protoc_insertion_point(field_mutable:message.RoutingUpdate.RoutingEntry.nodeList)
+  return nodelist_;
 }
-inline void RoutingUpdate_RoutingEntry::set_allocated_index(::std::string* index) {
-  if (index != NULL) {
+inline void RoutingUpdate_RoutingEntry::set_allocated_nodelist(::message::List* nodelist) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete nodelist_;
+  }
+  if (nodelist) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      nodelist = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, nodelist, submessage_arena);
+    }
     
   } else {
     
   }
-  index_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), index);
-  // @@protoc_insertion_point(field_set_allocated:message.RoutingUpdate.RoutingEntry.index)
-}
-
-// repeated .message.List node = 2;
-inline int RoutingUpdate_RoutingEntry::node_size() const {
-  return node_.size();
-}
-inline void RoutingUpdate_RoutingEntry::clear_node() {
-  node_.Clear();
-}
-inline const ::message::List& RoutingUpdate_RoutingEntry::node(int index) const {
-  // @@protoc_insertion_point(field_get:message.RoutingUpdate.RoutingEntry.node)
-  return node_.Get(index);
-}
-inline ::message::List* RoutingUpdate_RoutingEntry::mutable_node(int index) {
-  // @@protoc_insertion_point(field_mutable:message.RoutingUpdate.RoutingEntry.node)
-  return node_.Mutable(index);
-}
-inline ::message::List* RoutingUpdate_RoutingEntry::add_node() {
-  // @@protoc_insertion_point(field_add:message.RoutingUpdate.RoutingEntry.node)
-  return node_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::message::List >*
-RoutingUpdate_RoutingEntry::mutable_node() {
-  // @@protoc_insertion_point(field_mutable_list:message.RoutingUpdate.RoutingEntry.node)
-  return &node_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::message::List >&
-RoutingUpdate_RoutingEntry::node() const {
-  // @@protoc_insertion_point(field_list:message.RoutingUpdate.RoutingEntry.node)
-  return node_;
+  nodelist_ = nodelist;
+  // @@protoc_insertion_point(field_set_allocated:message.RoutingUpdate.RoutingEntry.nodeList)
 }
 
 // -------------------------------------------------------------------

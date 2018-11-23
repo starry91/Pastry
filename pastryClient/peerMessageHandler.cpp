@@ -1,8 +1,11 @@
 #include "peerMessageHandler.h"
 #include "message.pb.h"
 #include "clientDatabase.h"
+#include "networkInterfacer.h"
+#include "utils.h"
 #include <syslog.h>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -53,13 +56,26 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 
 	//adding routing entires
 	auto routingTable = ClientDatabase::getInstance().getRoutingTable();
-	for (auto neighbour_node : neighbourSet)
+	auto prefix_match_len = prefixMatchLen(req.nodeid(), ClientDatabase::getInstance().getListener()->getNodeID());
+	for (int i = 0; i <= prefix_match_len; i++)
 	{
-		auto nnode = new_neighbour_set->add_node();
-		nnode->set_ip(neighbour_node->getIp());
-		nnode->set_port(neighbour_node->getPort());
-		nnode->set_nodeid(neighbour_node->getNodeID());
+		auto temp_list = temp->add_routingentires();
+		temp_list->set_index(i);
+		auto routing_row = temp_list->mutable_nodelist();
+		for(auto node : routingTable[i]) {
+			if (node)
+			{
+				auto list_node = routing_row->add_node();
+				list_node->set_ip(node->getIp());
+				list_node->set_port(node->getPort());
+				list_node->set_nodeid(node->getNodeID());
+			}
+		}
 	}
+	int sock_fd = createTCPClient(req.ip(), req.port());
+	NetworkWriter writer(sock_fd);
+	auto reply_string = routingUpdate.SerializeAsString();
+	writer.writeToNetwork(vector<char>(reply_string.begin(),reply_string.end()));
 
 }
 void PeerMessageHandler::handleJoinRequest(message::Message)
@@ -67,6 +83,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message)
 }
 void PeerMessageHandler::handleRoutingUpdateRequest(message::Message)
 {
+	
 }
 void PeerMessageHandler::handleAllStateUpdateRequest(message::Message)
 {

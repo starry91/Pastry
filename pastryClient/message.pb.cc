@@ -366,7 +366,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::message::RoutingUpdate_RoutingEntry, index_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::message::RoutingUpdate_RoutingEntry, node_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::message::RoutingUpdate_RoutingEntry, nodelist_),
   ~0u,  // no _has_bits_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::message::RoutingUpdate, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -475,29 +475,29 @@ void AddDescriptorsImpl() {
       "\006nodeID\030\001 \001(\t\022\n\n\002IP\030\002 \001(\t\022\014\n\004port\030\003 \001(\t\022"
       "\021\n\trow_index\030\004 \001(\005\"0\n\004Node\022\016\n\006nodeID\030\001 \001"
       "(\t\022\n\n\002IP\030\002 \001(\t\022\014\n\004port\030\003 \001(\t\"#\n\004List\022\033\n\004"
-      "node\030\001 \003(\0132\r.message.Node\"\351\001\n\rRoutingUpd"
+      "node\030\001 \003(\0132\r.message.Node\"\355\001\n\rRoutingUpd"
       "ate\022\r\n\005buddy\030\001 \001(\010\022\020\n\010terminal\030\002 \001(\010\022\033\n\004"
       "leaf\030\003 \001(\0132\r.message.List\022!\n\nneighbours\030"
       "\004 \001(\0132\r.message.List\022;\n\016routingEntires\030\005"
       " \003(\0132#.message.RoutingUpdate.RoutingEntr"
-      "y\032:\n\014RoutingEntry\022\r\n\005index\030\001 \001(\t\022\033\n\004node"
-      "\030\002 \003(\0132\r.message.List\"u\n\016AllStateUpdate\022"
-      "\033\n\004leaf\030\001 \003(\0132\r.message.List\022#\n\014routingT"
-      "able\030\002 \003(\0132\r.message.List\022!\n\nneighbours\030"
-      "\003 \003(\0132\r.message.List\"2\n\006GetVal\022\013\n\003key\030\001 "
-      "\001(\t\022\033\n\004node\030\002 \001(\0132\r.message.Node\"\"\n\006SetV"
-      "al\022\013\n\003key\030\001 \001(\t\022\013\n\003val\030\002 \001(\t\"\226\002\n\007Message"
-      "\022\014\n\004type\030\001 \001(\t\022$\n\tjoinMeMsg\030\002 \001(\0132\017.mess"
-      "age.JoinMeH\000\022 \n\007joinMsg\030\003 \001(\0132\r.message."
-      "JoinH\000\022$\n\tgetValMsg\030\004 \001(\0132\017.message.GetV"
-      "alH\000\022$\n\tsetValMsg\030\005 \001(\0132\017.message.SetVal"
-      "H\000\022/\n\rroutingUpdate\030\006 \001(\0132\026.message.Rout"
-      "ingUpdateH\000\0221\n\016allStateUpdate\030\007 \001(\0132\027.me"
-      "ssage.AllStateUpdateH\000B\005\n\003msg\"\032\n\010Respons"
-      "e\022\016\n\006status\030\001 \001(\tb\006proto3"
+      "y\032>\n\014RoutingEntry\022\r\n\005index\030\001 \001(\005\022\037\n\010node"
+      "List\030\002 \001(\0132\r.message.List\"u\n\016AllStateUpd"
+      "ate\022\033\n\004leaf\030\001 \003(\0132\r.message.List\022#\n\014rout"
+      "ingTable\030\002 \003(\0132\r.message.List\022!\n\nneighbo"
+      "urs\030\003 \003(\0132\r.message.List\"2\n\006GetVal\022\013\n\003ke"
+      "y\030\001 \001(\t\022\033\n\004node\030\002 \001(\0132\r.message.Node\"\"\n\006"
+      "SetVal\022\013\n\003key\030\001 \001(\t\022\013\n\003val\030\002 \001(\t\"\226\002\n\007Mes"
+      "sage\022\014\n\004type\030\001 \001(\t\022$\n\tjoinMeMsg\030\002 \001(\0132\017."
+      "message.JoinMeH\000\022 \n\007joinMsg\030\003 \001(\0132\r.mess"
+      "age.JoinH\000\022$\n\tgetValMsg\030\004 \001(\0132\017.message."
+      "GetValH\000\022$\n\tsetValMsg\030\005 \001(\0132\017.message.Se"
+      "tValH\000\022/\n\rroutingUpdate\030\006 \001(\0132\026.message."
+      "RoutingUpdateH\000\0221\n\016allStateUpdate\030\007 \001(\0132"
+      "\027.message.AllStateUpdateH\000B\005\n\003msg\"\032\n\010Res"
+      "ponse\022\016\n\006status\030\001 \001(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1025);
+      descriptor, 1029);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "message.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2ftimestamp_2eproto::AddDescriptors();
@@ -1909,10 +1909,12 @@ void List::InternalSwap(List* other) {
 // ===================================================================
 
 void RoutingUpdate_RoutingEntry::InitAsDefaultInstance() {
+  ::message::_RoutingUpdate_RoutingEntry_default_instance_._instance.get_mutable()->nodelist_ = const_cast< ::message::List*>(
+      ::message::List::internal_default_instance());
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int RoutingUpdate_RoutingEntry::kIndexFieldNumber;
-const int RoutingUpdate_RoutingEntry::kNodeFieldNumber;
+const int RoutingUpdate_RoutingEntry::kNodeListFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 RoutingUpdate_RoutingEntry::RoutingUpdate_RoutingEntry()
@@ -1926,18 +1928,21 @@ RoutingUpdate_RoutingEntry::RoutingUpdate_RoutingEntry()
 RoutingUpdate_RoutingEntry::RoutingUpdate_RoutingEntry(const RoutingUpdate_RoutingEntry& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      node_(from.node_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  index_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.index().size() > 0) {
-    index_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.index_);
+  if (from.has_nodelist()) {
+    nodelist_ = new ::message::List(*from.nodelist_);
+  } else {
+    nodelist_ = NULL;
   }
+  index_ = from.index_;
   // @@protoc_insertion_point(copy_constructor:message.RoutingUpdate.RoutingEntry)
 }
 
 void RoutingUpdate_RoutingEntry::SharedCtor() {
-  index_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::memset(&nodelist_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&index_) -
+      reinterpret_cast<char*>(&nodelist_)) + sizeof(index_));
   _cached_size_ = 0;
 }
 
@@ -1947,7 +1952,7 @@ RoutingUpdate_RoutingEntry::~RoutingUpdate_RoutingEntry() {
 }
 
 void RoutingUpdate_RoutingEntry::SharedDtor() {
-  index_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete nodelist_;
 }
 
 void RoutingUpdate_RoutingEntry::SetCachedSize(int size) const {
@@ -1979,8 +1984,11 @@ void RoutingUpdate_RoutingEntry::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  node_.Clear();
-  index_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && nodelist_ != NULL) {
+    delete nodelist_;
+  }
+  nodelist_ = NULL;
+  index_ = 0;
   _internal_metadata_.Clear();
 }
 
@@ -1994,27 +2002,26 @@ bool RoutingUpdate_RoutingEntry::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // string index = 1;
+      // int32 index = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_index()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->index().data(), static_cast<int>(this->index().length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "message.RoutingUpdate.RoutingEntry.index"));
+            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &index_)));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // repeated .message.List node = 2;
+      // .message.List nodeList = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_node()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_nodelist()));
         } else {
           goto handle_unusual;
         }
@@ -2047,21 +2054,15 @@ void RoutingUpdate_RoutingEntry::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string index = 1;
-  if (this->index().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->index().data(), static_cast<int>(this->index().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "message.RoutingUpdate.RoutingEntry.index");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      1, this->index(), output);
+  // int32 index = 1;
+  if (this->index() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->index(), output);
   }
 
-  // repeated .message.List node = 2;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->node_size()); i < n; i++) {
+  // .message.List nodeList = 2;
+  if (this->has_nodelist()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->node(static_cast<int>(i)), output);
+      2, *this->nodelist_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2078,23 +2079,16 @@ void RoutingUpdate_RoutingEntry::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string index = 1;
-  if (this->index().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->index().data(), static_cast<int>(this->index().length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "message.RoutingUpdate.RoutingEntry.index");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        1, this->index(), target);
+  // int32 index = 1;
+  if (this->index() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->index(), target);
   }
 
-  // repeated .message.List node = 2;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->node_size()); i < n; i++) {
+  // .message.List nodeList = 2;
+  if (this->has_nodelist()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        2, this->node(static_cast<int>(i)), deterministic, target);
+        2, *this->nodelist_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2114,21 +2108,17 @@ size_t RoutingUpdate_RoutingEntry::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .message.List node = 2;
-  {
-    unsigned int count = static_cast<unsigned int>(this->node_size());
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->node(static_cast<int>(i)));
-    }
+  // .message.List nodeList = 2;
+  if (this->has_nodelist()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *this->nodelist_);
   }
 
-  // string index = 1;
-  if (this->index().size() > 0) {
+  // int32 index = 1;
+  if (this->index() != 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
         this->index());
   }
 
@@ -2161,10 +2151,11 @@ void RoutingUpdate_RoutingEntry::MergeFrom(const RoutingUpdate_RoutingEntry& fro
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  node_.MergeFrom(from.node_);
-  if (from.index().size() > 0) {
-
-    index_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.index_);
+  if (from.has_nodelist()) {
+    mutable_nodelist()->::message::List::MergeFrom(from.nodelist());
+  }
+  if (from.index() != 0) {
+    set_index(from.index());
   }
 }
 
@@ -2192,8 +2183,8 @@ void RoutingUpdate_RoutingEntry::Swap(RoutingUpdate_RoutingEntry* other) {
 }
 void RoutingUpdate_RoutingEntry::InternalSwap(RoutingUpdate_RoutingEntry* other) {
   using std::swap;
-  node_.InternalSwap(&other->node_);
-  index_.Swap(&other->index_);
+  swap(nodelist_, other->nodelist_);
+  swap(index_, other->index_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
