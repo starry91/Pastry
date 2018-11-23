@@ -7,7 +7,7 @@ using namespace std;
 ClientDatabase::ClientDatabase()
 {
 	this->row = ceil((log((N)) * 1.000) / log(pow(2, b)));
-	this->col = pow(2, (b)) - 1;
+	this->col = pow(2, (b));
 	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col));
 };
 
@@ -97,41 +97,51 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 	return closest_node;
 }
 
-vector<vector<node_Sptr>> ClientDatabase ::getRoutingTable(){
+vector<vector<node_Sptr>> ClientDatabase ::getRoutingTable()
+{
 	return this->routingTable;
 }
 
-pair<<node_Sptr, leafComparator>, <node_Sptr, leafComparator>>ClientDatabase ::getLeafSet(){
+pair<set<node_Sptr, leafComparator>, set<node_Sptr, leafComparator>> ClientDatabase ::getLeafSet()
+{
 	return this->leafSet;
 }
 
-set<node_Sptr, neighbourComparator> ClientDatabase ::getNeighbourSet(){
+set<node_Sptr, neighbourComparator> ClientDatabase ::getNeighbourSet()
+{
 	return this->neighbourSet;
 }
 
-void clientDatabase :: addToLeafSet(node_Sptr node){
-	if(node->getNodeID() < this->listener->getNodeID()){
+void ClientDatabase::addToLeafSet(node_Sptr node)
+{
+	if (node->getNodeID() < this->listener->getNodeID())
+	{
 		auto &left_leafSet = this->leafSet.first;
 		left_leafSet.insert(node);
-		if(left_leafSet.size()>this->col/2){
+		if (left_leafSet.size() > this->col / 2)
+		{
 			left_leafSet.erase(left_leafSet.begin());
 		}
 	}
-	else{
+	else
+	{
 		auto &right_leafSet = this->leafSet.second;
 		right_leafSet.insert(node);
-		if(right_leafSet.size()>this->col/2){
-			right_leafSet.erase(right_leafSet.rbegin());
+		if (right_leafSet.size() > this->col / 2)
+		{
+			right_leafSet.erase(*right_leafSet.rbegin());
 		}
 	}
 	return;
 }
 
-void clientDatabase addToNeighhbourSet(node_Sptr node){
+void ClientDatabase::addToNeighhbourSet(node_Sptr node)
+{
 	auto &neighbour = this->neighbourSet;
 	neighbour.insert(node);
-	if(neighbour.size() > col){
-		neighbour.erase(neighbour.rbegin());
+	if (neighbour.size() > col)
+	{
+		neighbour.erase(*neighbour.rbegin());
 	}
 	return;
 }

@@ -17,7 +17,7 @@ std::vector<char> uint32tonv(uint32_t val);
 std::vector<char> readBytes(int n, int sock_fd);
 std::vector<std::string> extractArgs(std::string command);
 int createTCPClient(string ip, string port);
-std::string getHash(std::string bytes);
+std::string getHash(std::string bytes, int len);
 struct leafComparator
 {
     bool operator()(node_Sptr a, node_Sptr b);

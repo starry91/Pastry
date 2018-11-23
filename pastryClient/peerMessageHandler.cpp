@@ -16,7 +16,6 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	message::Message routingUpdate;
 	routingUpdate.set_type("RoutingUpdate");
 	auto *temp = routingUpdate.mutable_routingupdate();
-	temp->terminal = true;
 	temp->buddy = true;
 
 	auto new_routingList = temp->mutable_routingentires();
@@ -36,7 +35,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	//adding leaf node
 	if (next_node_sptr->getNodeID() == req.nodeid())
 	{
-
+		temp->terminal = true;
 		auto leafSet = ClientDatabase::getInstance().getLeafSet();
 		for (auto leaf_node : leafSet.first)
 		{
@@ -80,10 +79,11 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 }
 void PeerMessageHandler::handleJoinRequest(message::Message)
 {
+
 }
 void PeerMessageHandler::handleRoutingUpdateRequest(message::Message)
 {
-	
+
 }
 void PeerMessageHandler::handleAllStateUpdateRequest(message::Message)
 {

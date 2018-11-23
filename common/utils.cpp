@@ -10,7 +10,7 @@
 #include <syslog.h>
 #include "node.h"
 #include "errorMsg.h"
-#include "openssl/sha.h"
+#include <openssl/md5.h>
 #include <errno.h>
 using std::cout;
 using std::endl;
@@ -115,15 +115,15 @@ int createTCPClient(string ip, string port)
     return sock;
 }
 
-std::string getHash(std::string bytes)
+std::string getHash(std::string bytes, int len)
 {
     std::string hash = "";
-    unsigned char hash_buff[SHA_DIGEST_LENGTH];
-    SHA1((const unsigned char*)bytes.c_str(), bytes.size(), hash_buff);
+    unsigned char hash_buff[MD5_DIGEST_LENGTH];
+    MD5((const unsigned char*)bytes.c_str(), bytes.size(), hash_buff);
 
-    char mdString[SHA_DIGEST_LENGTH * 2];
+    char mdString[MD5_DIGEST_LENGTH * 2];
 
-    for (int i = 0; i < SHA_DIGEST_LENGTH; i++)
+    for (int i = 0; i < MD5_DIGEST_LENGTH; i++)
     {
         sprintf(&mdString[i * 2], "%02x", (unsigned int)hash_buff[i]);
     }
