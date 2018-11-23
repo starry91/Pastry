@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include "message.pb.h"
+#include <vector>
 class PeerMessageHandler
 {
   public:
@@ -16,6 +17,7 @@ class PeerMessageHandler
     void handleAllStateUpdateRequest(message::Message);
     void handleGetValRequest(message::Message);
     void handleSetValRequest(message::Message);
+    std::vector<pair<string, string>> PeerMessageHandler::getRelevantKeyValuePairs(std::string nodeID);
 };
 
 #endif

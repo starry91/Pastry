@@ -482,9 +482,9 @@ void AddDescriptorsImpl() {
       " \003(\0132#.message.RoutingUpdate.RoutingEntr"
       "y\032>\n\014RoutingEntry\022\r\n\005index\030\001 \001(\005\022\037\n\010node"
       "List\030\002 \001(\0132\r.message.List\"u\n\016AllStateUpd"
-      "ate\022\033\n\004leaf\030\001 \003(\0132\r.message.List\022#\n\014rout"
+      "ate\022\033\n\004leaf\030\001 \001(\0132\r.message.List\022#\n\014rout"
       "ingTable\030\002 \003(\0132\r.message.List\022!\n\nneighbo"
-      "urs\030\003 \003(\0132\r.message.List\"2\n\006GetVal\022\013\n\003ke"
+      "urs\030\003 \001(\0132\r.message.List\"2\n\006GetVal\022\013\n\003ke"
       "y\030\001 \001(\t\022\033\n\004node\030\002 \001(\0132\r.message.Node\"\"\n\006"
       "SetVal\022\013\n\003key\030\001 \001(\t\022\013\n\003val\030\002 \001(\t\"\226\002\n\007Mes"
       "sage\022\014\n\004type\030\001 \001(\t\022$\n\tjoinMeMsg\030\002 \001(\0132\017."
@@ -2614,6 +2614,10 @@ void RoutingUpdate::InternalSwap(RoutingUpdate* other) {
 // ===================================================================
 
 void AllStateUpdate::InitAsDefaultInstance() {
+  ::message::_AllStateUpdate_default_instance_._instance.get_mutable()->leaf_ = const_cast< ::message::List*>(
+      ::message::List::internal_default_instance());
+  ::message::_AllStateUpdate_default_instance_._instance.get_mutable()->neighbours_ = const_cast< ::message::List*>(
+      ::message::List::internal_default_instance());
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int AllStateUpdate::kLeafFieldNumber;
@@ -2632,15 +2636,26 @@ AllStateUpdate::AllStateUpdate()
 AllStateUpdate::AllStateUpdate(const AllStateUpdate& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      leaf_(from.leaf_),
       routingtable_(from.routingtable_),
-      neighbours_(from.neighbours_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from.has_leaf()) {
+    leaf_ = new ::message::List(*from.leaf_);
+  } else {
+    leaf_ = NULL;
+  }
+  if (from.has_neighbours()) {
+    neighbours_ = new ::message::List(*from.neighbours_);
+  } else {
+    neighbours_ = NULL;
+  }
   // @@protoc_insertion_point(copy_constructor:message.AllStateUpdate)
 }
 
 void AllStateUpdate::SharedCtor() {
+  ::memset(&leaf_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&neighbours_) -
+      reinterpret_cast<char*>(&leaf_)) + sizeof(neighbours_));
   _cached_size_ = 0;
 }
 
@@ -2650,6 +2665,8 @@ AllStateUpdate::~AllStateUpdate() {
 }
 
 void AllStateUpdate::SharedDtor() {
+  if (this != internal_default_instance()) delete leaf_;
+  if (this != internal_default_instance()) delete neighbours_;
 }
 
 void AllStateUpdate::SetCachedSize(int size) const {
@@ -2681,9 +2698,15 @@ void AllStateUpdate::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  leaf_.Clear();
   routingtable_.Clear();
-  neighbours_.Clear();
+  if (GetArenaNoVirtual() == NULL && leaf_ != NULL) {
+    delete leaf_;
+  }
+  leaf_ = NULL;
+  if (GetArenaNoVirtual() == NULL && neighbours_ != NULL) {
+    delete neighbours_;
+  }
+  neighbours_ = NULL;
   _internal_metadata_.Clear();
 }
 
@@ -2697,11 +2720,12 @@ bool AllStateUpdate::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .message.List leaf = 1;
+      // .message.List leaf = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_leaf()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_leaf()));
         } else {
           goto handle_unusual;
         }
@@ -2719,11 +2743,12 @@ bool AllStateUpdate::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated .message.List neighbours = 3;
+      // .message.List neighbours = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_neighbours()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_neighbours()));
         } else {
           goto handle_unusual;
         }
@@ -2756,11 +2781,10 @@ void AllStateUpdate::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .message.List leaf = 1;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->leaf_size()); i < n; i++) {
+  // .message.List leaf = 1;
+  if (this->has_leaf()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->leaf(static_cast<int>(i)), output);
+      1, *this->leaf_, output);
   }
 
   // repeated .message.List routingTable = 2;
@@ -2770,11 +2794,10 @@ void AllStateUpdate::SerializeWithCachedSizes(
       2, this->routingtable(static_cast<int>(i)), output);
   }
 
-  // repeated .message.List neighbours = 3;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->neighbours_size()); i < n; i++) {
+  // .message.List neighbours = 3;
+  if (this->has_neighbours()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->neighbours(static_cast<int>(i)), output);
+      3, *this->neighbours_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2791,12 +2814,11 @@ void AllStateUpdate::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .message.List leaf = 1;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->leaf_size()); i < n; i++) {
+  // .message.List leaf = 1;
+  if (this->has_leaf()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, this->leaf(static_cast<int>(i)), deterministic, target);
+        1, *this->leaf_, deterministic, target);
   }
 
   // repeated .message.List routingTable = 2;
@@ -2807,12 +2829,11 @@ void AllStateUpdate::SerializeWithCachedSizes(
         2, this->routingtable(static_cast<int>(i)), deterministic, target);
   }
 
-  // repeated .message.List neighbours = 3;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->neighbours_size()); i < n; i++) {
+  // .message.List neighbours = 3;
+  if (this->has_neighbours()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        3, this->neighbours(static_cast<int>(i)), deterministic, target);
+        3, *this->neighbours_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2832,17 +2853,6 @@ size_t AllStateUpdate::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated .message.List leaf = 1;
-  {
-    unsigned int count = static_cast<unsigned int>(this->leaf_size());
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->leaf(static_cast<int>(i)));
-    }
-  }
-
   // repeated .message.List routingTable = 2;
   {
     unsigned int count = static_cast<unsigned int>(this->routingtable_size());
@@ -2854,15 +2864,18 @@ size_t AllStateUpdate::ByteSizeLong() const {
     }
   }
 
-  // repeated .message.List neighbours = 3;
-  {
-    unsigned int count = static_cast<unsigned int>(this->neighbours_size());
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->neighbours(static_cast<int>(i)));
-    }
+  // .message.List leaf = 1;
+  if (this->has_leaf()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *this->leaf_);
+  }
+
+  // .message.List neighbours = 3;
+  if (this->has_neighbours()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *this->neighbours_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -2894,9 +2907,13 @@ void AllStateUpdate::MergeFrom(const AllStateUpdate& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  leaf_.MergeFrom(from.leaf_);
   routingtable_.MergeFrom(from.routingtable_);
-  neighbours_.MergeFrom(from.neighbours_);
+  if (from.has_leaf()) {
+    mutable_leaf()->::message::List::MergeFrom(from.leaf());
+  }
+  if (from.has_neighbours()) {
+    mutable_neighbours()->::message::List::MergeFrom(from.neighbours());
+  }
 }
 
 void AllStateUpdate::CopyFrom(const ::google::protobuf::Message& from) {
@@ -2923,9 +2940,9 @@ void AllStateUpdate::Swap(AllStateUpdate* other) {
 }
 void AllStateUpdate::InternalSwap(AllStateUpdate* other) {
   using std::swap;
-  leaf_.InternalSwap(&other->leaf_);
   routingtable_.InternalSwap(&other->routingtable_);
-  neighbours_.InternalSwap(&other->neighbours_);
+  swap(leaf_, other->leaf_);
+  swap(neighbours_, other->neighbours_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
