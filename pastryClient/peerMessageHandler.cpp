@@ -184,7 +184,8 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 				new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid());
 			}
 			tempNodeList.push_back(new_node);
-			//update routing table
+			//update proximity
+			ClientDatabase::getInstance().updateRoutingTable(tempNodeList,temp.index());
 		}
 	}
 	if (req.buddy)
@@ -196,9 +197,9 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 			if (nodeFrmMsg.nodeid() != "-1")
 			{
 				new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid());
+				//calculate proximity
+				ClientDatabase::getInstance().addToLeafSet(new_node);
 			}
-			//calculate proximity
-			//update neighbourhoodset
 		}
 	}
 	if (req.terminal)
@@ -210,13 +211,15 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 			if (nodeFrmMsg.nodeid() != "-1")
 			{
 				new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid());
+				ClientDatabase::getInstance().addToLeafSet(new_node);
 			}
-			//update leafset
 		}
 	}
 }
 void PeerMessageHandler::handleAllStateUpdateRequest(message::Message)
 {
+	
+
 }
 void PeerMessageHandler::handleGetValRequest(message::Message)
 {
