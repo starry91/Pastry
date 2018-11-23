@@ -7,7 +7,7 @@ using namespace std;
 ClientDatabase::ClientDatabase()
 {
 	this->row = ceil((log((N)) * 1.000) / log(pow(2, b)));
-	this->col = pow(2, (b)) - 1;
+	this->col = pow(2, (b));
 	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col));
 };
 
@@ -102,7 +102,7 @@ vector<vector<node_Sptr>> ClientDatabase ::getRoutingTable()
 	return this->routingTable;
 }
 
-pair << node_Sptr, leafComparator >, <node_Sptr, leafComparator>> ClientDatabase ::getLeafSet()
+pair<set<node_Sptr, leafComparator>, set<node_Sptr, leafComparator>> ClientDatabase ::getLeafSet()
 {
 	return this->leafSet;
 }
@@ -112,7 +112,7 @@ set<node_Sptr, neighbourComparator> ClientDatabase ::getNeighbourSet()
 	return this->neighbourSet;
 }
 
-void clientDatabase ::addToLeafSet(node_Sptr node)
+void ClientDatabase::addToLeafSet(node_Sptr node)
 {
 	if (node->getNodeID() < this->listener->getNodeID())
 	{
@@ -135,13 +135,13 @@ void clientDatabase ::addToLeafSet(node_Sptr node)
 	return;
 }
 
-void clientDatabase ::addToNeighhbourSet(node_Sptr node)
+void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 {
 	auto &neighbour = this->neighbourSet;
 	neighbour.insert(node);
 	if (neighbour.size() > col)
 	{
-		neighbour.erase(neighbour.rbegin());
+		neighbour.erase(*neighbour.rbegin());
 	}
 	return;
 }

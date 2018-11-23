@@ -43,14 +43,14 @@ message RoutingUpdate {
   List leaf = 3;
   List neighbours = 4;
   message RoutingEntry {
-    string index = 1;
-    repeated List node = 2;
+    int32 index = 1;
+    List nodeList = 2;
   }
   repeated RoutingEntry routingEntires = 5;
 } 
 
 message AllStateUpdate {
-  repeated List leaf = 1;
+  repeated List leaf = 1; 
   repeated List routingTable = 2;
   repeated List neighbours = 3;
 }
