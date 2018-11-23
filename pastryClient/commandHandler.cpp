@@ -29,7 +29,9 @@ void CommandHandler::handleCommand(std::string command)
         std::vector<std::string> args = extractArgs(command);
         if (args.size() == 3 && args[0] == "port")
         {
-            ClientDatabase::getInstance().setListener(Node(args[1], args[2]));
+            auto nodeID = getHash(args[1]+args[2], (b)); //b macro defined in Client Database
+            auto trimmedNodeID = trimString(nodeID, ClientDatabase::getInstance().getRowSize());
+            ClientDatabase::getInstance().setListener(Node(args[1], args[2], trimmedNodeID));
         }
         else if (args.size() == 3 && args[0] == "create")
         {

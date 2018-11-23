@@ -50,9 +50,9 @@ message RoutingUpdate {
 } 
 
 message AllStateUpdate {
-  repeated List leaf = 1; 
+  List leaf = 1; 
   repeated List routingTable = 2;
-  repeated List neighbours = 3;
+  List neighbours = 3;
 }
 
 message GetVal {
