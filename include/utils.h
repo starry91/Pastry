@@ -17,6 +17,7 @@ std::vector<char> readBytes(int n, int sock_fd);
 std::vector<std::string> extractArgs(std::string command);
 int createTCPClient(std ::string ip, std::string port);
 std::string getHash(std::string bytes, int len);
+std::string trimString(std::string name, int len);
 struct leafComparator
 {
     bool operator()(node_Sptr a, node_Sptr b);
@@ -25,6 +26,6 @@ struct neighbourComparator
 {
     bool operator()(node_Sptr a, node_Sptr b);
 };
-
 int prefixMatchLen(std ::string x, std::string y);
+bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID); //is node1 more closer to nodeID than node2
 #endif

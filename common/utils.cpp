@@ -134,6 +134,11 @@ std::string getHash(std::string bytes, int len)
     return nodeID;
 }
 
+std::string trimString(std::string name, int len)
+{
+    return name.substr(0,len);
+}
+
 bool leafComparator::operator()(node_Sptr a, node_Sptr b)
 {
     if (a->getNodeID().compare(b->getNodeID()) > 0)
@@ -156,4 +161,18 @@ int prefixMatchLen(string x, string y)
     while (i < x.length() && x[i] == y[i])
         i++;
     return i;
+}
+
+bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
+{
+	auto node1_nodeID = node1->getNodeID();
+	auto node2_nodeID = node2->getNodeID();
+	for (auto i = 0; i < nodeID.length(); i++)
+	{
+		if (node1_nodeID[i] != node2_nodeID[i])
+		{
+			return abs(node1_nodeID[i] - nodeID[i]) < abs(node2_nodeID[i] - nodeID[i]);
+		}
+	}
+	return false;
 }

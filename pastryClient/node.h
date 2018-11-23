@@ -17,9 +17,9 @@ class Node
     int proximity;
 
   public:
-    Node(std::string ip, std::string port);
+    // Node(std::string ip, std::string port);
     Node(std::string ip, std::string port, std::string nodeID);
-    Node(std::string ip_port);
+    // Node(std::string ip_port);
     Node();
     std::string getIp();
     std::string getPort();
