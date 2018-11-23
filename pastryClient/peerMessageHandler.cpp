@@ -2,10 +2,65 @@
 #include "message.pb.h"
 #include "clientDatabase.h"
 #include <syslog.h>
+#include <string>
 
-void PeerMessageHandler::handleJoinMeRequest(message::Message)
+using namespace std;
+
+void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 {
-	
+	auto req = msg.joinmemsg();
+	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
+	message::Message routingUpdate;
+	routingUpdate.set_type("RoutingUpdate");
+	auto *temp = routingUpdate.mutable_routingupdate();
+	temp->terminal = true;
+	temp->buddy = true;
+
+	auto new_routingList = temp->mutable_routingentires();
+	auto new_leaf_set = temp->mutable_leaf();
+	auto new_neighbour_set = temp->mutable_neighbours();
+
+	//adding neighbourSet
+	auto neighbourSet = ClientDatabase::getInstance().getNeighbourSet();
+	for (auto neighbour_node : neighbourSet)
+	{
+		auto nnode = new_neighbour_set->add_node();
+		nnode->set_ip(neighbour_node->getIp());
+		nnode->set_port(neighbour_node->getPort());
+		nnode->set_nodeid(neighbour_node->getNodeID());
+	}
+
+	//adding leaf node
+	if (next_node_sptr->getNodeID() == req.nodeid())
+	{
+
+		auto leafSet = ClientDatabase::getInstance().getLeafSet();
+		for (auto leaf_node : leafSet.first)
+		{
+			auto lnode = new_leaf_set->add_node();
+			lnode->set_ip(leaf_node->getIp());
+			lnode->set_port(leaf_node->getPort());
+			lnode->set_nodeid(leaf_node->getNodeID());
+		}
+		for (auto leaf_node : leafSet.second)
+		{
+			auto lnode = new_leaf_set->add_node();
+			lnode->set_ip(leaf_node->getIp());
+			lnode->set_port(leaf_node->getPort());
+			lnode->set_nodeid(leaf_node->getNodeID());
+		}
+	}
+
+	//adding routing entires
+	auto routingTable = ClientDatabase::getInstance().getRoutingTable();
+	for (auto neighbour_node : neighbourSet)
+	{
+		auto nnode = new_neighbour_set->add_node();
+		nnode->set_ip(neighbour_node->getIp());
+		nnode->set_port(neighbour_node->getPort());
+		nnode->set_nodeid(neighbour_node->getNodeID());
+	}
+
 }
 void PeerMessageHandler::handleJoinRequest(message::Message)
 {

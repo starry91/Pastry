@@ -27,4 +27,6 @@ struct neighbourComparator
     bool operator()(node_Sptr a, node_Sptr b);
 };
 
+int prefixMatchLen(string x, string y);
+
 #endif

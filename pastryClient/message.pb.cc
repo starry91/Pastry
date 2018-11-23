@@ -71,8 +71,8 @@ class MessageDefaultTypeInternal {
       _instance;
   const ::message::JoinMe* joinmemsg_;
   const ::message::Join* joinmsg_;
-  const ::message::GetVal* getmsg_;
-  const ::message::SetVal* setmsg_;
+  const ::message::GetVal* getvalmsg_;
+  const ::message::SetVal* setvalmsg_;
   const ::message::RoutingUpdate* routingupdate_;
   const ::message::AllStateUpdate* allstateupdate_;
 } _Message_default_instance_;
@@ -407,8 +407,8 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::message::Message, type_),
   offsetof(::message::MessageDefaultTypeInternal, joinmemsg_),
   offsetof(::message::MessageDefaultTypeInternal, joinmsg_),
-  offsetof(::message::MessageDefaultTypeInternal, getmsg_),
-  offsetof(::message::MessageDefaultTypeInternal, setmsg_),
+  offsetof(::message::MessageDefaultTypeInternal, getvalmsg_),
+  offsetof(::message::MessageDefaultTypeInternal, setvalmsg_),
   offsetof(::message::MessageDefaultTypeInternal, routingupdate_),
   offsetof(::message::MessageDefaultTypeInternal, allstateupdate_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::message::Message, msg_),
@@ -479,25 +479,25 @@ void AddDescriptorsImpl() {
       "ate\022\r\n\005buddy\030\001 \001(\010\022\020\n\010terminal\030\002 \001(\010\022\033\n\004"
       "leaf\030\003 \001(\0132\r.message.List\022!\n\nneighbours\030"
       "\004 \001(\0132\r.message.List\022;\n\016routingEntires\030\005"
-      " \001(\0132#.message.RoutingUpdate.RoutingEntr"
+      " \003(\0132#.message.RoutingUpdate.RoutingEntr"
       "y\032:\n\014RoutingEntry\022\r\n\005index\030\001 \001(\t\022\033\n\004node"
       "\030\002 \003(\0132\r.message.List\"u\n\016AllStateUpdate\022"
       "\033\n\004leaf\030\001 \003(\0132\r.message.List\022#\n\014routingT"
       "able\030\002 \003(\0132\r.message.List\022!\n\nneighbours\030"
       "\003 \003(\0132\r.message.List\"2\n\006GetVal\022\013\n\003key\030\001 "
       "\001(\t\022\033\n\004node\030\002 \001(\0132\r.message.Node\"\"\n\006SetV"
-      "al\022\013\n\003key\030\001 \001(\t\022\013\n\003val\030\002 \001(\t\"\220\002\n\007Message"
+      "al\022\013\n\003key\030\001 \001(\t\022\013\n\003val\030\002 \001(\t\"\226\002\n\007Message"
       "\022\014\n\004type\030\001 \001(\t\022$\n\tjoinMeMsg\030\002 \001(\0132\017.mess"
       "age.JoinMeH\000\022 \n\007joinMsg\030\003 \001(\0132\r.message."
-      "JoinH\000\022!\n\006getMsg\030\004 \001(\0132\017.message.GetValH"
-      "\000\022!\n\006setMsg\030\005 \001(\0132\017.message.SetValH\000\022/\n\r"
-      "routingUpdate\030\006 \001(\0132\026.message.RoutingUpd"
-      "ateH\000\0221\n\016allStateUpdate\030\007 \001(\0132\027.message."
-      "AllStateUpdateH\000B\005\n\003msg\"\032\n\010Response\022\016\n\006s"
-      "tatus\030\001 \001(\tb\006proto3"
+      "JoinH\000\022$\n\tgetValMsg\030\004 \001(\0132\017.message.GetV"
+      "alH\000\022$\n\tsetValMsg\030\005 \001(\0132\017.message.SetVal"
+      "H\000\022/\n\rroutingUpdate\030\006 \001(\0132\026.message.Rout"
+      "ingUpdateH\000\0221\n\016allStateUpdate\030\007 \001(\0132\027.me"
+      "ssage.AllStateUpdateH\000B\005\n\003msg\"\032\n\010Respons"
+      "e\022\016\n\006status\030\001 \001(\tb\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1019);
+      descriptor, 1025);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "message.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2ftimestamp_2eproto::AddDescriptors();
@@ -2211,8 +2211,6 @@ void RoutingUpdate::InitAsDefaultInstance() {
       ::message::List::internal_default_instance());
   ::message::_RoutingUpdate_default_instance_._instance.get_mutable()->neighbours_ = const_cast< ::message::List*>(
       ::message::List::internal_default_instance());
-  ::message::_RoutingUpdate_default_instance_._instance.get_mutable()->routingentires_ = const_cast< ::message::RoutingUpdate_RoutingEntry*>(
-      ::message::RoutingUpdate_RoutingEntry::internal_default_instance());
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int RoutingUpdate::kBuddyFieldNumber;
@@ -2233,6 +2231,7 @@ RoutingUpdate::RoutingUpdate()
 RoutingUpdate::RoutingUpdate(const RoutingUpdate& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
+      routingentires_(from.routingentires_),
       _cached_size_(0) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_leaf()) {
@@ -2244,11 +2243,6 @@ RoutingUpdate::RoutingUpdate(const RoutingUpdate& from)
     neighbours_ = new ::message::List(*from.neighbours_);
   } else {
     neighbours_ = NULL;
-  }
-  if (from.has_routingentires()) {
-    routingentires_ = new ::message::RoutingUpdate_RoutingEntry(*from.routingentires_);
-  } else {
-    routingentires_ = NULL;
   }
   ::memcpy(&buddy_, &from.buddy_,
     static_cast<size_t>(reinterpret_cast<char*>(&terminal_) -
@@ -2271,7 +2265,6 @@ RoutingUpdate::~RoutingUpdate() {
 void RoutingUpdate::SharedDtor() {
   if (this != internal_default_instance()) delete leaf_;
   if (this != internal_default_instance()) delete neighbours_;
-  if (this != internal_default_instance()) delete routingentires_;
 }
 
 void RoutingUpdate::SetCachedSize(int size) const {
@@ -2303,6 +2296,7 @@ void RoutingUpdate::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  routingentires_.Clear();
   if (GetArenaNoVirtual() == NULL && leaf_ != NULL) {
     delete leaf_;
   }
@@ -2311,10 +2305,6 @@ void RoutingUpdate::Clear() {
     delete neighbours_;
   }
   neighbours_ = NULL;
-  if (GetArenaNoVirtual() == NULL && routingentires_ != NULL) {
-    delete routingentires_;
-  }
-  routingentires_ = NULL;
   ::memset(&buddy_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&terminal_) -
       reinterpret_cast<char*>(&buddy_)) + sizeof(terminal_));
@@ -2383,12 +2373,11 @@ bool RoutingUpdate::MergePartialFromCodedStream(
         break;
       }
 
-      // .message.RoutingUpdate.RoutingEntry routingEntires = 5;
+      // repeated .message.RoutingUpdate.RoutingEntry routingEntires = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_routingentires()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_routingentires()));
         } else {
           goto handle_unusual;
         }
@@ -2443,10 +2432,11 @@ void RoutingUpdate::SerializeWithCachedSizes(
       4, *this->neighbours_, output);
   }
 
-  // .message.RoutingUpdate.RoutingEntry routingEntires = 5;
-  if (this->has_routingentires()) {
+  // repeated .message.RoutingUpdate.RoutingEntry routingEntires = 5;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->routingentires_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, *this->routingentires_, output);
+      5, this->routingentires(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2487,11 +2477,12 @@ void RoutingUpdate::SerializeWithCachedSizes(
         4, *this->neighbours_, deterministic, target);
   }
 
-  // .message.RoutingUpdate.RoutingEntry routingEntires = 5;
-  if (this->has_routingentires()) {
+  // repeated .message.RoutingUpdate.RoutingEntry routingEntires = 5;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->routingentires_size()); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        5, *this->routingentires_, deterministic, target);
+        5, this->routingentires(static_cast<int>(i)), deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2511,6 +2502,17 @@ size_t RoutingUpdate::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
+  // repeated .message.RoutingUpdate.RoutingEntry routingEntires = 5;
+  {
+    unsigned int count = static_cast<unsigned int>(this->routingentires_size());
+    total_size += 1UL * count;
+    for (unsigned int i = 0; i < count; i++) {
+      total_size +=
+        ::google::protobuf::internal::WireFormatLite::MessageSize(
+          this->routingentires(static_cast<int>(i)));
+    }
+  }
+
   // .message.List leaf = 3;
   if (this->has_leaf()) {
     total_size += 1 +
@@ -2523,13 +2525,6 @@ size_t RoutingUpdate::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
         *this->neighbours_);
-  }
-
-  // .message.RoutingUpdate.RoutingEntry routingEntires = 5;
-  if (this->has_routingentires()) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *this->routingentires_);
   }
 
   // bool buddy = 1;
@@ -2571,14 +2566,12 @@ void RoutingUpdate::MergeFrom(const RoutingUpdate& from) {
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  routingentires_.MergeFrom(from.routingentires_);
   if (from.has_leaf()) {
     mutable_leaf()->::message::List::MergeFrom(from.leaf());
   }
   if (from.has_neighbours()) {
     mutable_neighbours()->::message::List::MergeFrom(from.neighbours());
-  }
-  if (from.has_routingentires()) {
-    mutable_routingentires()->::message::RoutingUpdate_RoutingEntry::MergeFrom(from.routingentires());
   }
   if (from.buddy() != 0) {
     set_buddy(from.buddy());
@@ -2612,9 +2605,9 @@ void RoutingUpdate::Swap(RoutingUpdate* other) {
 }
 void RoutingUpdate::InternalSwap(RoutingUpdate* other) {
   using std::swap;
+  routingentires_.InternalSwap(&other->routingentires_);
   swap(leaf_, other->leaf_);
   swap(neighbours_, other->neighbours_);
-  swap(routingentires_, other->routingentires_);
   swap(buddy_, other->buddy_);
   swap(terminal_, other->terminal_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -3578,9 +3571,9 @@ void Message::InitAsDefaultInstance() {
       ::message::JoinMe::internal_default_instance());
   ::message::_Message_default_instance_.joinmsg_ = const_cast< ::message::Join*>(
       ::message::Join::internal_default_instance());
-  ::message::_Message_default_instance_.getmsg_ = const_cast< ::message::GetVal*>(
+  ::message::_Message_default_instance_.getvalmsg_ = const_cast< ::message::GetVal*>(
       ::message::GetVal::internal_default_instance());
-  ::message::_Message_default_instance_.setmsg_ = const_cast< ::message::SetVal*>(
+  ::message::_Message_default_instance_.setvalmsg_ = const_cast< ::message::SetVal*>(
       ::message::SetVal::internal_default_instance());
   ::message::_Message_default_instance_.routingupdate_ = const_cast< ::message::RoutingUpdate*>(
       ::message::RoutingUpdate::internal_default_instance());
@@ -3615,33 +3608,33 @@ void Message::set_allocated_joinmsg(::message::Join* joinmsg) {
   }
   // @@protoc_insertion_point(field_set_allocated:message.Message.joinMsg)
 }
-void Message::set_allocated_getmsg(::message::GetVal* getmsg) {
+void Message::set_allocated_getvalmsg(::message::GetVal* getvalmsg) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_msg();
-  if (getmsg) {
+  if (getvalmsg) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      getmsg = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, getmsg, submessage_arena);
+      getvalmsg = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, getvalmsg, submessage_arena);
     }
-    set_has_getmsg();
-    msg_.getmsg_ = getmsg;
+    set_has_getvalmsg();
+    msg_.getvalmsg_ = getvalmsg;
   }
-  // @@protoc_insertion_point(field_set_allocated:message.Message.getMsg)
+  // @@protoc_insertion_point(field_set_allocated:message.Message.getValMsg)
 }
-void Message::set_allocated_setmsg(::message::SetVal* setmsg) {
+void Message::set_allocated_setvalmsg(::message::SetVal* setvalmsg) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
   clear_msg();
-  if (setmsg) {
+  if (setvalmsg) {
     ::google::protobuf::Arena* submessage_arena = NULL;
     if (message_arena != submessage_arena) {
-      setmsg = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, setmsg, submessage_arena);
+      setvalmsg = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, setvalmsg, submessage_arena);
     }
-    set_has_setmsg();
-    msg_.setmsg_ = setmsg;
+    set_has_setvalmsg();
+    msg_.setvalmsg_ = setvalmsg;
   }
-  // @@protoc_insertion_point(field_set_allocated:message.Message.setMsg)
+  // @@protoc_insertion_point(field_set_allocated:message.Message.setValMsg)
 }
 void Message::set_allocated_routingupdate(::message::RoutingUpdate* routingupdate) {
   ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
@@ -3675,8 +3668,8 @@ void Message::set_allocated_allstateupdate(::message::AllStateUpdate* allstateup
 const int Message::kTypeFieldNumber;
 const int Message::kJoinMeMsgFieldNumber;
 const int Message::kJoinMsgFieldNumber;
-const int Message::kGetMsgFieldNumber;
-const int Message::kSetMsgFieldNumber;
+const int Message::kGetValMsgFieldNumber;
+const int Message::kSetValMsgFieldNumber;
 const int Message::kRoutingUpdateFieldNumber;
 const int Message::kAllStateUpdateFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
@@ -3708,12 +3701,12 @@ Message::Message(const Message& from)
       mutable_joinmsg()->::message::Join::MergeFrom(from.joinmsg());
       break;
     }
-    case kGetMsg: {
-      mutable_getmsg()->::message::GetVal::MergeFrom(from.getmsg());
+    case kGetValMsg: {
+      mutable_getvalmsg()->::message::GetVal::MergeFrom(from.getvalmsg());
       break;
     }
-    case kSetMsg: {
-      mutable_setmsg()->::message::SetVal::MergeFrom(from.setmsg());
+    case kSetValMsg: {
+      mutable_setvalmsg()->::message::SetVal::MergeFrom(from.setvalmsg());
       break;
     }
     case kRoutingUpdate: {
@@ -3783,12 +3776,12 @@ void Message::clear_msg() {
       delete msg_.joinmsg_;
       break;
     }
-    case kGetMsg: {
-      delete msg_.getmsg_;
+    case kGetValMsg: {
+      delete msg_.getvalmsg_;
       break;
     }
-    case kSetMsg: {
-      delete msg_.setmsg_;
+    case kSetValMsg: {
+      delete msg_.setvalmsg_;
       break;
     }
     case kRoutingUpdate: {
@@ -3868,24 +3861,24 @@ bool Message::MergePartialFromCodedStream(
         break;
       }
 
-      // .message.GetVal getMsg = 4;
+      // .message.GetVal getValMsg = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_getmsg()));
+               input, mutable_getvalmsg()));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // .message.SetVal setMsg = 5;
+      // .message.SetVal setValMsg = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-               input, mutable_setmsg()));
+               input, mutable_setvalmsg()));
         } else {
           goto handle_unusual;
         }
@@ -3964,16 +3957,16 @@ void Message::SerializeWithCachedSizes(
       3, *msg_.joinmsg_, output);
   }
 
-  // .message.GetVal getMsg = 4;
-  if (has_getmsg()) {
+  // .message.GetVal getValMsg = 4;
+  if (has_getvalmsg()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, *msg_.getmsg_, output);
+      4, *msg_.getvalmsg_, output);
   }
 
-  // .message.SetVal setMsg = 5;
-  if (has_setmsg()) {
+  // .message.SetVal setValMsg = 5;
+  if (has_setvalmsg()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, *msg_.setmsg_, output);
+      5, *msg_.setvalmsg_, output);
   }
 
   // .message.RoutingUpdate routingUpdate = 6;
@@ -4027,18 +4020,18 @@ void Message::SerializeWithCachedSizes(
         3, *msg_.joinmsg_, deterministic, target);
   }
 
-  // .message.GetVal getMsg = 4;
-  if (has_getmsg()) {
+  // .message.GetVal getValMsg = 4;
+  if (has_getvalmsg()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        4, *msg_.getmsg_, deterministic, target);
+        4, *msg_.getvalmsg_, deterministic, target);
   }
 
-  // .message.SetVal setMsg = 5;
-  if (has_setmsg()) {
+  // .message.SetVal setValMsg = 5;
+  if (has_setvalmsg()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        5, *msg_.setmsg_, deterministic, target);
+        5, *msg_.setvalmsg_, deterministic, target);
   }
 
   // .message.RoutingUpdate routingUpdate = 6;
@@ -4094,18 +4087,18 @@ size_t Message::ByteSizeLong() const {
           *msg_.joinmsg_);
       break;
     }
-    // .message.GetVal getMsg = 4;
-    case kGetMsg: {
+    // .message.GetVal getValMsg = 4;
+    case kGetValMsg: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *msg_.getmsg_);
+          *msg_.getvalmsg_);
       break;
     }
-    // .message.SetVal setMsg = 5;
-    case kSetMsg: {
+    // .message.SetVal setValMsg = 5;
+    case kSetValMsg: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *msg_.setmsg_);
+          *msg_.setvalmsg_);
       break;
     }
     // .message.RoutingUpdate routingUpdate = 6;
@@ -4168,12 +4161,12 @@ void Message::MergeFrom(const Message& from) {
       mutable_joinmsg()->::message::Join::MergeFrom(from.joinmsg());
       break;
     }
-    case kGetMsg: {
-      mutable_getmsg()->::message::GetVal::MergeFrom(from.getmsg());
+    case kGetValMsg: {
+      mutable_getvalmsg()->::message::GetVal::MergeFrom(from.getvalmsg());
       break;
     }
-    case kSetMsg: {
-      mutable_setmsg()->::message::SetVal::MergeFrom(from.setmsg());
+    case kSetValMsg: {
+      mutable_setvalmsg()->::message::SetVal::MergeFrom(from.setvalmsg());
       break;
     }
     case kRoutingUpdate: {

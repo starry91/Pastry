@@ -146,3 +146,10 @@ bool neighbourComparator::operator()(node_Sptr a, node_Sptr b) {
   else
     return false;
 }
+
+int prefixMatchLen(string x, string y) {
+    int i = 0;
+    while(i < x.length() && x[i] == y[i])
+        i++;
+    return i;
+}

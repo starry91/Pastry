@@ -64,7 +64,7 @@ void CommandHandler::handleCommand(std::string command)
             string value = args[2];
             message::Message msg;
             msg.set_type("put");
-            auto *temp = msg.mutable_setmsg();
+            auto *temp = msg.mutable_setvalmsg();
             temp->set_key(key);
             temp->set_val(value);
             auto nextNode = ClientDatabase::getInstance().getNextRoutingNode(key);
@@ -85,7 +85,7 @@ void CommandHandler::handleCommand(std::string command)
             string key = args[1];
             message::Message msg;
             msg.set_type("get");
-            auto *temp = msg.mutable_getmsg();
+            auto *temp = msg.mutable_getvalmsg();
             temp->set_key(key);
             auto nextNode = ClientDatabase::getInstance().getNextRoutingNode(key);
             PeerCommunicator peercommunicator(*ClientDatabase::getInstance().getListener());
