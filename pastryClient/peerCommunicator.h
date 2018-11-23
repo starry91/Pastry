@@ -1,8 +1,8 @@
 //Name: Praveen Balireddy
 //Roll: 2018201052
 
-#ifndef TRACKERSERVICESERVER_H
-#define TRACKERSERVICESERVER_H
+#ifndef PEERCOMMUNICATOR_H
+#define PEERCOMMUNICATOR_H
 
 #include <string>
 #include <iostream>
