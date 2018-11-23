@@ -1,2 +1,2 @@
-# mtorrent
+# Pastry
 
