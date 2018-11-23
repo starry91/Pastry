@@ -15,6 +15,12 @@ Node::Node(std::string ip_port)
     this->nodeID = getHash(this->ip);
 }
 
+Node::Node(std::string ip, std::string port, std::string nodeID) {
+    this->ip = ip;
+    this->port = port;
+    this->nodeID = nodeID;    
+}
+
 std::string Node::getIp()
 {
     return this->ip;
