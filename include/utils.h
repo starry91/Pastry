@@ -15,7 +15,7 @@ uint32_t nvtouint32(const std::vector<char> &arr);
 std::vector<char> uint32tonv(uint32_t val);
 std::vector<char> readBytes(int n, int sock_fd);
 std::vector<std::string> extractArgs(std::string command);
-int createTCPClient(string ip, string port);
+int createTCPClient(std ::string ip, std::string port);
 std::string getHash(std::string bytes, int len);
 struct leafComparator
 {
@@ -26,6 +26,5 @@ struct neighbourComparator
     bool operator()(node_Sptr a, node_Sptr b);
 };
 
-int prefixMatchLen(string x, string y);
-std ::string convertHexStringToNodeID(std::string s, int length);
+int prefixMatchLen(std ::string x, std::string y);
 #endif

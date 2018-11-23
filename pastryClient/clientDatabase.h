@@ -38,7 +38,10 @@ class ClientDatabase
 	std::pair<std::set<node_Sptr, leafComparator>, std::set<node_Sptr, leafComparator>> getLeafSet();
 	std::set<node_Sptr, neighbourComparator> getNeighbourSet();
 	bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID); //is node1 more closer to nodeID than node2
-	void addToNeighhbourSet(node_Sptr node);
-	void addToLeafSet(node_Sptr node);
+	void addToNeighhbourSet(node_Sptr node);							  // add this node to Neighbour set
+	void addToLeafSet(node_Sptr node);									  // add this node to leaf set
+	void addToRoutingTable(node_Sptr node, int prefix = -1);
+	void updateAllState(node_Sptr node);							 // give node pointer for updating it in table
+	void updateRoutingTable(vector<node_Sptr> row_entry, int index); //give roww and index
 };
 #endif

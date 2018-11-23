@@ -1,4 +1,3 @@
-
 #include "utils.h"
 #include <arpa/inet.h>
 #include <unistd.h>
@@ -11,6 +10,7 @@
 #include "node.h"
 #include "errorMsg.h"
 #include <openssl/md5.h>
+#include "md5.h"
 #include <errno.h>
 using std::cout;
 using std::endl;
@@ -117,39 +117,43 @@ int createTCPClient(string ip, string port)
 
 std::string getHash(std::string bytes, int len)
 {
-    std::string hash = "";
     unsigned char hash_buff[MD5_DIGEST_LENGTH];
-    MD5((const unsigned char*)bytes.c_str(), bytes.size(), hash_buff);
-
-    char mdString[MD5_DIGEST_LENGTH * 2];
-
-    for (int i = 0; i < MD5_DIGEST_LENGTH; i++)
+    MD5((const unsigned char *)bytes.c_str(), bytes.size(), hash_buff);
+    string nodeID = "";
+    auto n = *(unsigned long long *)hash_buff;
+    for (int i = 0; i < 64; i += len)
     {
-        sprintf(&mdString[i * 2], "%02x", (unsigned int)hash_buff[i]);
+        int res = 0;
+        for (int j = 0; j < len; j++)
+        {
+            res *= 2;
+            if (n&(1<<(i+j))) res++;
+        }
+        nodeID += char(res+'0');
     }
-    std::string chunk_hash = std::string((char *)mdString);
-    hash += chunk_hash.substr(0, 10);
-    //syslog(0, "In Get Chunk Hash: Chunk Hash: [%s]", chunk_hash.c_str());
-    return hash;
+    return nodeID;
 }
 
-bool leafComparator::operator()(node_Sptr a, node_Sptr b) {
-  if(a->getNodeID().compare(b->getNodeID()) > 0)
-    return true;
-  else
-    return false;
+bool leafComparator::operator()(node_Sptr a, node_Sptr b)
+{
+    if (a->getNodeID().compare(b->getNodeID()) > 0)
+        return true;
+    else
+        return false;
 }
 
-bool neighbourComparator::operator()(node_Sptr a, node_Sptr b) {
-  if(a->getProximity() > b->getProximity() > 0)
-    return true;
-  else
-    return false;
+bool neighbourComparator::operator()(node_Sptr a, node_Sptr b)
+{
+    if (a->getProximity() > b->getProximity() > 0)
+        return true;
+    else
+        return false;
 }
 
-int prefixMatchLen(string x, string y) {
+int prefixMatchLen(string x, string y)
+{
     int i = 0;
-    while(i < x.length() && x[i] == y[i])
+    while (i < x.length() && x[i] == y[i])
         i++;
     return i;
 }
