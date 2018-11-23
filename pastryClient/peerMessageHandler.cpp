@@ -3,6 +3,26 @@
 #include "clientDatabase.h"
 #include <syslog.h>
 
+void PeerMessageHandler::handleJoinMeRequest(message::Message)
+{
+	
+}
+void PeerMessageHandler::handleJoinRequest(message::Message)
+{
+}
+void PeerMessageHandler::handleRoutingUpdateRequest(message::Message)
+{
+}
+void PeerMessageHandler::handleAllStateUpdateRequest(message::Message)
+{
+}
+void PeerMessageHandler::handleGetValRequest(message::Message)
+{
+}
+void PeerMessageHandler::handleSetValRequest(message::Message)
+{
+}
+
 // ChunkInfoResponse PeerMessageHandler::handleChunkInfoRequest(std::vector<char> b)
 // {
 //     ChunkInfoResponse res;
