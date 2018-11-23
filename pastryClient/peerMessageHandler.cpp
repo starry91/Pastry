@@ -185,7 +185,7 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 			}
 			tempNodeList.push_back(new_node);
 			//update proximity
-			ClientDatabase::getInstance().updateRoutingTable(tempNodeList,temp.index());
+			ClientDatabase::getInstance().updateRoutingTable(tempNodeList, temp.index());
 		}
 	}
 	if (req.buddy)
@@ -216,10 +216,35 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 		}
 	}
 }
-void PeerMessageHandler::handleAllStateUpdateRequest(message::Message)
+void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 {
-	
-
+	auto req = msg.allstateupdate();
+	for (int i = 0; i < req.leaf_size(); i++)
+	{
+		auto leaf_entry = req.leaf().Get(i);
+		node_Sptr node_from_msg;
+		node_from_msg = make_shared<Node>(leaf_entry.ip(), leaf_entry.port(), leaf_entry.nodeid());
+		ClientDatabase ::getInstance().addToLeafSet(node_from_msg);
+	}
+	for (int i = 0; i < req.neighbours_size(); i++)
+	{
+		auto neighbour = req.neighbours().Get(i);
+		node_Sptr node_from_msg;
+		node_from_msg = make_shared<Node>(neighbour.ip(), neighbour.port(), neighbour.nodeid());
+		ClientDatabase ::getInstance().addToNeighhbourSet(node_from_msg);
+	}
+	for (int i = 0; i < req.routingTable_size(); i++)
+	{
+		auto row_of_routing_table = req.routingTable().Get(i);
+		for (int j = 0; j < row_of_routing_table.node_size(); j++)
+		{
+			auto nodeFrmMsg = row_of_routing_table.node().Get(j);
+			node_Sptr new_node;
+			new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid())
+						   ClientDatabase ::getInstance()
+							   .addToRoutingTable(new_node);
+		}
+	}
 }
 void PeerMessageHandler::handleGetValRequest(message::Message)
 {

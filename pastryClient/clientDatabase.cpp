@@ -17,20 +17,6 @@ ClientDatabase &ClientDatabase::getInstance()
 	return res;
 }
 
-bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
-{
-	auto node1_nodeID = node1->getNodeID();
-	auto node2_nodeID = node2->getNodeID();
-	for (auto i = 0; i < nodeID.length(); i++)
-	{
-		if (node1_nodeID[i] != node2_nodeID[i])
-		{
-			return abs(node1_nodeID[i] - nodeID[i]) < abs(node2_nodeID[i] - nodeID[i]);
-		}
-	}
-	return false;
-}
-
 node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 {
 	auto &left_leafSet = this->leafSet.first;
