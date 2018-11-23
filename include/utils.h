@@ -28,4 +28,5 @@ struct neighbourComparator
 };
 int prefixMatchLen(std ::string x, std::string y);
 bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID); //is node1 more closer to nodeID than node2
+bool is_better_node_for_message(string new_node, string current_node, string messageID)
 #endif

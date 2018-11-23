@@ -254,5 +254,12 @@ void PeerMessageHandler::handleSetValRequest(message::Message)
 }
 vector<pair<string, string>> PeerMessageHandler ::getRelevantKeyValuePairs(string nodeID){
 	string myNodeId = ClientDatabase::getInstance().getListener().getNodeID();
-	
+	auto hash_table = ClientDatabase::getInstance().getHashTable();
+	vector<pair<string, string> > result;
+	for(auto message: hash_table){
+		if(is_better_node_for_message(nodeID, myNodeId, message.first)){
+			result.push_back(message);
+		}
+	}
+	return result;
 }

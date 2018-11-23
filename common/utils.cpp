@@ -176,3 +176,15 @@ bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
 	}
 	return false;
 }
+
+bool is_better_node_for_message(string new_node, string current_node, string messageID)
+{
+	for (auto i = 0; i < new_node.length(); i++)
+	{
+		if (new_node[i] != current_node[i])
+		{
+			return abs(new_node[i] - messageID[i]) < abs(new_node[i] - messageID[i]);
+		}
+	}
+	return false;
+}
