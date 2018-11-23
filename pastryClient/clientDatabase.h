@@ -21,7 +21,7 @@
 class ClientDatabase
 {
   private:
-  	std::mutex seeder_mtx; // mutex for critical section
+	std::mutex seeder_mtx; // mutex for critical section
 	int row;
 	int col;
 	std::pair<std::set<node_Sptr, leafComparator>, std::set<node_Sptr, leafComparator>> leafSet;
@@ -39,9 +39,9 @@ class ClientDatabase
 	node_Sptr getNextRoutingNode(std::string nodeID);
 	std::vector<std::vector<node_Sptr>> getRoutingTable();
 	std::pair<std::set<node_Sptr, leafComparator>, std::set<node_Sptr, leafComparator>> getLeafSet();
-	std::set<node_Sptr, neighbourComparator> getNeighbourSet();s
-	void addToNeighhbourSet(node_Sptr node);							  // add this node to Neighbour set
-	void addToLeafSet(node_Sptr node);									  // add this node to leaf set
+	std::set<node_Sptr, neighbourComparator> getNeighbourSet();
+	void addToNeighhbourSet(node_Sptr node); // add this node to Neighbour set
+	void addToLeafSet(node_Sptr node);		 // add this node to leaf set
 	void addToRoutingTable(node_Sptr node, int prefix = -1);
 	void updateAllState(node_Sptr node);							 // give node pointer for updating it in table
 	void updateRoutingTable(vector<node_Sptr> row_entry, int index); //give roww and index

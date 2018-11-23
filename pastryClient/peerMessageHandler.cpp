@@ -58,7 +58,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	}
 
 	//adding leaf node
-	if (next_node_sptr->getNodeID() == req.nodeid())
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener())
 	{
 		auto new_leaf_set = temp->mutable_leaf();
 		temp->terminal = true;
@@ -84,7 +84,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	writer.writeToNetwork(vector<char>(reply_string.begin(), reply_string.end()));
 	delete &writer; //closing connection after writing
 
-	if (next_node_sptr->getNodeID() != req.nodeid())
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener())
 	{
 		int sock_fd = createTCPClient(next_node_sptr->getIp(), next_node_sptr->getPort());
 		NetworkWriter writer(sock_fd);
@@ -128,7 +128,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	}
 
 	//adding leaf node
-	if (next_node_sptr->getNodeID() == req.nodeid())
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener())
 	{
 		auto new_leaf_set = temp->mutable_leaf();
 		temp->terminal = true;
@@ -154,7 +154,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	writer.writeToNetwork(vector<char>(reply_string.begin(), reply_string.end()));
 	delete &writer; //closing connection after writing
 
-	if (next_node_sptr->getNodeID() != req.nodeid())
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener())
 	{
 		int sock_fd = createTCPClient(next_node_sptr->getIp(), next_node_sptr->getPort());
 		NetworkWriter writer(sock_fd);
@@ -251,4 +251,8 @@ void PeerMessageHandler::handleGetValRequest(message::Message)
 }
 void PeerMessageHandler::handleSetValRequest(message::Message)
 {
+}
+vector<pair<string, string>> PeerMessageHandler ::getRelevantKeyValuePairs(string nodeID){
+	string myNodeId = ClientDatabase::getInstance().getListener().getNodeID();
+	
 }

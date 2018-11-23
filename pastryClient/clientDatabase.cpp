@@ -23,36 +23,48 @@ ClientDatabase &ClientDatabase::getInstance()
 node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+
 	auto &left_leafSet = this->leafSet.first;
 	auto &right_leafSet = this->leafSet.second;
-	auto left_most_leaf = (*left_leafSet.begin())->getNodeID();
-	auto right_most_leaf = (*right_leafSet.begin())->getNodeID();
-	if (nodeID > left_most_leaf and nodeID < right_most_leaf)
+	auto left_most_leaf = this->listener->getNodeID();
+	if (!left_leafSet.empty())
 	{
-		/// Next Routing Entry is in leaf set
-		auto closest_node = *left_leafSet.begin();
-		for (auto node : left_leafSet)
+		left_most_leaf = (*left_leafSet.begin())->getNodeID();
+	}
+	auto right_most_leaf = this->listener->getNodeID();
+	if (!right_leafSet.empty())
+	{
+		right_most_leaf = (*right_leafSet.begin())->getNodeID();
+	}
+	if (!left_leafSet.empty() or !right_leafSet.empty())
+	{
+		if (nodeID >= left_most_leaf and nodeID <= right_most_leaf)
 		{
-			if (is_better_node(node, closest_node, nodeID))
+			/// Next Routing Entry is in leaf set
+			auto closest_node = this->listener;
+			for (auto node : left_leafSet)
 			{
-				closest_node = node;
+				if (is_better_node(node, closest_node, nodeID))
+				{
+					closest_node = node;
+				}
 			}
-		}
-		for (auto node : left_leafSet)
-		{
-			if (is_better_node(node, closest_node, nodeID))
+			for (auto node : right_leafSet)
 			{
-				closest_node = node;
+				if (is_better_node(node, closest_node, nodeID))
+				{
+					closest_node = node;
+				}
 			}
+			return closest_node;
 		}
-		return closest_node;
 	}
 	auto prefix = prefixMatchLen(nodeID, this->listener->getNodeID());
 	if (this->routingTable[prefix][nodeID[prefix] - '0'])
 	{
 		return routingTable[prefix][nodeID[prefix] - '0'];
 	}
-	auto closest_node = *left_leafSet.begin();
+	auto closest_node = this->listener;
 	for (auto node : left_leafSet)
 	{
 		if (is_better_node(node, closest_node, nodeID))
@@ -60,7 +72,7 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 			closest_node = node;
 		}
 	}
-	for (auto node : left_leafSet)
+	for (auto node : right_leafSet)
 	{
 		if (is_better_node(node, closest_node, nodeID))
 		{
