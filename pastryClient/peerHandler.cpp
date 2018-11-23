@@ -6,6 +6,7 @@
 #include "errorMsg.h"
 #include "clientDatabase.h"
 #include "unistd.h"
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -25,31 +26,55 @@ void PeerHandler::handleRpc(int client_fd)
             if (reqMsg.type() == "JoinMe")
             {
                 LogHandler::getInstance().logMsg("Recieved JoinMe request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleJoinMeRequest(reqMsg);
             }
             else if (reqMsg.type() == "Join")
             {
                 LogHandler::getInstance().logMsg("Recieved Join request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleJoinRequest(reqMsg);
             }
             else if (reqMsg.type() == "RoutingUpdate")
             {
                 LogHandler::getInstance().logMsg("Recieved RoutingUpdate request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleRoutingUpdateRequest(reqMsg);
             }
             else if (reqMsg.type() == "AllStateUpdate")
             {
                 LogHandler::getInstance().logMsg("Recieved AllStateUpdate request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleAllStateUpdateRequest(reqMsg);
             }
             else if (reqMsg.type() == "GetVal")
             {
                 LogHandler::getInstance().logMsg("Recieved GetVal request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleGetValRequest(reqMsg);
             }
             else if (reqMsg.type() == "SetVal")
             {
                 LogHandler::getInstance().logMsg("Recieved SetVal request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleSetValRequest(reqMsg);
             }
         }

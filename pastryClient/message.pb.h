@@ -845,6 +845,18 @@ class RoutingUpdate : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
+  // repeated .message.RoutingUpdate.RoutingEntry routingEntires = 5;
+  int routingentires_size() const;
+  void clear_routingentires();
+  static const int kRoutingEntiresFieldNumber = 5;
+  const ::message::RoutingUpdate_RoutingEntry& routingentires(int index) const;
+  ::message::RoutingUpdate_RoutingEntry* mutable_routingentires(int index);
+  ::message::RoutingUpdate_RoutingEntry* add_routingentires();
+  ::google::protobuf::RepeatedPtrField< ::message::RoutingUpdate_RoutingEntry >*
+      mutable_routingentires();
+  const ::google::protobuf::RepeatedPtrField< ::message::RoutingUpdate_RoutingEntry >&
+      routingentires() const;
+
   // .message.List leaf = 3;
   bool has_leaf() const;
   void clear_leaf();
@@ -863,15 +875,6 @@ class RoutingUpdate : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::message::List* mutable_neighbours();
   void set_allocated_neighbours(::message::List* neighbours);
 
-  // .message.RoutingUpdate.RoutingEntry routingEntires = 5;
-  bool has_routingentires() const;
-  void clear_routingentires();
-  static const int kRoutingEntiresFieldNumber = 5;
-  const ::message::RoutingUpdate_RoutingEntry& routingentires() const;
-  ::message::RoutingUpdate_RoutingEntry* release_routingentires();
-  ::message::RoutingUpdate_RoutingEntry* mutable_routingentires();
-  void set_allocated_routingentires(::message::RoutingUpdate_RoutingEntry* routingentires);
-
   // bool buddy = 1;
   void clear_buddy();
   static const int kBuddyFieldNumber = 1;
@@ -888,9 +891,9 @@ class RoutingUpdate : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::message::RoutingUpdate_RoutingEntry > routingentires_;
   ::message::List* leaf_;
   ::message::List* neighbours_;
-  ::message::RoutingUpdate_RoutingEntry* routingentires_;
   bool buddy_;
   bool terminal_;
   mutable int _cached_size_;
@@ -1301,8 +1304,8 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   enum MsgCase {
     kJoinMeMsg = 2,
     kJoinMsg = 3,
-    kGetMsg = 4,
-    kSetMsg = 5,
+    kGetValMsg = 4,
+    kSetValMsg = 5,
     kRoutingUpdate = 6,
     kAllStateUpdate = 7,
     MSG_NOT_SET = 0,
@@ -1393,23 +1396,23 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::message::Join* mutable_joinmsg();
   void set_allocated_joinmsg(::message::Join* joinmsg);
 
-  // .message.GetVal getMsg = 4;
-  bool has_getmsg() const;
-  void clear_getmsg();
-  static const int kGetMsgFieldNumber = 4;
-  const ::message::GetVal& getmsg() const;
-  ::message::GetVal* release_getmsg();
-  ::message::GetVal* mutable_getmsg();
-  void set_allocated_getmsg(::message::GetVal* getmsg);
+  // .message.GetVal getValMsg = 4;
+  bool has_getvalmsg() const;
+  void clear_getvalmsg();
+  static const int kGetValMsgFieldNumber = 4;
+  const ::message::GetVal& getvalmsg() const;
+  ::message::GetVal* release_getvalmsg();
+  ::message::GetVal* mutable_getvalmsg();
+  void set_allocated_getvalmsg(::message::GetVal* getvalmsg);
 
-  // .message.SetVal setMsg = 5;
-  bool has_setmsg() const;
-  void clear_setmsg();
-  static const int kSetMsgFieldNumber = 5;
-  const ::message::SetVal& setmsg() const;
-  ::message::SetVal* release_setmsg();
-  ::message::SetVal* mutable_setmsg();
-  void set_allocated_setmsg(::message::SetVal* setmsg);
+  // .message.SetVal setValMsg = 5;
+  bool has_setvalmsg() const;
+  void clear_setvalmsg();
+  static const int kSetValMsgFieldNumber = 5;
+  const ::message::SetVal& setvalmsg() const;
+  ::message::SetVal* release_setvalmsg();
+  ::message::SetVal* mutable_setvalmsg();
+  void set_allocated_setvalmsg(::message::SetVal* setvalmsg);
 
   // .message.RoutingUpdate routingUpdate = 6;
   bool has_routingupdate() const;
@@ -1434,8 +1437,8 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
  private:
   void set_has_joinmemsg();
   void set_has_joinmsg();
-  void set_has_getmsg();
-  void set_has_setmsg();
+  void set_has_getvalmsg();
+  void set_has_setvalmsg();
   void set_has_routingupdate();
   void set_has_allstateupdate();
 
@@ -1449,8 +1452,8 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     MsgUnion() {}
     ::message::JoinMe* joinmemsg_;
     ::message::Join* joinmsg_;
-    ::message::GetVal* getmsg_;
-    ::message::SetVal* setmsg_;
+    ::message::GetVal* getvalmsg_;
+    ::message::SetVal* setvalmsg_;
     ::message::RoutingUpdate* routingupdate_;
     ::message::AllStateUpdate* allstateupdate_;
   } msg_;
@@ -2330,54 +2333,34 @@ inline void RoutingUpdate::set_allocated_neighbours(::message::List* neighbours)
   // @@protoc_insertion_point(field_set_allocated:message.RoutingUpdate.neighbours)
 }
 
-// .message.RoutingUpdate.RoutingEntry routingEntires = 5;
-inline bool RoutingUpdate::has_routingentires() const {
-  return this != internal_default_instance() && routingentires_ != NULL;
+// repeated .message.RoutingUpdate.RoutingEntry routingEntires = 5;
+inline int RoutingUpdate::routingentires_size() const {
+  return routingentires_.size();
 }
 inline void RoutingUpdate::clear_routingentires() {
-  if (GetArenaNoVirtual() == NULL && routingentires_ != NULL) {
-    delete routingentires_;
-  }
-  routingentires_ = NULL;
+  routingentires_.Clear();
 }
-inline const ::message::RoutingUpdate_RoutingEntry& RoutingUpdate::routingentires() const {
-  const ::message::RoutingUpdate_RoutingEntry* p = routingentires_;
+inline const ::message::RoutingUpdate_RoutingEntry& RoutingUpdate::routingentires(int index) const {
   // @@protoc_insertion_point(field_get:message.RoutingUpdate.routingEntires)
-  return p != NULL ? *p : *reinterpret_cast<const ::message::RoutingUpdate_RoutingEntry*>(
-      &::message::_RoutingUpdate_RoutingEntry_default_instance_);
+  return routingentires_.Get(index);
 }
-inline ::message::RoutingUpdate_RoutingEntry* RoutingUpdate::release_routingentires() {
-  // @@protoc_insertion_point(field_release:message.RoutingUpdate.routingEntires)
-  
-  ::message::RoutingUpdate_RoutingEntry* temp = routingentires_;
-  routingentires_ = NULL;
-  return temp;
-}
-inline ::message::RoutingUpdate_RoutingEntry* RoutingUpdate::mutable_routingentires() {
-  
-  if (routingentires_ == NULL) {
-    routingentires_ = new ::message::RoutingUpdate_RoutingEntry;
-  }
+inline ::message::RoutingUpdate_RoutingEntry* RoutingUpdate::mutable_routingentires(int index) {
   // @@protoc_insertion_point(field_mutable:message.RoutingUpdate.routingEntires)
-  return routingentires_;
+  return routingentires_.Mutable(index);
 }
-inline void RoutingUpdate::set_allocated_routingentires(::message::RoutingUpdate_RoutingEntry* routingentires) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete routingentires_;
-  }
-  if (routingentires) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      routingentires = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, routingentires, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  routingentires_ = routingentires;
-  // @@protoc_insertion_point(field_set_allocated:message.RoutingUpdate.routingEntires)
+inline ::message::RoutingUpdate_RoutingEntry* RoutingUpdate::add_routingentires() {
+  // @@protoc_insertion_point(field_add:message.RoutingUpdate.routingEntires)
+  return routingentires_.Add();
+}
+inline ::google::protobuf::RepeatedPtrField< ::message::RoutingUpdate_RoutingEntry >*
+RoutingUpdate::mutable_routingentires() {
+  // @@protoc_insertion_point(field_mutable_list:message.RoutingUpdate.routingEntires)
+  return &routingentires_;
+}
+inline const ::google::protobuf::RepeatedPtrField< ::message::RoutingUpdate_RoutingEntry >&
+RoutingUpdate::routingentires() const {
+  // @@protoc_insertion_point(field_list:message.RoutingUpdate.routingEntires)
+  return routingentires_;
 }
 
 // -------------------------------------------------------------------
@@ -2828,84 +2811,84 @@ inline ::message::Join* Message::mutable_joinmsg() {
   return msg_.joinmsg_;
 }
 
-// .message.GetVal getMsg = 4;
-inline bool Message::has_getmsg() const {
-  return msg_case() == kGetMsg;
+// .message.GetVal getValMsg = 4;
+inline bool Message::has_getvalmsg() const {
+  return msg_case() == kGetValMsg;
 }
-inline void Message::set_has_getmsg() {
-  _oneof_case_[0] = kGetMsg;
+inline void Message::set_has_getvalmsg() {
+  _oneof_case_[0] = kGetValMsg;
 }
-inline void Message::clear_getmsg() {
-  if (has_getmsg()) {
-    delete msg_.getmsg_;
+inline void Message::clear_getvalmsg() {
+  if (has_getvalmsg()) {
+    delete msg_.getvalmsg_;
     clear_has_msg();
   }
 }
-inline ::message::GetVal* Message::release_getmsg() {
-  // @@protoc_insertion_point(field_release:message.Message.getMsg)
-  if (has_getmsg()) {
+inline ::message::GetVal* Message::release_getvalmsg() {
+  // @@protoc_insertion_point(field_release:message.Message.getValMsg)
+  if (has_getvalmsg()) {
     clear_has_msg();
-      ::message::GetVal* temp = msg_.getmsg_;
-    msg_.getmsg_ = NULL;
+      ::message::GetVal* temp = msg_.getvalmsg_;
+    msg_.getvalmsg_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::message::GetVal& Message::getmsg() const {
-  // @@protoc_insertion_point(field_get:message.Message.getMsg)
-  return has_getmsg()
-      ? *msg_.getmsg_
+inline const ::message::GetVal& Message::getvalmsg() const {
+  // @@protoc_insertion_point(field_get:message.Message.getValMsg)
+  return has_getvalmsg()
+      ? *msg_.getvalmsg_
       : *reinterpret_cast< ::message::GetVal*>(&::message::_GetVal_default_instance_);
 }
-inline ::message::GetVal* Message::mutable_getmsg() {
-  if (!has_getmsg()) {
+inline ::message::GetVal* Message::mutable_getvalmsg() {
+  if (!has_getvalmsg()) {
     clear_msg();
-    set_has_getmsg();
-    msg_.getmsg_ = new ::message::GetVal;
+    set_has_getvalmsg();
+    msg_.getvalmsg_ = new ::message::GetVal;
   }
-  // @@protoc_insertion_point(field_mutable:message.Message.getMsg)
-  return msg_.getmsg_;
+  // @@protoc_insertion_point(field_mutable:message.Message.getValMsg)
+  return msg_.getvalmsg_;
 }
 
-// .message.SetVal setMsg = 5;
-inline bool Message::has_setmsg() const {
-  return msg_case() == kSetMsg;
+// .message.SetVal setValMsg = 5;
+inline bool Message::has_setvalmsg() const {
+  return msg_case() == kSetValMsg;
 }
-inline void Message::set_has_setmsg() {
-  _oneof_case_[0] = kSetMsg;
+inline void Message::set_has_setvalmsg() {
+  _oneof_case_[0] = kSetValMsg;
 }
-inline void Message::clear_setmsg() {
-  if (has_setmsg()) {
-    delete msg_.setmsg_;
+inline void Message::clear_setvalmsg() {
+  if (has_setvalmsg()) {
+    delete msg_.setvalmsg_;
     clear_has_msg();
   }
 }
-inline ::message::SetVal* Message::release_setmsg() {
-  // @@protoc_insertion_point(field_release:message.Message.setMsg)
-  if (has_setmsg()) {
+inline ::message::SetVal* Message::release_setvalmsg() {
+  // @@protoc_insertion_point(field_release:message.Message.setValMsg)
+  if (has_setvalmsg()) {
     clear_has_msg();
-      ::message::SetVal* temp = msg_.setmsg_;
-    msg_.setmsg_ = NULL;
+      ::message::SetVal* temp = msg_.setvalmsg_;
+    msg_.setvalmsg_ = NULL;
     return temp;
   } else {
     return NULL;
   }
 }
-inline const ::message::SetVal& Message::setmsg() const {
-  // @@protoc_insertion_point(field_get:message.Message.setMsg)
-  return has_setmsg()
-      ? *msg_.setmsg_
+inline const ::message::SetVal& Message::setvalmsg() const {
+  // @@protoc_insertion_point(field_get:message.Message.setValMsg)
+  return has_setvalmsg()
+      ? *msg_.setvalmsg_
       : *reinterpret_cast< ::message::SetVal*>(&::message::_SetVal_default_instance_);
 }
-inline ::message::SetVal* Message::mutable_setmsg() {
-  if (!has_setmsg()) {
+inline ::message::SetVal* Message::mutable_setvalmsg() {
+  if (!has_setvalmsg()) {
     clear_msg();
-    set_has_setmsg();
-    msg_.setmsg_ = new ::message::SetVal;
+    set_has_setvalmsg();
+    msg_.setvalmsg_ = new ::message::SetVal;
   }
-  // @@protoc_insertion_point(field_mutable:message.Message.setMsg)
-  return msg_.setmsg_;
+  // @@protoc_insertion_point(field_mutable:message.Message.setValMsg)
+  return msg_.setvalmsg_;
 }
 
 // .message.RoutingUpdate routingUpdate = 6;

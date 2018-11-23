@@ -46,7 +46,7 @@ message RoutingUpdate {
     string index = 1;
     repeated List node = 2;
   }
-  RoutingEntry routingEntires = 5;
+  repeated RoutingEntry routingEntires = 5;
 } 
 
 message AllStateUpdate {
@@ -70,8 +70,8 @@ message Message {
   oneof msg {
     JoinMe joinMeMsg = 2;
     Join joinMsg = 3;
-    GetVal getMsg = 4;
-    SetVal setMsg = 5;
+    GetVal getValMsg = 4;
+    SetVal setValMsg = 5;
     RoutingUpdate routingUpdate = 6;
     AllStateUpdate allStateUpdate = 7;
   }
