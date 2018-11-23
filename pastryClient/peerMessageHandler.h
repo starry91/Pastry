@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include "message.pb.h"
+#include <vector>
 class PeerMessageHandler
 {
   public:

@@ -58,7 +58,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	}
 
 	//adding leaf node
-	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener())
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		auto new_leaf_set = temp->mutable_leaf();
 		temp->terminal = true;
@@ -84,7 +84,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	writer.writeToNetwork(vector<char>(reply_string.begin(), reply_string.end()));
 	delete &writer; //closing connection after writing
 
-	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener())
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		int sock_fd = createTCPClient(next_node_sptr->getIp(), next_node_sptr->getPort());
 		NetworkWriter writer(sock_fd);
@@ -128,7 +128,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	}
 
 	//adding leaf node
-	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener())
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		auto new_leaf_set = temp->mutable_leaf();
 		temp->terminal = true;
@@ -154,7 +154,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	writer.writeToNetwork(vector<char>(reply_string.begin(), reply_string.end()));
 	delete &writer; //closing connection after writing
 
-	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener())
+	if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		int sock_fd = createTCPClient(next_node_sptr->getIp(), next_node_sptr->getPort());
 		NetworkWriter writer(sock_fd);
@@ -219,30 +219,29 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 {
 	auto req = msg.allstateupdate();
-	for (int i = 0; i < req.leaf_size(); i++)
+	for (int i = 0; i < req.leaf().node_size(); i++)
 	{
-		auto leaf_entry = req.leaf().Get(i);
+		auto leaf_entry = req.leaf().node().Get(i);
 		node_Sptr node_from_msg;
 		node_from_msg = make_shared<Node>(leaf_entry.ip(), leaf_entry.port(), leaf_entry.nodeid());
 		ClientDatabase ::getInstance().addToLeafSet(node_from_msg);
 	}
-	for (int i = 0; i < req.neighbours_size(); i++)
+	for (int i = 0; i < req.neighbours().node_size(); i++)
 	{
-		auto neighbour = req.neighbours().Get(i);
+		auto neighbour = req.neighbours().node().Get(i);
 		node_Sptr node_from_msg;
 		node_from_msg = make_shared<Node>(neighbour.ip(), neighbour.port(), neighbour.nodeid());
 		ClientDatabase ::getInstance().addToNeighhbourSet(node_from_msg);
 	}
-	for (int i = 0; i < req.routingTable_size(); i++)
+	for (int i = 0; i < req.routingtable_size(); i++)
 	{
-		auto row_of_routing_table = req.routingTable().Get(i);
+		auto row_of_routing_table = req.routingtable().Get(i);
 		for (int j = 0; j < row_of_routing_table.node_size(); j++)
 		{
 			auto nodeFrmMsg = row_of_routing_table.node().Get(j);
 			node_Sptr new_node;
-			new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid())
-						   ClientDatabase ::getInstance()
-							   .addToRoutingTable(new_node);
+			new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid());
+			ClientDatabase::getInstance().addToRoutingTable(new_node);
 		}
 	}
 }

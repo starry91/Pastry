@@ -973,18 +973,6 @@ class AllStateUpdate : public ::google::protobuf::Message /* @@protoc_insertion_
 
   // accessors -------------------------------------------------------
 
-  // repeated .message.List leaf = 1;
-  int leaf_size() const;
-  void clear_leaf();
-  static const int kLeafFieldNumber = 1;
-  const ::message::List& leaf(int index) const;
-  ::message::List* mutable_leaf(int index);
-  ::message::List* add_leaf();
-  ::google::protobuf::RepeatedPtrField< ::message::List >*
-      mutable_leaf();
-  const ::google::protobuf::RepeatedPtrField< ::message::List >&
-      leaf() const;
-
   // repeated .message.List routingTable = 2;
   int routingtable_size() const;
   void clear_routingtable();
@@ -997,25 +985,31 @@ class AllStateUpdate : public ::google::protobuf::Message /* @@protoc_insertion_
   const ::google::protobuf::RepeatedPtrField< ::message::List >&
       routingtable() const;
 
-  // repeated .message.List neighbours = 3;
-  int neighbours_size() const;
+  // .message.List leaf = 1;
+  bool has_leaf() const;
+  void clear_leaf();
+  static const int kLeafFieldNumber = 1;
+  const ::message::List& leaf() const;
+  ::message::List* release_leaf();
+  ::message::List* mutable_leaf();
+  void set_allocated_leaf(::message::List* leaf);
+
+  // .message.List neighbours = 3;
+  bool has_neighbours() const;
   void clear_neighbours();
   static const int kNeighboursFieldNumber = 3;
-  const ::message::List& neighbours(int index) const;
-  ::message::List* mutable_neighbours(int index);
-  ::message::List* add_neighbours();
-  ::google::protobuf::RepeatedPtrField< ::message::List >*
-      mutable_neighbours();
-  const ::google::protobuf::RepeatedPtrField< ::message::List >&
-      neighbours() const;
+  const ::message::List& neighbours() const;
+  ::message::List* release_neighbours();
+  ::message::List* mutable_neighbours();
+  void set_allocated_neighbours(::message::List* neighbours);
 
   // @@protoc_insertion_point(class_scope:message.AllStateUpdate)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::message::List > leaf_;
   ::google::protobuf::RepeatedPtrField< ::message::List > routingtable_;
-  ::google::protobuf::RepeatedPtrField< ::message::List > neighbours_;
+  ::message::List* leaf_;
+  ::message::List* neighbours_;
   mutable int _cached_size_;
   friend struct ::protobuf_message_2eproto::TableStruct;
   friend void ::protobuf_message_2eproto::InitDefaultsAllStateUpdateImpl();
@@ -2337,34 +2331,54 @@ RoutingUpdate::routingentires() const {
 
 // AllStateUpdate
 
-// repeated .message.List leaf = 1;
-inline int AllStateUpdate::leaf_size() const {
-  return leaf_.size();
+// .message.List leaf = 1;
+inline bool AllStateUpdate::has_leaf() const {
+  return this != internal_default_instance() && leaf_ != NULL;
 }
 inline void AllStateUpdate::clear_leaf() {
-  leaf_.Clear();
+  if (GetArenaNoVirtual() == NULL && leaf_ != NULL) {
+    delete leaf_;
+  }
+  leaf_ = NULL;
 }
-inline const ::message::List& AllStateUpdate::leaf(int index) const {
+inline const ::message::List& AllStateUpdate::leaf() const {
+  const ::message::List* p = leaf_;
   // @@protoc_insertion_point(field_get:message.AllStateUpdate.leaf)
-  return leaf_.Get(index);
+  return p != NULL ? *p : *reinterpret_cast<const ::message::List*>(
+      &::message::_List_default_instance_);
 }
-inline ::message::List* AllStateUpdate::mutable_leaf(int index) {
+inline ::message::List* AllStateUpdate::release_leaf() {
+  // @@protoc_insertion_point(field_release:message.AllStateUpdate.leaf)
+  
+  ::message::List* temp = leaf_;
+  leaf_ = NULL;
+  return temp;
+}
+inline ::message::List* AllStateUpdate::mutable_leaf() {
+  
+  if (leaf_ == NULL) {
+    leaf_ = new ::message::List;
+  }
   // @@protoc_insertion_point(field_mutable:message.AllStateUpdate.leaf)
-  return leaf_.Mutable(index);
-}
-inline ::message::List* AllStateUpdate::add_leaf() {
-  // @@protoc_insertion_point(field_add:message.AllStateUpdate.leaf)
-  return leaf_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::message::List >*
-AllStateUpdate::mutable_leaf() {
-  // @@protoc_insertion_point(field_mutable_list:message.AllStateUpdate.leaf)
-  return &leaf_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::message::List >&
-AllStateUpdate::leaf() const {
-  // @@protoc_insertion_point(field_list:message.AllStateUpdate.leaf)
   return leaf_;
+}
+inline void AllStateUpdate::set_allocated_leaf(::message::List* leaf) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete leaf_;
+  }
+  if (leaf) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      leaf = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, leaf, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  leaf_ = leaf;
+  // @@protoc_insertion_point(field_set_allocated:message.AllStateUpdate.leaf)
 }
 
 // repeated .message.List routingTable = 2;
@@ -2397,34 +2411,54 @@ AllStateUpdate::routingtable() const {
   return routingtable_;
 }
 
-// repeated .message.List neighbours = 3;
-inline int AllStateUpdate::neighbours_size() const {
-  return neighbours_.size();
+// .message.List neighbours = 3;
+inline bool AllStateUpdate::has_neighbours() const {
+  return this != internal_default_instance() && neighbours_ != NULL;
 }
 inline void AllStateUpdate::clear_neighbours() {
-  neighbours_.Clear();
+  if (GetArenaNoVirtual() == NULL && neighbours_ != NULL) {
+    delete neighbours_;
+  }
+  neighbours_ = NULL;
 }
-inline const ::message::List& AllStateUpdate::neighbours(int index) const {
+inline const ::message::List& AllStateUpdate::neighbours() const {
+  const ::message::List* p = neighbours_;
   // @@protoc_insertion_point(field_get:message.AllStateUpdate.neighbours)
-  return neighbours_.Get(index);
+  return p != NULL ? *p : *reinterpret_cast<const ::message::List*>(
+      &::message::_List_default_instance_);
 }
-inline ::message::List* AllStateUpdate::mutable_neighbours(int index) {
+inline ::message::List* AllStateUpdate::release_neighbours() {
+  // @@protoc_insertion_point(field_release:message.AllStateUpdate.neighbours)
+  
+  ::message::List* temp = neighbours_;
+  neighbours_ = NULL;
+  return temp;
+}
+inline ::message::List* AllStateUpdate::mutable_neighbours() {
+  
+  if (neighbours_ == NULL) {
+    neighbours_ = new ::message::List;
+  }
   // @@protoc_insertion_point(field_mutable:message.AllStateUpdate.neighbours)
-  return neighbours_.Mutable(index);
-}
-inline ::message::List* AllStateUpdate::add_neighbours() {
-  // @@protoc_insertion_point(field_add:message.AllStateUpdate.neighbours)
-  return neighbours_.Add();
-}
-inline ::google::protobuf::RepeatedPtrField< ::message::List >*
-AllStateUpdate::mutable_neighbours() {
-  // @@protoc_insertion_point(field_mutable_list:message.AllStateUpdate.neighbours)
-  return &neighbours_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::message::List >&
-AllStateUpdate::neighbours() const {
-  // @@protoc_insertion_point(field_list:message.AllStateUpdate.neighbours)
   return neighbours_;
+}
+inline void AllStateUpdate::set_allocated_neighbours(::message::List* neighbours) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete neighbours_;
+  }
+  if (neighbours) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      neighbours = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, neighbours, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  neighbours_ = neighbours;
+  // @@protoc_insertion_point(field_set_allocated:message.AllStateUpdate.neighbours)
 }
 
 // -------------------------------------------------------------------
