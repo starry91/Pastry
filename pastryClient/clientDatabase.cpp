@@ -17,38 +17,121 @@ ClientDatabase &ClientDatabase::getInstance()
 	return res;
 }
 
-bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID){
+bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
+{
 	auto node1_nodeID = node1->getNodeID();
 	auto node2_nodeID = node2->getNodeID();
-	for ( auto i=0;i<nodeID.length();i++){
-		if(node1_nodeID[i] != node2_nodeID[i]){
+	for (auto i = 0; i < nodeID.length(); i++)
+	{
+		if (node1_nodeID[i] != node2_nodeID[i])
+		{
 			return abs(node1_nodeID[i] - nodeID[i]) < abs(node2_nodeID[i] - nodeID[i]);
 		}
 	}
 	return false;
 }
 
-node_Sptr ClientDatabase:: getNextRoutingNode(string nodeID)
+node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 {
 	auto &left_leafSet = this->leafSet.first;
 	auto &right_leafSet = this->leafSet.second;
 	auto left_most_leaf = (*left_leafSet.begin())->getNodeID();
 	auto right_most_leaf = (*right_leafSet.begin())->getNodeID();
-	if(nodeID > left_most_leaf and nodeID < right_most_leaf){
+	if (nodeID > left_most_leaf and nodeID < right_most_leaf)
+	{
 		/// Next Routing Entry is in leaf set
 		auto closest_node = *left_leafSet.begin();
-		for(auto node: left_leafSet){
-			if(is_better_node(node, closest_node, nodeID)){
+		for (auto node : left_leafSet)
+		{
+			if (is_better_node(node, closest_node, nodeID))
+			{
 				closest_node = node;
 			}
 		}
-		for(auto node: left_leafSet){
-			if(is_better_node(node, closest_node, nodeID)){
+		for (auto node : left_leafSet)
+		{
+			if (is_better_node(node, closest_node, nodeID))
+			{
 				closest_node = node;
 			}
 		}
 		return closest_node;
 	}
-	auto prefix = ;
-	
+	auto prefix = prefixMatchLen(nodeID, this->listener->getNodeID());
+	if (this->routingTable[prefix][nodeID[prefix] - '0'])
+	{
+		return routingTable[prefix][nodeID[prefix] - '0'];
+	}
+	auto closest_node = *left_leafSet.begin();
+	for (auto node : left_leafSet)
+	{
+		if (is_better_node(node, closest_node, nodeID))
+		{
+			closest_node = node;
+		}
+	}
+	for (auto node : left_leafSet)
+	{
+		if (is_better_node(node, closest_node, nodeID))
+		{
+			closest_node = node;
+		}
+	}
+	for (auto routingRow : routingTable)
+	{
+		for (auto node : routingRow)
+		{
+			if (is_better_node(node, closest_node, nodeID))
+			{
+				closest_node = node;
+			}
+		}
+	}
+	for (auto node : neighbourSet)
+	{
+		if (is_better_node(node, closest_node, nodeID))
+		{
+			closest_node = node;
+		}
+	}
+	return closest_node;
+}
+
+vector<vector<node_Sptr>> ClientDatabase ::getRoutingTable(){
+	return this->routingTable;
+}
+
+pair<<node_Sptr, leafComparator>, <node_Sptr, leafComparator>>ClientDatabase ::getLeafSet(){
+	return this->leafSet;
+}
+
+set<node_Sptr, neighbourComparator> ClientDatabase ::getNeighbourSet(){
+	return this->neighbourSet;
+}
+
+void clientDatabase :: addToLeafSet(node_Sptr node){
+	if(node->getNodeID() < this->listener->getNodeID()){
+		auto &left_leafSet = this->leafSet.first;
+		left_leafSet.insert(node);
+		if(left_leafSet.size()>this->col/2){
+			left_leafSet.erase(left_leafSet.begin());
+		}
+	}
+	else{
+		auto &right_leafSet = this->leafSet.second;
+		right_leafSet.insert(node);
+		if(right_leafSet.size()>this->col/2){
+			right_leafSet.erase(right_leafSet.rbegin());
+		}
+	}
+	return;
+}
+
+void clientDatabase addToNeighhbourSet(node_Sptr node){
+	auto &neighbour = this->neighbourSet;
+	neighbour.insert(node);
+	if(neighbour.size() > col){
+		neighbour.erase(neighbour.rbegin());
+	}
+	return;
 }
