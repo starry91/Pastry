@@ -18,26 +18,26 @@
 #define b 8
 #define N 10000
 
-
 class ClientDatabase
 {
-private:
-  int row;
-  int col;
-  std::pair<std::set<node_Sptr, leafComparator>,std::set<node_Sptr, leafComparator>> leafSet;
-  std::vector<std::vector<node_Sptr>> routingTable;
-  std::set<node_Sptr, neighbourComparator> neighbourSet;
-  node_Sptr listener;
-  ClientDatabase();
+  private:
+	int row;
+	int col;
+	std::pair<std::set<node_Sptr, leafComparator>, std::set<node_Sptr, leafComparator>> leafSet;
+	std::vector<std::vector<node_Sptr>> routingTable;
+	std::set<node_Sptr, neighbourComparator> neighbourSet;
+	node_Sptr listener;
+	ClientDatabase();
 
-public:
-  static ClientDatabase &getInstance();
-  void setListener(Node);
-  node_Sptr getListener();
-  node_Sptr getNextRoutingNode(std::string nodeID);
-  std::vector<std::vector<node_Sptr>> getRoutingTable();
-  std::pair<std::set<node_Sptr, leafComparator>,std::set<node_Sptr, leafComparator>> getLeafSet();
-  std::set<node_Sptr, neighbourComparator> getNeighbourSet();
+  public:
+	static ClientDatabase &getInstance();
+	void setListener(Node);
+	node_Sptr getListener();
+	node_Sptr getNextRoutingNode(std::string nodeID);
+	std::vector<std::vector<node_Sptr>> getRoutingTable();
+	std::pair<std::set<node_Sptr, leafComparator>, std::set<node_Sptr, leafComparator>> getLeafSet();
+	std::set<node_Sptr, neighbourComparator> getNeighbourSet();
+	bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID);//is node1 more closer to nodeID than node2
 };
 
 #endif
