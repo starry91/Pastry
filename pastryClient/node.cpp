@@ -36,3 +36,4 @@ std::string Node::getPort()
 Node::Node()
 {
 }
+void setProximity(int)

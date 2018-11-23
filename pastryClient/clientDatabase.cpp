@@ -145,3 +145,37 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 	}
 	return;
 }
+
+void ClientDatabase ::addToRoutingTable(node_Sptr node, int prefix = -1)
+{
+	if (prefix == -1)
+	{
+		prefix = prefixMatchLen(this->listener->getNodeID(), node->getNodeID());
+	}
+	auto index = node->getNodeID()[prefix] - '0';
+	if (!this->routingTable[prefix][index])
+	{
+		this->routingTable[prefix][index] = node;
+		return;
+	}
+	if (node->getProximity() < this->routingTable[prefix][index]->getProximity())
+	{
+		this->routingTable[prefix][index] = node;
+	}
+}
+void ClientDatabase ::updateAllState(node_Sptr node)
+{
+	this->addToLeafSet(node);
+	this->addToNeighhbourSet(node);
+	this->addToRoutingTable(node);
+	return;
+}
+
+void ClientDatabase ::updateRoutingTable(vector<node_Sptr> row_entry, int index)
+{
+	for (auto node : row_entry)
+	{
+		addToRoutingTable(node, index);
+	}
+	return;
+}

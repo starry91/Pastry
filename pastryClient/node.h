@@ -25,6 +25,7 @@ class Node
     std::string getPort();
     std::string getNodeID();
     int getProximity();
+    void setProximity(int proximity);
 };
 
 typedef std::shared_ptr<Node> node_Sptr;
