@@ -5,7 +5,6 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-
 #include <string>
 #include <iostream>
 #include <memory>
@@ -28,5 +27,5 @@ struct neighbourComparator
 };
 
 int prefixMatchLen(string x, string y);
-
+std ::string convertHexStringToNodeID(std::string s, int length);
 #endif

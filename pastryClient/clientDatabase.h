@@ -37,9 +37,8 @@ class ClientDatabase
 	std::vector<std::vector<node_Sptr>> getRoutingTable();
 	std::pair<std::set<node_Sptr, leafComparator>, std::set<node_Sptr, leafComparator>> getLeafSet();
 	std::set<node_Sptr, neighbourComparator> getNeighbourSet();
-	bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID);//is node1 more closer to nodeID than node2
+	bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID); //is node1 more closer to nodeID than node2
 	void addToNeighhbourSet(node_Sptr node);
 	void addToLeafSet(node_Sptr node);
 };
-
 #endif
