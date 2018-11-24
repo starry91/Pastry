@@ -19,6 +19,7 @@ PeerCommunicator::PeerCommunicator(Node peer)
     }
     catch (ErrorMsg e)
     {
+        this->peer_fd = -1;
         throw ErrorMsg("Unable to establish connection");
     }
     // cout << "### Created TrackerServiceServer with fd: " << this->tracker_fd << endl;
@@ -32,12 +33,15 @@ PeerCommunicator::PeerCommunicator(std::string ip, std::string port)
     }
     catch (ErrorMsg e)
     {
+        this->peer_fd = -1;
         throw ErrorMsg("Unable to establish connection");
     }
     // cout << "### Created TrackerServiceServer with fd: " << this->tracker_fd << endl;
 }
 
-
+int PeerCommunicator:: getPeerFd(){
+    return this->peer_fd;
+}
 
 PeerCommunicator::~PeerCommunicator()
 {
