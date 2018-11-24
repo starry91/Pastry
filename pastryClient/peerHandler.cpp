@@ -96,6 +96,10 @@ void PeerHandler::handleRpc(int client_fd)
                 writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleAddToHashTableRequest(reqMsg);
             }
+            else if(reqMsg.type() == "ShutDown"){
+                LogHandler::getInstance().logMsg("Recieved Shutdown request");
+                msgHandler.handleShutdownRequest();
+            }
         }
     }
     catch (ErrorMsg e)

@@ -101,7 +101,7 @@ message AddToHashTable{
   map<string, string> hashMap = 1;
 }
 
-message ShutDowwn{
+message ShutDown{
   
 }
 

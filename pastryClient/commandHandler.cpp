@@ -227,7 +227,7 @@ void CommandHandler::handleCommand(std::string command)
         else if (args.size() == 1 and args[0] == "shutdown")
         {
             message::Message msg;
-            msg.set_type("ShutDowwn");
+            msg.set_type("ShutDown");
             auto leaf_set = ClientDatabase::getInstance().getLeafSet();
             auto neighbour_set = ClientDatabase::getInstance().getNeighbourSet();
             auto routing_table = ClientDatabase::getInstance().getRoutingTable();
