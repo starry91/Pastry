@@ -289,3 +289,25 @@ void ClientDatabase::deleteFromHashMap(pair<string, string> entry_to_delete)
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->hashMap.erase(entry_to_delete.first);
 }
+
+void ClientDatabase::deleteFromNeighhbourSet(node_Sptr node)
+{
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	if (!node)
+	{
+		this->leafSet.first.erase(node);
+		this->leafSet.second.erase(node);
+	}
+} // delete this node from Neighbour set
+void ClientDatabase::deleteFromLeafSet(node_Sptr node)
+{
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	if (!node)
+	{
+		this->neighbourSet.erase(node);
+		this->neighbourSet.erase(node);
+	}
+}	 // delete this node from leaf set
+void ClientDatabase::deleteFromRoutingTable(node_Sptr node)
+{
+}

@@ -78,6 +78,24 @@ void PeerHandler::handleRpc(int client_fd)
                 writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleSetValRequest(reqMsg);
             }
+            else if (reqMsg.type() == "DeleteNode")
+            {
+                LogHandler::getInstance().logMsg("Recieved DeleteNode request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
+                msgHandler.handleDeleteNodeRequest(reqMsg);
+            }
+            else if (reqMsg.type() == "AddToHashTable")
+            {
+                LogHandler::getInstance().logMsg("Recieved AddToHashTable request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
+                msgHandler.handleAddToHashTableRequest(reqMsg);
+            }
         }
     }
     catch (ErrorMsg e)

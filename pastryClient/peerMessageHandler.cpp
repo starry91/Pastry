@@ -399,7 +399,7 @@ void PeerMessageHandler::handleSetValRequest(message::Message msg)
 		auto resp = peercommunicator.sendMsg(msg);
 	}	
 }
-unordered_map<string, string> PeerMessageHandler ::getRelevantKeyValuePairs(string nodeID){
+unordered_map<string, string> PeerMessageHandler::getRelevantKeyValuePairs(string nodeID){
 	string myNodeId = ClientDatabase::getInstance().getListener()->getNodeID();
 	auto hash_table = ClientDatabase::getInstance().getHashMap();
 	unordered_map<string, string> result;
@@ -413,3 +413,17 @@ unordered_map<string, string> PeerMessageHandler ::getRelevantKeyValuePairs(stri
 	}
 	return result;
 }
+
+  void PeerMessageHandler::handleAddToHashTableRequest(message::Message msg)
+  {
+	  auto hash_table = msg.addtohashtable().hashmap();
+	  for(auto pair : hash_table)
+	  {
+		  ClientDatabase::getInstance().insertIntoHashMap(pair.first,pair.second);
+	  }
+  }
+  void PeerMessageHandler::handleDeleteNodeRequest(message::Message msg)
+  {
+	  auto node = msg.deletenode().node();
+	//   ClientDatabase::getInstance().deleteFromHashMap()
+  }

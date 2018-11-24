@@ -46,6 +46,9 @@ class ClientDatabase
 	void addToNeighhbourSet(node_Sptr node); // add this node to Neighbour set
 	void addToLeafSet(node_Sptr node);		 // add this node to leaf set
 	void addToRoutingTable(node_Sptr node, int = -1);
+	void deleteFromNeighhbourSet(node_Sptr node); // add this node to Neighbour set
+	void deleteFromLeafSet(node_Sptr node);		 // add this node to leaf set
+	void deleteFromRoutingTable(node_Sptr node);
 	void updateAllState(node_Sptr node);								  // give node pointer for updating it in table
 	void updateRoutingTable(std::vector<node_Sptr> row_entry, int index); //give roww and index
 	int getRowSize();
