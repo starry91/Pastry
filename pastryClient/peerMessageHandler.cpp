@@ -36,6 +36,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	//adding routing entires
 	auto routingTable = ClientDatabase::getInstance().getRoutingTable();
 	auto prefix_match_len = prefixMatchLen(req.nodeid(), ClientDatabase::getInstance().getListener()->getNodeID());
+	cout << "In handleJoinMeRequest, prefix_match_len: " << prefix_match_len << endl;
 	for (int i = 0; i <= prefix_match_len; i++)
 	{
 		auto temp_list = temp->add_routingentires();
@@ -83,12 +84,20 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	auto sender = routingUpdate.mutable_sender();
 	populateMsgSender(sender, ClientDatabase::getInstance().getListener());
 	cout << "after populating " << routingUpdate.sender().nodeid() << endl;
-	PeerCommunicator peercommunicator(Node(req.ip(), req.port(), req.nodeid()));
+	cout << "In handleJoinMeRequest, routing table size: " << routingUpdate.routingupdate().routingentires_size() << endl;
+	PeerCommunicator peercommunicator(Node(req.ip(), req.port(),req.nodeid()));
 	auto resp = peercommunicator.sendMsg(routingUpdate);
 
 	if (next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		cout << "in handle joinme request next not equal to current" << endl;
+		message::Message req_msg;
+		req_msg.set_type("Join");
+		auto join_msg = req_msg.mutable_joinmsg();
+		join_msg->set_ip(req.ip());
+		join_msg->set_port(req.port());
+		join_msg->set_nodeid(req.nodeid());
+		join_msg->set_row_index(prefix_match_len);
 		PeerCommunicator peercommunicator(*next_node_sptr);
 		auto resp = peercommunicator.sendMsg(routingUpdate);
 	}
@@ -112,20 +121,26 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	auto temp_list = temp->add_routingentires();
 	temp_list->set_index(prefix_match_len);
 	auto routing_row = temp_list->mutable_nodelist();
-	for (auto node : routingTable[prefix_match_len])
+	for (int i = req.row_index(); i < prefix_match_len; i++)
 	{
-		auto list_node = routing_row->add_node();
-		if (node)
+		auto temp_list = temp->add_routingentires();
+		temp_list->set_index(i);
+		auto routing_row = temp_list->mutable_nodelist();
+		for (auto node : routingTable[i])
 		{
-			list_node->set_ip(node->getIp());
-			list_node->set_port(node->getPort());
-			list_node->set_nodeid(node->getNodeID());
-		}
-		else
-		{
-			list_node->set_ip("-1");
-			list_node->set_port("-1");
-			list_node->set_nodeid("-1");
+			auto list_node = routing_row->add_node();
+			if (node)
+			{
+				list_node->set_ip(node->getIp());
+				list_node->set_port(node->getPort());
+				list_node->set_nodeid(node->getNodeID());
+			}
+			else
+			{
+				list_node->set_ip("-1");
+				list_node->set_port("-1");
+				list_node->set_nodeid("-1");
+			}
 		}
 	}
 
@@ -166,13 +181,15 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 	cout << "in handle routing update, sender nodeid " << msg.sender().nodeid() << endl;
 	auto req = msg.routingupdate();
 	auto routingList = req.routingentires();
+	cout << "in handle routing update, routing entries count " << req.routingentires_size() << endl;
+	ClientDatabase::getInstance().incrementRecievedUpdateCount(req.routingentires_size());
 	for (int i = 0; i < req.routingentires_size(); i++)
 	{
-		auto temp = req.routingentires().Get(i);
+		auto temp = req.routingentires(i);
 		vector<node_Sptr> tempNodeList;
 		for (int j = 0; j < temp.nodelist().node_size(); j++)
 		{
-			auto nodeFrmMsg = temp.nodelist().node().Get(j);
+			auto nodeFrmMsg = temp.nodelist().node(j);
 			node_Sptr new_node;
 			if (nodeFrmMsg.nodeid() == "-1")
 			{
@@ -195,7 +212,7 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 		ClientDatabase::getInstance().addToNeighhbourSet(sender_node);
 		for (int j = 0; j < req.neighbours().node_size(); j++)
 		{
-			auto nodeFrmMsg = req.neighbours().node().Get(j);
+			auto nodeFrmMsg = req.neighbours().node(j);
 			node_Sptr new_node;
 			if (nodeFrmMsg.nodeid() != "-1")
 			{
@@ -209,10 +226,11 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 	{
 		auto sender = msg.sender();
 		auto sender_node = make_shared<Node>(sender.ip(), sender.port(), sender.nodeid());
+		ClientDatabase::getInstance().setTotalRouteLength(req.routingentires(req.routingentires_size()-1).index()+1);
 		ClientDatabase::getInstance().addToLeafSet(sender_node);
 		for (int j = 0; j < req.leaf().node_size(); j++)
 		{
-			auto nodeFrmMsg = req.leaf().node().Get(j);
+			auto nodeFrmMsg = req.leaf().node(j);
 			node_Sptr new_node;
 			if (nodeFrmMsg.nodeid() != "-1")
 			{
@@ -221,10 +239,9 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 			}
 		}
 	}
-	ClientDatabase::getInstance().incrementRecievedUpdateCount();
 	syslog(0, "Current route update count: %d, required route update count: %d",
-		   ClientDatabase::getInstance().getRecievedUpdateCount(), ClientDatabase::getInstance().getTotalRouteLength());
-	if (ClientDatabase::getInstance().getRecievedUpdateCount() == ClientDatabase::getInstance().getTotalRouteLength())
+				ClientDatabase::getInstance().getRecievedUpdateCount(),ClientDatabase::getInstance().getTotalRouteLength());
+	if(ClientDatabase::getInstance().getRecievedUpdateCount() == ClientDatabase::getInstance().getTotalRouteLength())
 	{
 		this->sendAllStateUpdate();
 	}
@@ -321,7 +338,7 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 	auto req = msg.allstateupdate();
 	for (int i = 0; i < req.leaf().node_size(); i++)
 	{
-		auto leaf_entry = req.leaf().node().Get(i);
+		auto leaf_entry = req.leaf().node(i);
 		node_Sptr node_from_msg;
 		if (leaf_entry.nodeid() == "-1")
 		{
@@ -335,7 +352,7 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 	}
 	for (int i = 0; i < req.neighbours().node_size(); i++)
 	{
-		auto neighbour = req.neighbours().node().Get(i);
+		auto neighbour = req.neighbours().node(i);
 		node_Sptr node_from_msg;
 		if (neighbour.nodeid() == "-1")
 		{
@@ -349,10 +366,10 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 	}
 	for (int i = 0; i < req.routingtable_size(); i++)
 	{
-		auto row_of_routing_table = req.routingtable().Get(i);
+		auto row_of_routing_table = req.routingtable(i);
 		for (int j = 0; j < row_of_routing_table.node_size(); j++)
 		{
-			auto nodeFrmMsg = row_of_routing_table.node().Get(j);
+			auto nodeFrmMsg = row_of_routing_table.node(j);
 			node_Sptr new_node;
 			if (nodeFrmMsg.nodeid() == "-1")
 			{

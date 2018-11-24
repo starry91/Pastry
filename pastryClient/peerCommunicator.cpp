@@ -49,6 +49,9 @@ Response PeerCommunicator::sendMsg(Message msg)
 {
     NetworkWriter writer(this->peer_fd);
     auto msg_string = msg.SerializeAsString();
+    cout << "msg type " << msg.type() << endl;
+    cout << "msg string size "<< msg_string.length() << endl;
+    cout << "In sender: byte data length: " << vector<char>(msg_string.begin(), msg_string.end()).size() << endl;
     writer.writeToNetwork(vector<char>(msg_string.begin(), msg_string.end()));
     NetworkReader reader(this->peer_fd);
     auto resp_bytes = reader.readFromNetwork();
