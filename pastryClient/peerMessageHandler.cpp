@@ -322,14 +322,28 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 	{
 		auto leaf_entry = req.leaf().node().Get(i);
 		node_Sptr node_from_msg;
-		node_from_msg = make_shared<Node>(leaf_entry.ip(), leaf_entry.port(), leaf_entry.nodeid());
+		if (leaf_entry.nodeid() == "-1")
+		{
+			node_from_msg = NULL; //make_shared<Node>(nullptr);
+		}
+		else
+		{
+			node_from_msg = make_shared<Node>(leaf_entry.ip(), leaf_entry.port(), leaf_entry.nodeid());
+		}
 		ClientDatabase::getInstance().addToLeafSet(node_from_msg);
 	}
 	for (int i = 0; i < req.neighbours().node_size(); i++)
 	{
 		auto neighbour = req.neighbours().node().Get(i);
 		node_Sptr node_from_msg;
-		node_from_msg = make_shared<Node>(neighbour.ip(), neighbour.port(), neighbour.nodeid());
+		if (neighbour.nodeid() == "-1")
+		{
+			node_from_msg = NULL; //make_shared<Node>(nullptr);
+		}
+		else
+		{
+			node_from_msg = make_shared<Node>(neighbour.ip(), neighbour.port(), neighbour.nodeid());
+		}
 		ClientDatabase::getInstance().addToNeighhbourSet(node_from_msg);
 	}
 	for (int i = 0; i < req.routingtable_size(); i++)
@@ -339,7 +353,14 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 		{
 			auto nodeFrmMsg = row_of_routing_table.node().Get(j);
 			node_Sptr new_node;
-			new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid());
+			if (nodeFrmMsg.nodeid() == "-1")
+			{
+				new_node = NULL; //make_shared<Node>(nullptr);
+			}
+			else
+			{
+				new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid());
+			};
 			ClientDatabase::getInstance().addToRoutingTable(new_node);
 		}
 	}
