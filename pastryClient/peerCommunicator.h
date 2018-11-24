@@ -21,7 +21,6 @@ public:
   PeerCommunicator(Node peer);
   PeerCommunicator(std::string ip, std::string port);
   Response sendMsg(Message msg);
-  int getPeerFd();
   void connectToTracker();
   virtual ~PeerCommunicator();
 };

@@ -1,4 +1,0 @@
-Sat Nov 24 21:59:41 2018
-: JOINME - SUCCESS
-Sat Nov 24 21:59:41 2018
-: Recieved RoutingUpdate request
