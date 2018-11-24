@@ -33,6 +33,7 @@ class ClientDatabase
 	int recieved_update_count;
 	// std :: thread :: id listener_thread_id;
 	std::unordered_map<std ::string, std::string> hashMap;
+	bool is_same_node_as_me(node_Sptr node);
 	ClientDatabase();
 
   public:
@@ -47,7 +48,7 @@ class ClientDatabase
 	void addToLeafSet(node_Sptr node);		 // add this node to leaf set
 	void addToRoutingTable(node_Sptr node, int = -1);
 	void deleteFromNeighhbourSet(node_Sptr node); // add this node to Neighbour set
-	void deleteFromLeafSet(node_Sptr node);		 // add this node to leaf set
+	void deleteFromLeafSet(node_Sptr node);		  // add this node to leaf set
 	void deleteFromRoutingTable(node_Sptr node);
 	void updateAllState(node_Sptr node);								  // give node pointer for updating it in table
 	void updateRoutingTable(std::vector<node_Sptr> row_entry, int index); //give roww and index
@@ -64,5 +65,6 @@ class ClientDatabase
 	// void setListenerThreadID(std::thread::id thread_id);
 	// std::thread::id getListenerThreadID();
 	void deleteFromHashMap(std::pair<std::string, std::string> entry_to_delete);
+	void delete_from_all(node_Sptr node);
 };
 #endif
