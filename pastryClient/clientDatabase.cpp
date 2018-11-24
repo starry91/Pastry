@@ -334,7 +334,7 @@ void ClientDatabase::deleteFromRoutingTable(node_Sptr node)
 }
 bool ClientDatabase::is_same_node_as_me(node_Sptr node)
 {
-	return node->getNodeID() != this->listener->getNodeID();
+	return node->getNodeID() == this->listener->getNodeID();
 }
 
 void ClientDatabase::delete_from_all(node_Sptr node)
