@@ -17,7 +17,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
 	message::Message routingUpdate;
 	routingUpdate.set_type("RoutingUpdate");
-	auto *temp = routingUpdate.mutable_routingupdate();
+	auto temp = routingUpdate.mutable_routingupdate();
 	temp->set_buddy(true);
 
 	auto new_routingList = temp->mutable_routingentires();
@@ -80,17 +80,23 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 			lnode->set_nodeid(leaf_node->getNodeID());
 		}
 	}
+	auto sender = routingUpdate.mutable_sender();
+	populateMsgSender(sender, ClientDatabase::getInstance().getListener());
+	cout << "after populating " << routingUpdate.sender().nodeid() << endl;
 	PeerCommunicator peercommunicator(Node(req.ip(), req.port(),req.nodeid()));
 	auto resp = peercommunicator.sendMsg(routingUpdate);
 
 	if (next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
 	{
+		cout << "in handle joinme request next not equal to current" << endl;
 		PeerCommunicator peercommunicator(*next_node_sptr);
 		auto resp = peercommunicator.sendMsg(routingUpdate);
 	}
 }
 void PeerMessageHandler::handleJoinRequest(message::Message msg)
 {
+	syslog(7, "In peer handler -> join -> recieved Join request from ip %s, port %s, nodeID %s",
+		   msg.joinmemsg().ip().c_str(), msg.joinmemsg().port().c_str(), msg.joinmemsg().nodeid().c_str());
 	auto req = msg.joinmsg();
 	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
 	message::Message routingUpdate;
@@ -149,12 +155,15 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 
 	if (next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
 	{
+		auto sender = routingUpdate.mutable_sender();
+		populateMsgSender(sender, next_node_sptr);
 		PeerCommunicator peercommunicator(*next_node_sptr);
 		auto resp = peercommunicator.sendMsg(routingUpdate);
 	}
 }
 void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 {
+	cout << "in handle routing update, sender nodeid " << msg.sender().nodeid() << endl;
 	auto req = msg.routingupdate();
 	auto routingList = req.routingentires();
 	for (int i = 0; i < req.routingentires_size(); i++)
@@ -180,6 +189,10 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 	}
 	if (req.buddy())
 	{
+		syslog(7,"In peer handler -> join -> recieved Routing update request from ip %s, port %s, nodeID %s",msg.sender().ip().c_str(), msg.sender().port().c_str(), msg.sender().nodeid().c_str());
+		auto sender = msg.sender();
+		auto sender_node = make_shared<Node>(sender.ip(), sender.port(), sender.nodeid());
+		ClientDatabase::getInstance().addToNeighhbourSet(sender_node);
 		for (int j = 0; j < req.neighbours().node_size(); j++)
 		{
 			auto nodeFrmMsg = req.neighbours().node().Get(j);
@@ -194,6 +207,9 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 	}
 	if (req.terminal())
 	{
+		auto sender = msg.sender();
+		auto sender_node = make_shared<Node>(sender.ip(), sender.port(), sender.nodeid());
+		ClientDatabase::getInstance().addToLeafSet(sender_node);
 		for (int j = 0; j < req.leaf().node_size(); j++)
 		{
 			auto nodeFrmMsg = req.leaf().node().Get(j);
@@ -214,7 +230,88 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 
 void PeerMessageHandler::sendAllStateUpdate()
 {
-	// add code
+	message::Message all_state_req;
+	populateMsgSender(all_state_req.mutable_sender(),ClientDatabase::getInstance().getListener());
+	all_state_req.set_type("AllStateUpdate");
+	auto temp = all_state_req.mutable_allstateupdate();
+
+	auto new_neighbour_set = temp->mutable_neighbours();
+	//adding neighbourSet
+	auto neighbourSet = ClientDatabase::getInstance().getNeighbourSet();
+	for (auto neighbour_node : neighbourSet)
+	{
+		auto nnode = new_neighbour_set->add_node();
+		nnode->set_ip(neighbour_node->getIp());
+		nnode->set_port(neighbour_node->getPort());
+		nnode->set_nodeid(neighbour_node->getNodeID());
+	}
+
+	auto new_routingList = temp->mutable_routingtable();
+	//adding routing entires
+	auto routingTable = ClientDatabase::getInstance().getRoutingTable();
+	for (int i = 0; i <= routingTable.size(); i++)
+	{
+		auto temp_list = temp->add_routingtable();
+		for (auto node : routingTable[i])
+		{
+			auto list_node = temp_list->add_node();
+			if (node)
+			{
+				list_node->set_ip(node->getIp());
+				list_node->set_port(node->getPort());
+				list_node->set_nodeid(node->getNodeID());
+			}
+			else
+			{
+				list_node->set_ip("-1");
+				list_node->set_port("-1");
+				list_node->set_nodeid("-1");
+			}
+		}
+	}
+
+	//adding leaf node
+	auto new_leaf_set = temp->mutable_leaf();
+	auto leafSet = ClientDatabase::getInstance().getLeafSet();
+	for (auto leaf_node : leafSet.first)
+	{
+		auto lnode = new_leaf_set->add_node();
+		lnode->set_ip(leaf_node->getIp());
+		lnode->set_port(leaf_node->getPort());
+		lnode->set_nodeid(leaf_node->getNodeID());
+	}
+	for (auto leaf_node : leafSet.second)
+	{
+		auto lnode = new_leaf_set->add_node();
+		lnode->set_ip(leaf_node->getIp());
+		lnode->set_port(leaf_node->getPort());
+		lnode->set_nodeid(leaf_node->getNodeID());
+	}
+
+	//broadcasting to all nodes in all tables
+	for(auto node : neighbourSet)
+	{
+		PeerCommunicator peercommunicator(*node);
+		auto resp = peercommunicator.sendMsg(all_state_req);		
+	}
+	for(auto node : leafSet.first)
+	{
+		PeerCommunicator peercommunicator(*node);
+		auto resp = peercommunicator.sendMsg(all_state_req);		
+	}
+	for(auto node : leafSet.second)
+	{
+		PeerCommunicator peercommunicator(*node);
+		auto resp = peercommunicator.sendMsg(all_state_req);		
+	}
+	for (int i = 0; i <= routingTable.size(); i++)
+	{
+		for (auto node : routingTable[i])
+		{
+			PeerCommunicator peercommunicator(*node);
+			auto resp = peercommunicator.sendMsg(all_state_req);	
+		}	
+	}
 }
 
 

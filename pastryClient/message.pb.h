@@ -1430,13 +1430,13 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   static const Message& default_instance();
 
   enum MsgCase {
-    kJoinMeMsg = 2,
-    kJoinMsg = 3,
-    kGetValMsg = 4,
-    kSetValMsg = 5,
-    kRoutingUpdate = 6,
-    kAllStateUpdate = 7,
-    kGetValResponse = 8,
+    kJoinMeMsg = 3,
+    kJoinMsg = 4,
+    kGetValMsg = 5,
+    kSetValMsg = 6,
+    kRoutingUpdate = 7,
+    kAllStateUpdate = 8,
+    kGetValResponse = 9,
     MSG_NOT_SET = 0,
   };
 
@@ -1507,64 +1507,73 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::std::string* release_type();
   void set_allocated_type(::std::string* type);
 
-  // .message.JoinMe joinMeMsg = 2;
+  // .message.Node sender = 2;
+  bool has_sender() const;
+  void clear_sender();
+  static const int kSenderFieldNumber = 2;
+  const ::message::Node& sender() const;
+  ::message::Node* release_sender();
+  ::message::Node* mutable_sender();
+  void set_allocated_sender(::message::Node* sender);
+
+  // .message.JoinMe joinMeMsg = 3;
   bool has_joinmemsg() const;
   void clear_joinmemsg();
-  static const int kJoinMeMsgFieldNumber = 2;
+  static const int kJoinMeMsgFieldNumber = 3;
   const ::message::JoinMe& joinmemsg() const;
   ::message::JoinMe* release_joinmemsg();
   ::message::JoinMe* mutable_joinmemsg();
   void set_allocated_joinmemsg(::message::JoinMe* joinmemsg);
 
-  // .message.Join joinMsg = 3;
+  // .message.Join joinMsg = 4;
   bool has_joinmsg() const;
   void clear_joinmsg();
-  static const int kJoinMsgFieldNumber = 3;
+  static const int kJoinMsgFieldNumber = 4;
   const ::message::Join& joinmsg() const;
   ::message::Join* release_joinmsg();
   ::message::Join* mutable_joinmsg();
   void set_allocated_joinmsg(::message::Join* joinmsg);
 
-  // .message.GetVal getValMsg = 4;
+  // .message.GetVal getValMsg = 5;
   bool has_getvalmsg() const;
   void clear_getvalmsg();
-  static const int kGetValMsgFieldNumber = 4;
+  static const int kGetValMsgFieldNumber = 5;
   const ::message::GetVal& getvalmsg() const;
   ::message::GetVal* release_getvalmsg();
   ::message::GetVal* mutable_getvalmsg();
   void set_allocated_getvalmsg(::message::GetVal* getvalmsg);
 
-  // .message.SetVal setValMsg = 5;
+  // .message.SetVal setValMsg = 6;
   bool has_setvalmsg() const;
   void clear_setvalmsg();
-  static const int kSetValMsgFieldNumber = 5;
+  static const int kSetValMsgFieldNumber = 6;
   const ::message::SetVal& setvalmsg() const;
   ::message::SetVal* release_setvalmsg();
   ::message::SetVal* mutable_setvalmsg();
   void set_allocated_setvalmsg(::message::SetVal* setvalmsg);
 
-  // .message.RoutingUpdate routingUpdate = 6;
+  // .message.RoutingUpdate routingUpdate = 7;
   bool has_routingupdate() const;
   void clear_routingupdate();
-  static const int kRoutingUpdateFieldNumber = 6;
+  static const int kRoutingUpdateFieldNumber = 7;
   const ::message::RoutingUpdate& routingupdate() const;
   ::message::RoutingUpdate* release_routingupdate();
   ::message::RoutingUpdate* mutable_routingupdate();
   void set_allocated_routingupdate(::message::RoutingUpdate* routingupdate);
 
-  // .message.AllStateUpdate allStateUpdate = 7;
+  // .message.AllStateUpdate allStateUpdate = 8;
   bool has_allstateupdate() const;
   void clear_allstateupdate();
-  static const int kAllStateUpdateFieldNumber = 7;
+  static const int kAllStateUpdateFieldNumber = 8;
   const ::message::AllStateUpdate& allstateupdate() const;
   ::message::AllStateUpdate* release_allstateupdate();
   ::message::AllStateUpdate* mutable_allstateupdate();
   void set_allocated_allstateupdate(::message::AllStateUpdate* allstateupdate);
 
-  // .message.GetValResponse getValResponse = 8;
+  // .message.GetValResponse getValResponse = 9;
   bool has_getvalresponse() const;
   void clear_getvalresponse();
-  static const int kGetValResponseFieldNumber = 8;
+  static const int kGetValResponseFieldNumber = 9;
   const ::message::GetValResponse& getvalresponse() const;
   ::message::GetValResponse* release_getvalresponse();
   ::message::GetValResponse* mutable_getvalresponse();
@@ -1587,6 +1596,7 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr type_;
+  ::message::Node* sender_;
   union MsgUnion {
     MsgUnion() {}
     ::message::JoinMe* joinmemsg_;
@@ -3066,7 +3076,57 @@ inline void Message::set_allocated_type(::std::string* type) {
   // @@protoc_insertion_point(field_set_allocated:message.Message.type)
 }
 
-// .message.JoinMe joinMeMsg = 2;
+// .message.Node sender = 2;
+inline bool Message::has_sender() const {
+  return this != internal_default_instance() && sender_ != NULL;
+}
+inline void Message::clear_sender() {
+  if (GetArenaNoVirtual() == NULL && sender_ != NULL) {
+    delete sender_;
+  }
+  sender_ = NULL;
+}
+inline const ::message::Node& Message::sender() const {
+  const ::message::Node* p = sender_;
+  // @@protoc_insertion_point(field_get:message.Message.sender)
+  return p != NULL ? *p : *reinterpret_cast<const ::message::Node*>(
+      &::message::_Node_default_instance_);
+}
+inline ::message::Node* Message::release_sender() {
+  // @@protoc_insertion_point(field_release:message.Message.sender)
+  
+  ::message::Node* temp = sender_;
+  sender_ = NULL;
+  return temp;
+}
+inline ::message::Node* Message::mutable_sender() {
+  
+  if (sender_ == NULL) {
+    sender_ = new ::message::Node;
+  }
+  // @@protoc_insertion_point(field_mutable:message.Message.sender)
+  return sender_;
+}
+inline void Message::set_allocated_sender(::message::Node* sender) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete sender_;
+  }
+  if (sender) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      sender = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, sender, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  sender_ = sender;
+  // @@protoc_insertion_point(field_set_allocated:message.Message.sender)
+}
+
+// .message.JoinMe joinMeMsg = 3;
 inline bool Message::has_joinmemsg() const {
   return msg_case() == kJoinMeMsg;
 }
@@ -3106,7 +3166,7 @@ inline ::message::JoinMe* Message::mutable_joinmemsg() {
   return msg_.joinmemsg_;
 }
 
-// .message.Join joinMsg = 3;
+// .message.Join joinMsg = 4;
 inline bool Message::has_joinmsg() const {
   return msg_case() == kJoinMsg;
 }
@@ -3146,7 +3206,7 @@ inline ::message::Join* Message::mutable_joinmsg() {
   return msg_.joinmsg_;
 }
 
-// .message.GetVal getValMsg = 4;
+// .message.GetVal getValMsg = 5;
 inline bool Message::has_getvalmsg() const {
   return msg_case() == kGetValMsg;
 }
@@ -3186,7 +3246,7 @@ inline ::message::GetVal* Message::mutable_getvalmsg() {
   return msg_.getvalmsg_;
 }
 
-// .message.SetVal setValMsg = 5;
+// .message.SetVal setValMsg = 6;
 inline bool Message::has_setvalmsg() const {
   return msg_case() == kSetValMsg;
 }
@@ -3226,7 +3286,7 @@ inline ::message::SetVal* Message::mutable_setvalmsg() {
   return msg_.setvalmsg_;
 }
 
-// .message.RoutingUpdate routingUpdate = 6;
+// .message.RoutingUpdate routingUpdate = 7;
 inline bool Message::has_routingupdate() const {
   return msg_case() == kRoutingUpdate;
 }
@@ -3266,7 +3326,7 @@ inline ::message::RoutingUpdate* Message::mutable_routingupdate() {
   return msg_.routingupdate_;
 }
 
-// .message.AllStateUpdate allStateUpdate = 7;
+// .message.AllStateUpdate allStateUpdate = 8;
 inline bool Message::has_allstateupdate() const {
   return msg_case() == kAllStateUpdate;
 }
@@ -3306,7 +3366,7 @@ inline ::message::AllStateUpdate* Message::mutable_allstateupdate() {
   return msg_.allstateupdate_;
 }
 
-// .message.GetValResponse getValResponse = 8;
+// .message.GetValResponse getValResponse = 9;
 inline bool Message::has_getvalresponse() const {
   return msg_case() == kGetValResponse;
 }

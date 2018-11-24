@@ -190,3 +190,18 @@ bool is_better_node_for_message(string new_node, string current_node, string mes
 	}
 	return false;
 }
+
+void printNode(node_Sptr node)
+{
+    cout << "NodeID: " << node->getNodeID() << " IP: " << node->getIp() 
+            << " Port: " << node->getPort() << " Proximity: " << node->getProximity() << endl;
+}
+
+void populateMsgSender(message::Node * sender, node_Sptr node)
+{
+    cout << "in print msg sender" << endl;
+    printNode(node);
+    sender->set_ip(node->getIp());
+	sender->set_port(node->getIp());
+    sender->set_nodeid(node->getNodeID());
+}

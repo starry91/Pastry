@@ -109,18 +109,36 @@ void CommandHandler::handleCommand(std::string command)
         }
         else if (args.size() == 1 && args[0] == "lset")
         {
-            auto rTable = ClientDatabase::getInstance().getLeafSet();
-            //print the rTable  
+            auto lSet = ClientDatabase::getInstance().getLeafSet();
+            for(auto it : lSet.first)
+            {
+                printNode(it);
+            }
+            for(auto it : lSet.second)
+            {
+                printNode(it);
+            }
         }
         else if (args.size() == 1 && args[0] == "routetable")
         {
             auto rTable = ClientDatabase::getInstance().getRoutingTable();
             //print the rTable  
+            for(auto it : rTable)
+            {
+                for(auto node : it)
+                {
+                    if(!node)
+                        printNode(node);
+                }
+            }
         }
         else if (args.size() == 1 && args[0] == "nset")
         {
-            auto rTable = ClientDatabase::getInstance().getNeighbourSet();
-            //print the rTable  
+            auto nSet = ClientDatabase::getInstance().getNeighbourSet();
+            for(auto it : nSet)
+            {
+                printNode(it);
+            } 
         }
         else
         {

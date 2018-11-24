@@ -314,6 +314,7 @@ void InitDefaultsMessageImpl() {
 #else
   ::google::protobuf::internal::InitProtobufDefaults();
 #endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
+  protobuf_message_2eproto::InitDefaultsNode();
   protobuf_message_2eproto::InitDefaultsJoinMe();
   protobuf_message_2eproto::InitDefaultsJoin();
   protobuf_message_2eproto::InitDefaultsGetVal();
@@ -443,6 +444,7 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::message::Message, _oneof_case_[0]),
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::message::Message, type_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::message::Message, sender_),
   offsetof(::message::MessageDefaultTypeInternal, joinmemsg_),
   offsetof(::message::MessageDefaultTypeInternal, joinmsg_),
   offsetof(::message::MessageDefaultTypeInternal, getvalmsg_),
@@ -470,7 +472,7 @@ static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROT
   { 63, -1, sizeof(::message::GetValResponse)},
   { 70, -1, sizeof(::message::SetVal)},
   { 79, -1, sizeof(::message::Message)},
-  { 93, -1, sizeof(::message::Response)},
+  { 94, -1, sizeof(::message::Response)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
@@ -530,19 +532,20 @@ void AddDescriptorsImpl() {
       "GetValResponse\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001"
       "(\t\"Q\n\006SetVal\022\013\n\003key\030\001 \001(\t\022\013\n\003val\030\002 \001(\t\022\033"
       "\n\004node\030\003 \001(\0132\r.message.Node\022\020\n\010terminal\030"
-      "\004 \001(\010\"\311\002\n\007Message\022\014\n\004type\030\001 \001(\t\022$\n\tjoinM"
-      "eMsg\030\002 \001(\0132\017.message.JoinMeH\000\022 \n\007joinMsg"
-      "\030\003 \001(\0132\r.message.JoinH\000\022$\n\tgetValMsg\030\004 \001"
-      "(\0132\017.message.GetValH\000\022$\n\tsetValMsg\030\005 \001(\013"
-      "2\017.message.SetValH\000\022/\n\rroutingUpdate\030\006 \001"
-      "(\0132\026.message.RoutingUpdateH\000\0221\n\016allState"
-      "Update\030\007 \001(\0132\027.message.AllStateUpdateH\000\022"
-      "1\n\016getValResponse\030\010 \001(\0132\027.message.GetVal"
-      "ResponseH\000B\005\n\003msg\"\032\n\010Response\022\016\n\006status\030"
-      "\001 \001(\tb\006proto3"
+      "\004 \001(\010\"\350\002\n\007Message\022\014\n\004type\030\001 \001(\t\022\035\n\006sende"
+      "r\030\002 \001(\0132\r.message.Node\022$\n\tjoinMeMsg\030\003 \001("
+      "\0132\017.message.JoinMeH\000\022 \n\007joinMsg\030\004 \001(\0132\r."
+      "message.JoinH\000\022$\n\tgetValMsg\030\005 \001(\0132\017.mess"
+      "age.GetValH\000\022$\n\tsetValMsg\030\006 \001(\0132\017.messag"
+      "e.SetValH\000\022/\n\rroutingUpdate\030\007 \001(\0132\026.mess"
+      "age.RoutingUpdateH\000\0221\n\016allStateUpdate\030\010 "
+      "\001(\0132\027.message.AllStateUpdateH\000\0221\n\016getVal"
+      "Response\030\t \001(\0132\027.message.GetValResponseH"
+      "\000B\005\n\003msg\"\032\n\010Response\022\016\n\006status\030\001 \001(\tb\006pr"
+      "oto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 1173);
+      descriptor, 1204);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "message.proto", &protobuf_RegisterTypes);
   ::protobuf_google_2fprotobuf_2ftimestamp_2eproto::AddDescriptors();
@@ -4021,6 +4024,8 @@ void SetVal::InternalSwap(SetVal* other) {
 // ===================================================================
 
 void Message::InitAsDefaultInstance() {
+  ::message::_Message_default_instance_._instance.get_mutable()->sender_ = const_cast< ::message::Node*>(
+      ::message::Node::internal_default_instance());
   ::message::_Message_default_instance_.joinmemsg_ = const_cast< ::message::JoinMe*>(
       ::message::JoinMe::internal_default_instance());
   ::message::_Message_default_instance_.joinmsg_ = const_cast< ::message::Join*>(
@@ -4136,6 +4141,7 @@ void Message::set_allocated_getvalresponse(::message::GetValResponse* getvalresp
 }
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int Message::kTypeFieldNumber;
+const int Message::kSenderFieldNumber;
 const int Message::kJoinMeMsgFieldNumber;
 const int Message::kJoinMsgFieldNumber;
 const int Message::kGetValMsgFieldNumber;
@@ -4161,6 +4167,11 @@ Message::Message(const Message& from)
   type_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (from.type().size() > 0) {
     type_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.type_);
+  }
+  if (from.has_sender()) {
+    sender_ = new ::message::Node(*from.sender_);
+  } else {
+    sender_ = NULL;
   }
   clear_has_msg();
   switch (from.msg_case()) {
@@ -4201,6 +4212,7 @@ Message::Message(const Message& from)
 
 void Message::SharedCtor() {
   type_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  sender_ = NULL;
   clear_has_msg();
   _cached_size_ = 0;
 }
@@ -4212,6 +4224,7 @@ Message::~Message() {
 
 void Message::SharedDtor() {
   type_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != internal_default_instance()) delete sender_;
   if (has_msg()) {
     clear_msg();
   }
@@ -4286,6 +4299,10 @@ void Message::Clear() {
   (void) cached_has_bits;
 
   type_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && sender_ != NULL) {
+    delete sender_;
+  }
+  sender_ = NULL;
   clear_msg();
   _internal_metadata_.Clear();
 }
@@ -4316,10 +4333,22 @@ bool Message::MergePartialFromCodedStream(
         break;
       }
 
-      // .message.JoinMe joinMeMsg = 2;
+      // .message.Node sender = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_sender()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .message.JoinMe joinMeMsg = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_joinmemsg()));
         } else {
@@ -4328,10 +4357,10 @@ bool Message::MergePartialFromCodedStream(
         break;
       }
 
-      // .message.Join joinMsg = 3;
-      case 3: {
+      // .message.Join joinMsg = 4;
+      case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_joinmsg()));
         } else {
@@ -4340,10 +4369,10 @@ bool Message::MergePartialFromCodedStream(
         break;
       }
 
-      // .message.GetVal getValMsg = 4;
-      case 4: {
+      // .message.GetVal getValMsg = 5;
+      case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_getvalmsg()));
         } else {
@@ -4352,10 +4381,10 @@ bool Message::MergePartialFromCodedStream(
         break;
       }
 
-      // .message.SetVal setValMsg = 5;
-      case 5: {
+      // .message.SetVal setValMsg = 6;
+      case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_setvalmsg()));
         } else {
@@ -4364,10 +4393,10 @@ bool Message::MergePartialFromCodedStream(
         break;
       }
 
-      // .message.RoutingUpdate routingUpdate = 6;
-      case 6: {
+      // .message.RoutingUpdate routingUpdate = 7;
+      case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_routingupdate()));
         } else {
@@ -4376,10 +4405,10 @@ bool Message::MergePartialFromCodedStream(
         break;
       }
 
-      // .message.AllStateUpdate allStateUpdate = 7;
-      case 7: {
+      // .message.AllStateUpdate allStateUpdate = 8;
+      case 8: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_allstateupdate()));
         } else {
@@ -4388,10 +4417,10 @@ bool Message::MergePartialFromCodedStream(
         break;
       }
 
-      // .message.GetValResponse getValResponse = 8;
-      case 8: {
+      // .message.GetValResponse getValResponse = 9;
+      case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+            static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
                input, mutable_getvalresponse()));
         } else {
@@ -4436,46 +4465,52 @@ void Message::SerializeWithCachedSizes(
       1, this->type(), output);
   }
 
-  // .message.JoinMe joinMeMsg = 2;
+  // .message.Node sender = 2;
+  if (this->has_sender()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      2, *this->sender_, output);
+  }
+
+  // .message.JoinMe joinMeMsg = 3;
   if (has_joinmemsg()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, *msg_.joinmemsg_, output);
+      3, *msg_.joinmemsg_, output);
   }
 
-  // .message.Join joinMsg = 3;
+  // .message.Join joinMsg = 4;
   if (has_joinmsg()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, *msg_.joinmsg_, output);
+      4, *msg_.joinmsg_, output);
   }
 
-  // .message.GetVal getValMsg = 4;
+  // .message.GetVal getValMsg = 5;
   if (has_getvalmsg()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, *msg_.getvalmsg_, output);
+      5, *msg_.getvalmsg_, output);
   }
 
-  // .message.SetVal setValMsg = 5;
+  // .message.SetVal setValMsg = 6;
   if (has_setvalmsg()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, *msg_.setvalmsg_, output);
+      6, *msg_.setvalmsg_, output);
   }
 
-  // .message.RoutingUpdate routingUpdate = 6;
+  // .message.RoutingUpdate routingUpdate = 7;
   if (has_routingupdate()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      6, *msg_.routingupdate_, output);
+      7, *msg_.routingupdate_, output);
   }
 
-  // .message.AllStateUpdate allStateUpdate = 7;
+  // .message.AllStateUpdate allStateUpdate = 8;
   if (has_allstateupdate()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, *msg_.allstateupdate_, output);
+      8, *msg_.allstateupdate_, output);
   }
 
-  // .message.GetValResponse getValResponse = 8;
+  // .message.GetValResponse getValResponse = 9;
   if (has_getvalresponse()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      8, *msg_.getvalresponse_, output);
+      9, *msg_.getvalresponse_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4503,53 +4538,60 @@ void Message::SerializeWithCachedSizes(
         1, this->type(), target);
   }
 
-  // .message.JoinMe joinMeMsg = 2;
+  // .message.Node sender = 2;
+  if (this->has_sender()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        2, *this->sender_, deterministic, target);
+  }
+
+  // .message.JoinMe joinMeMsg = 3;
   if (has_joinmemsg()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        2, *msg_.joinmemsg_, deterministic, target);
+        3, *msg_.joinmemsg_, deterministic, target);
   }
 
-  // .message.Join joinMsg = 3;
+  // .message.Join joinMsg = 4;
   if (has_joinmsg()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        3, *msg_.joinmsg_, deterministic, target);
+        4, *msg_.joinmsg_, deterministic, target);
   }
 
-  // .message.GetVal getValMsg = 4;
+  // .message.GetVal getValMsg = 5;
   if (has_getvalmsg()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        4, *msg_.getvalmsg_, deterministic, target);
+        5, *msg_.getvalmsg_, deterministic, target);
   }
 
-  // .message.SetVal setValMsg = 5;
+  // .message.SetVal setValMsg = 6;
   if (has_setvalmsg()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        5, *msg_.setvalmsg_, deterministic, target);
+        6, *msg_.setvalmsg_, deterministic, target);
   }
 
-  // .message.RoutingUpdate routingUpdate = 6;
+  // .message.RoutingUpdate routingUpdate = 7;
   if (has_routingupdate()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        6, *msg_.routingupdate_, deterministic, target);
+        7, *msg_.routingupdate_, deterministic, target);
   }
 
-  // .message.AllStateUpdate allStateUpdate = 7;
+  // .message.AllStateUpdate allStateUpdate = 8;
   if (has_allstateupdate()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        7, *msg_.allstateupdate_, deterministic, target);
+        8, *msg_.allstateupdate_, deterministic, target);
   }
 
-  // .message.GetValResponse getValResponse = 8;
+  // .message.GetValResponse getValResponse = 9;
   if (has_getvalresponse()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        8, *msg_.getvalresponse_, deterministic, target);
+        9, *msg_.getvalresponse_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4576,50 +4618,57 @@ size_t Message::ByteSizeLong() const {
         this->type());
   }
 
+  // .message.Node sender = 2;
+  if (this->has_sender()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *this->sender_);
+  }
+
   switch (msg_case()) {
-    // .message.JoinMe joinMeMsg = 2;
+    // .message.JoinMe joinMeMsg = 3;
     case kJoinMeMsg: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *msg_.joinmemsg_);
       break;
     }
-    // .message.Join joinMsg = 3;
+    // .message.Join joinMsg = 4;
     case kJoinMsg: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *msg_.joinmsg_);
       break;
     }
-    // .message.GetVal getValMsg = 4;
+    // .message.GetVal getValMsg = 5;
     case kGetValMsg: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *msg_.getvalmsg_);
       break;
     }
-    // .message.SetVal setValMsg = 5;
+    // .message.SetVal setValMsg = 6;
     case kSetValMsg: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *msg_.setvalmsg_);
       break;
     }
-    // .message.RoutingUpdate routingUpdate = 6;
+    // .message.RoutingUpdate routingUpdate = 7;
     case kRoutingUpdate: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *msg_.routingupdate_);
       break;
     }
-    // .message.AllStateUpdate allStateUpdate = 7;
+    // .message.AllStateUpdate allStateUpdate = 8;
     case kAllStateUpdate: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
           *msg_.allstateupdate_);
       break;
     }
-    // .message.GetValResponse getValResponse = 8;
+    // .message.GetValResponse getValResponse = 9;
     case kGetValResponse: {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
@@ -4662,6 +4711,9 @@ void Message::MergeFrom(const Message& from) {
   if (from.type().size() > 0) {
 
     type_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.type_);
+  }
+  if (from.has_sender()) {
+    mutable_sender()->::message::Node::MergeFrom(from.sender());
   }
   switch (from.msg_case()) {
     case kJoinMeMsg: {
@@ -4723,6 +4775,7 @@ void Message::Swap(Message* other) {
 void Message::InternalSwap(Message* other) {
   using std::swap;
   type_.Swap(&other->type_);
+  swap(sender_, other->sender_);
   swap(msg_, other->msg_);
   swap(_oneof_case_[0], other->_oneof_case_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);

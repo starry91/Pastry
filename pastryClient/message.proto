@@ -75,14 +75,15 @@ message SetVal {
 
 message Message {
   string type = 1;
+  Node sender = 2;
   oneof msg {
-    JoinMe joinMeMsg = 2;
-    Join joinMsg = 3;
-    GetVal getValMsg = 4;
-    SetVal setValMsg = 5;
-    RoutingUpdate routingUpdate = 6;
-    AllStateUpdate allStateUpdate = 7;
-    GetValResponse getValResponse = 8;
+    JoinMe joinMeMsg = 3;
+    Join joinMsg = 4;
+    GetVal getValMsg = 5;
+    SetVal setValMsg = 6;
+    RoutingUpdate routingUpdate = 7;
+    AllStateUpdate allStateUpdate = 8;
+    GetValResponse getValResponse = 9;
   }
 }
 
