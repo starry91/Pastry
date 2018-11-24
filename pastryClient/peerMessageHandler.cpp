@@ -11,6 +11,8 @@ using namespace std;
 
 void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 {
+	syslog(7,"In peer handler -> join -> recieved JoinMe request from ip %s, port %s, nodeID %s",
+					msg.joinmemsg().ip().c_str(), msg.joinmemsg().port().c_str(), msg.joinmemsg().nodeid().c_str());
 	auto req = msg.joinmemsg();
 	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
 	message::Message routingUpdate;

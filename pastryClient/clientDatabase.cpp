@@ -7,9 +7,9 @@ using namespace std;
 ClientDatabase::ClientDatabase()
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
-	this->row = ceil((log((parameter_N)) * 1.000) / log(pow(2, parameter_b)));
-	this->col = pow(2, (parameter_b));
-	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col));
+	this->row = ceil((log((parameter_N)) * 1.000) / log(pow(2, config_parameter_b)));
+	this->col = pow(2, (config_parameter_b));
+	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col,NULL));
 	this->recieved_update_count = 0;
 	this->total_route_length = this->row;
 };

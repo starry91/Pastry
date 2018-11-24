@@ -15,8 +15,8 @@
 #include <vector>
 
 //Pastry parameters
-#define parameter_b 8
-#define parameter_N 10000
+#define config_parameter_b 3
+#define parameter_N 1000
 
 class ClientDatabase
 {

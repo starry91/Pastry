@@ -24,6 +24,21 @@ PeerCommunicator::PeerCommunicator(Node peer)
     // cout << "### Created TrackerServiceServer with fd: " << this->tracker_fd << endl;
 }
 
+PeerCommunicator::PeerCommunicator(std::string ip, std::string port)
+{
+    try
+    {
+        this->peer_fd = createTCPClient(ip, port);
+    }
+    catch (ErrorMsg e)
+    {
+        throw ErrorMsg("Unable to establish connection");
+    }
+    // cout << "### Created TrackerServiceServer with fd: " << this->tracker_fd << endl;
+}
+
+
+
 PeerCommunicator::~PeerCommunicator()
 {
     syslog(LOG_INFO, "### Closing PeerCommunicator() with fd: %d", this->peer_fd);

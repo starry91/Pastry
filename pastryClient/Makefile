@@ -12,6 +12,7 @@ pastryClient: $(CLIENT_OBJS)
 	$(CXX) -o $@ $^ $(COMMON_OBJS) $(LDFLAGS)
 
 %.o: %.cpp
+	protoc -I=. --cpp_out=. ./message.proto
 	$(CXX) -c $(CFLAGS) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) -o $@ $<
 
 clean:

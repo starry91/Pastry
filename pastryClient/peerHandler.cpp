@@ -7,7 +7,7 @@
 #include "clientDatabase.h"
 #include "unistd.h"
 #include <vector>
-
+#include <syslog.h>
 using std::cout;
 using std::endl;
 using namespace std;
@@ -26,6 +26,7 @@ void PeerHandler::handleRpc(int client_fd)
             if (reqMsg.type() == "JoinMe")
             {
                 LogHandler::getInstance().logMsg("Recieved JoinMe request");
+                syslog(5,"In peer handler -> join -> recieved JoinMe request");
                 message::Response resp;
                 resp.set_status("SUCCESS");
                 auto resp_string = resp.SerializeAsString();
@@ -81,7 +82,7 @@ void PeerHandler::handleRpc(int client_fd)
     }
     catch (ErrorMsg e)
     {
-        //std::cout << "PeerHandler::handleRpc() Exception received: " << e.getErrorMsg() << "For fd: " << client_fd << std::endl;
+        syslog(5,("PeerHandler::handleRpc() Exception received: " + e.getErrorMsg() + "For fd: " + std::to_string(client_fd)).c_str());
     }
     close(client_fd);   
 }

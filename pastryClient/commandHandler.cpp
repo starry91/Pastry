@@ -16,6 +16,7 @@
 #include "peerListener.h"
 #include "networkInterfacer.h"
 #include <vector>
+#include <syslog.h>
 #include "peerCommunicator.h"
 using namespace std;
 
@@ -29,11 +30,12 @@ void CommandHandler::handleCommand(std::string command)
         std::vector<std::string> args = extractArgs(command);
         if (args.size() == 3 && args[0] == "port")
         {
-            auto nodeID = getHash(args[1]+args[2], (parameter_b)); //b macro defined in Client Database
+            auto nodeID = getHash(args[1]+args[2], (config_parameter_b)); //b macro defined in Client Database
             auto trimmedNodeID = trimString(nodeID, ClientDatabase::getInstance().getRowSize());
+            cout << trimmedNodeID << endl;
             ClientDatabase::getInstance().setListener(make_shared<Node>(Node(args[1], args[2], trimmedNodeID)));
         }
-        else if (args.size() == 3 && args[0] == "create")
+        else if (args.size() == 1 && args[0] == "create")
         {
             std::thread t1(&PeerListener::startListening, PeerListener());
             t1.detach();
@@ -43,20 +45,23 @@ void CommandHandler::handleCommand(std::string command)
             string ip = args[1];
             string port = args[2];
             message::Message msg;
-            msg.set_type("joinme");
+            msg.set_type("JoinMe");
             auto *temp = msg.mutable_joinmemsg();
             temp->set_ip(ClientDatabase::getInstance().getListener()->getIp());
             temp->set_port(ClientDatabase::getInstance().getListener()->getPort());
             temp->set_nodeid(ClientDatabase::getInstance().getListener()->getNodeID());
-            PeerCommunicator peercommunicator(*ClientDatabase::getInstance().getListener());
+            PeerCommunicator peercommunicator(ip, port);
+            syslog(0,"In command handler -> join -> sending msg to ip %s port %s",temp->ip().c_str(),temp->port().c_str());
             auto resp = peercommunicator.sendMsg(msg);
             if (resp.status() == "FAIL")
             {
+                syslog(0,"In command handler -> join -> recieved status: FAIL");
                 LogHandler::getInstance().logError("JOINME - FAIL");
                 throw ErrorMsg("Failed Join Me msg");
             }
             else
             {
+                syslog(0,"In command handler -> join -> recieved status: SUCCESS");
                 LogHandler::getInstance().logMsg("JOINME - SUCCESS");
             }
         }
@@ -65,7 +70,7 @@ void CommandHandler::handleCommand(std::string command)
             string key = args[1];
             string value = args[2];
             message::Message msg;
-            msg.set_type("put");
+            msg.set_type("SetVal");
             auto *temp = msg.mutable_setvalmsg();
             temp->set_key(key);
             temp->set_val(value);
@@ -86,7 +91,7 @@ void CommandHandler::handleCommand(std::string command)
         {
             string key = args[1];
             message::Message msg;
-            msg.set_type("get");
+            msg.set_type("GetVal");
             auto *temp = msg.mutable_getvalmsg();
             temp->set_key(key);
             auto nextNode = ClientDatabase::getInstance().getNextRoutingNode(key);
