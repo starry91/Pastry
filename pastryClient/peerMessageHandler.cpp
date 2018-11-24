@@ -222,6 +222,8 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 		}
 	}
 	ClientDatabase::getInstance().incrementRecievedUpdateCount();
+	syslog(0, "Current route update count: %d, required route update count: %d",
+		ClientDatabase::getInstance().getRecievedUpdateCount(),ClientDatabase::getInstance().getTotalRouteLength());
 	if(ClientDatabase::getInstance().getRecievedUpdateCount() == ClientDatabase::getInstance().getTotalRouteLength())
 	{
 		this->sendAllStateUpdate();
