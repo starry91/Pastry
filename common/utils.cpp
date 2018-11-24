@@ -164,6 +164,9 @@ int prefixMatchLen(string x, string y)
 
 bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
 {
+    if(!node1){
+        return false;
+    }
 	auto node1_nodeID = node1->getNodeID();
 	auto node2_nodeID = node2->getNodeID();
 	for (auto i = 0; i < nodeID.length(); i++)
