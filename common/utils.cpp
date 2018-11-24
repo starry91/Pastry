@@ -202,6 +202,6 @@ void populateMsgSender(message::Node * sender, node_Sptr node)
     cout << "in print msg sender" << endl;
     printNode(node);
     sender->set_ip(node->getIp());
-	sender->set_port(node->getIp());
+	sender->set_port(node->getPort());
     sender->set_nodeid(node->getNodeID());
 }
