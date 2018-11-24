@@ -11,6 +11,8 @@ using namespace std;
 
 void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 {
+	syslog(7,"In peer handler -> join -> recieved JoinMe request from ip %s, port %s, nodeID %s",
+					msg.joinmemsg().ip().c_str(), msg.joinmemsg().port().c_str(), msg.joinmemsg().nodeid().c_str());
 	auto req = msg.joinmemsg();
 	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
 	message::Message routingUpdate;
@@ -80,13 +82,11 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	}
 	PeerCommunicator peercommunicator(Node(req.ip(), req.port(),req.nodeid()));
 	auto resp = peercommunicator.sendMsg(routingUpdate);
-	delete &peercommunicator; //closing connection after writing
 
 	if (next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		PeerCommunicator peercommunicator(*next_node_sptr);
 		auto resp = peercommunicator.sendMsg(routingUpdate);
-		delete &peercommunicator; //closing connection after writing
 	}
 }
 void PeerMessageHandler::handleJoinRequest(message::Message msg)
@@ -146,13 +146,11 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	}
 	PeerCommunicator peercommunicator(Node(req.ip(), req.port(),req.nodeid()));
 	auto resp = peercommunicator.sendMsg(routingUpdate);
-	delete &peercommunicator; //closing connection after writing
 
 	if (next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		PeerCommunicator peercommunicator(*next_node_sptr);
 		auto resp = peercommunicator.sendMsg(routingUpdate);
-		delete &peercommunicator; //closing connection after writing
 	}
 }
 void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
@@ -263,12 +261,10 @@ void PeerMessageHandler::handleGetValRequest(message::Message msg)
 		//set value from hash table
 		PeerCommunicator peercommunicator(Node(req.node().ip(), req.node().port(),req.node().nodeid()));
 		peercommunicator.sendMsg(resp);
-		delete &peercommunicator; //closing connection after writing
 	}
 	else {
 		PeerCommunicator peercommunicator(*next_node_sptr);
 		peercommunicator.sendMsg(msg);
-		delete &peercommunicator; //closing connection after writing
 	}
 }
 void PeerMessageHandler::handleSetValRequest(message::Message msg)
@@ -283,7 +279,6 @@ void PeerMessageHandler::handleSetValRequest(message::Message msg)
 	else {
 		PeerCommunicator peercommunicator(*next_node_sptr);
 		auto resp = peercommunicator.sendMsg(msg);
-		delete &peercommunicator; //closing connection after writing
 	}	
 }
 // vector<pair<string, string>> PeerMessageHandler ::getRelevantKeyValuePairs(string nodeID){
