@@ -153,6 +153,72 @@ void CommandHandler::handleCommand(std::string command)
                 printNode(it);
             } 
         }
+        else if (args.size() == 1 and args[0] == "quit")
+        {
+            std ::cerr << "Exiting " << endl;
+            // std::thread::id listener_thread_id = ClientDatabase::getInstance().getListenerThreadID();
+            ////kill this listener thread 
+            node_Sptr best_leaf;
+            auto leafSet = ClientDatabase::getInstance().getLeafSet();
+            auto my_node = ClientDatabase::getInstance().getListener();
+            auto my_nodeID = my_node->getNodeID();
+
+            message::Message delete_msg;
+            delete_msg.set_type("DeleteNode");
+            auto *temp = delete_msg.mutable_deletenode();
+            auto *node = temp->mutable_node();
+            node->set_ip(my_node->getIp());
+            node->set_nodeid(my_node->getNodeID());
+            node->set_port(my_node->getPort());
+            
+
+            if(!leafSet.first.empty()){
+                auto left_leafSet = leafSet.first;
+                best_leaf = *left_leafSet.begin();
+                for(auto leaf: left_leafSet){
+                    if(is_better_node(leaf, best_leaf, my_nodeID)){
+                        best_leaf = leaf;
+                    }
+                    PeerCommunicator peercommunicator(*leaf);
+                    auto resp = peercommunicator.sendMsg(delete_msg);
+                }
+            }
+            if(!leafSet.second.empty()){
+                auto right_leafSet = leafSet.second;
+                if(!best_leaf){
+                    best_leaf = *right_leafSet.begin();
+                }
+                for(auto leaf: right_leafSet){
+                    if(is_better_node(leaf, best_leaf, my_nodeID)){
+                        best_leaf = leaf;
+                    }
+                    PeerCommunicator peercommunicator(*leaf);
+                    auto resp = peercommunicator.sendMsg(delete_msg);
+                }
+            }
+            auto neighbour_set = ClientDatabase::getInstance().getNeighbourSet();
+            for(auto node: neighbour_set){
+                PeerCommunicator peercommunicator(*node);
+                auto resp = peercommunicator.sendMsg(delete_msg);
+            }
+            if(best_leaf){
+                auto hash_table = ClientDatabase::getInstance().getHashMap();
+                message::Message msg;
+                msg.set_type("AddToHashTable");
+                auto *temp = msg.mutable_addtohashtable();
+                auto hash_map_message = temp->mutable_hashmap();
+                for(auto entry: hash_table){
+                    (*hash_map_message)[entry.first] = entry.second;
+                }
+                PeerCommunicator peercommunicator(*best_leaf);
+                auto resp = peercommunicator.sendMsg(msg);
+            }
+            exit(0);
+        }
+        else if (args.size() == 1 and args[0] == "shutdown")
+        {
+            
+        }
         else
         {
             std::cerr << "Invalid Command" << endl;
