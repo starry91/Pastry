@@ -19,6 +19,7 @@ public:
   void handleSetValRequest(message::Message);
   void handleAddToHashTableRequest(message::Message);
   void handleDeleteNodeRequest(message::Message);
+  void handleShutdownRequest();
   void sendAllStateUpdate();
   // ClientDatabase::getInstance()->getHashTable();
   std::unordered_map<std::string, std::string> getRelevantKeyValuePairs(std::string nodeID);
