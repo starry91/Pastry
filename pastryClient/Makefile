@@ -1,7 +1,7 @@
 
 
 CLIENT_OBJS = clientDatabase.o client_main.o commandHandler.o message.pb.o node.o peerCommunicator.o peerHandler.o peerListener.o peerMessageHandler.o 
-LDFLAGS +=  -lpthread -lcrypto -lssl -lprotobuf
+LDFLAGS +=  -lpthread -lcrypto -lssl -lprotobuf -Wall 
 CFLAGS += -g -I$(PROJECT_ROOT)/include
 
 COMMON_OBJS := $(wildcard $(PROJECT_ROOT)/common/*.o)

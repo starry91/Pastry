@@ -140,7 +140,7 @@ void CommandHandler::handleCommand(std::string command)
             {
                 for (auto node : it)
                 {
-                    if (!node)
+                    if (node)
                         printNode(node);
                 }
             }

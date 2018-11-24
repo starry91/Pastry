@@ -1,5 +1,5 @@
 #include "node.h"
-#include "utils.h"
+// #include "utils.h"
 // Node::Node(std::string ip, std::string port)
 // {
 //     this->ip = ip;
@@ -13,10 +13,11 @@
 //     this->port = ip_port.substr(index + 1, ip_port.length() - index);
 // }
 
-Node::Node(std::string ip, std::string port, std::string nodeID) {
+Node::Node(std::string ip, std::string port, std::string nodeID)
+{
     this->ip = ip;
     this->port = port;
-    this->nodeID = nodeID;    
+    this->nodeID = nodeID;
 }
 
 std::string Node::getIp()
@@ -34,9 +35,18 @@ std::string Node::getNodeID()
 Node::Node()
 {
 }
-void Node::setProximity(int) {
-
+void Node::setProximity(int)
+{
 }
-int Node::getProximity() {
+int Node::getProximity()
+{
     return this->proximity;
+}
+bool Node::operator==(Node s)
+{
+    return this->nodeID == s.getNodeID();
+}
+bool Node::operator<(Node s)
+{
+    return this->nodeID < s.getNodeID();
 }

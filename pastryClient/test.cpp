@@ -1,9 +1,9 @@
 #include <bits/stdc++.h>
 #include<iostream>
 #include <string>
-// #include "message.pb.h"
-// #include "../include/md5.h"
-// #include <openssl/md5.h>
+#include "node.h"
+#include <thread>
+#include <memory>
 using namespace std;
 int main(){
     auto z = make_shared<int>();
@@ -20,22 +20,16 @@ int main(){
     // unordered_map<int,int>m;
     // m[0]=4;
     // m[5]=6;
-    // // for(auto it:m)cout<<it.first<<" "<<it.second<<endl;
+    // for(auto it:m)cout<<it.first<<" "<<it.second<<endl;
+    auto x = make_shared<Node>();
+    if(x) {
+        cout << " true" << endl;
+    }
+    else {
+        cout << "false" << endl;
+    }
     // set<int> s;
     // s.erase(5);
-    // // cout<<"Yes"<<endl;
-    // cerr<<"fdfdsfasdfdsf"<<endl;
-    // message::SetVal msg;
-    // cerr<<"herer"<<endl;
-    // // msg.set_key("4");
-    // msg.set_val("hekllo");
-    // msg.set_terminal(true);
-    // auto x = msg.SerializeAsString();
-    // cout<<x.length()<<endl;
-    // cout<<x<<endl;
-    // message::SetVal  dummy;
-    // dummy.ParseFromString(x);
-    // cout<<"#####";
-    // cout<<dummy.val()<<" #"<<dummy.terminal()<<"#"<<endl;
+    // cout<<"Yes"<<endl;
     return 0;
 }

@@ -10,10 +10,10 @@ ClientDatabase::ClientDatabase()
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->row = ceil((log((parameter_N)) * 1.000) / log(pow(2, config_parameter_b)));
 	this->col = pow(2, (config_parameter_b));
-	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col, NULL));
+	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col, nullptr));
 	this->recieved_update_count = 0;
 	this->total_route_length = this->row;
-};
+}
 
 ClientDatabase &ClientDatabase::getInstance()
 {
@@ -31,6 +31,7 @@ void ClientDatabase::setListener(node_Sptr temp)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->listener = temp;
+	return;
 }
 
 node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
@@ -112,13 +113,13 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 	return closest_node;
 }
 
-vector<vector<node_Sptr>> ClientDatabase ::getRoutingTable()
+vector<vector<node_Sptr>> ClientDatabase::getRoutingTable()
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	return this->routingTable;
 }
 
-pair<set<node_Sptr, leafComparator>, set<node_Sptr, leafComparator>> ClientDatabase ::getLeafSet()
+pair<set<node_Sptr, leafComparator>, set<node_Sptr, leafComparator>> ClientDatabase::getLeafSet()
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	return this->leafSet;
@@ -132,6 +133,7 @@ set<node_Sptr, neighbourComparator> ClientDatabase ::getNeighbourSet()
 
 void ClientDatabase::addToLeafSet(node_Sptr node)
 {
+	// cout << "Entering in addToLeaf" << endl;
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (!node)
 	{
@@ -144,7 +146,10 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 	if (node->getNodeID() < this->listener->getNodeID())
 	{
 		auto &left_leafSet = this->leafSet.first;
-		left_leafSet.insert(node);
+		auto leaf_entry = this->findInLeafSet(left_leafSet, node->getNodeID());
+		if(!leaf_entry){
+			left_leafSet.insert(node);
+		}
 		if (left_leafSet.size() > this->col / 2)
 		{
 			left_leafSet.erase(left_leafSet.begin());
@@ -153,7 +158,9 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 	else
 	{
 		auto &right_leafSet = this->leafSet.second;
-		right_leafSet.insert(node);
+		if(!this->findInLeafSet(right_leafSet, node->getNodeID())){
+			right_leafSet.insert(node);
+		}
 		if (right_leafSet.size() > this->col / 2)
 		{
 			right_leafSet.erase(*right_leafSet.rbegin());
@@ -174,6 +181,10 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 		return;
 	}
 	auto &neighbour = this->neighbourSet;
+	auto n_entry = this->findInNeighourSet(neighbour, node->getNodeID());
+	if(n_entry){
+		neighbour.erase(n_entry);
+	}
 	neighbour.insert(node);
 	if (neighbour.size() > col)
 	{
@@ -184,6 +195,7 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 
 void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 {
+	// cout << "Entering in addToRoutingTable" << endl;
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (!node)
 	{
@@ -207,13 +219,16 @@ void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 	{
 		this->routingTable[prefix][index] = node;
 	}
+	return;
 }
-void ClientDatabase ::updateAllState(node_Sptr node)
+void ClientDatabase::updateAllState(node_Sptr node)
 {
-	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->addToLeafSet(node);
+	// cout<<"After add to leaf in update"<<endl;
 	this->addToNeighhbourSet(node);
+	// cout<<"After add to neigbour in update"<<endl;
 	this->addToRoutingTable(node);
+	// cout<<"After add to routing in update"<<endl;
 	return;
 }
 
@@ -288,45 +303,45 @@ string ClientDatabase::getHashMapValue(string key)
 	return this->hashMap[key];
 }
 
-// void ClientDatabase::setListenerThreadID(std::thread::id thread_id)
-// {
-// 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
-// 	this->listener_thread_id = thread_id;
-// }
-
-// std::thread::id ClientDatabase::getListenerThreadID()
-// {
-// 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
-// 	;
-// 	return this->listener_thread_id;
-// }
-
 void ClientDatabase::deleteFromHashMap(pair<string, string> entry_to_delete)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->hashMap.erase(entry_to_delete.first);
 }
 
-void ClientDatabase::deleteFromNeighhbourSet(node_Sptr node)
-{
-	std::lock_guard<std::mutex> lock(this->seeder_mtx);
-	if (!node)
-	{
-		this->leafSet.first.erase(node);
-		this->leafSet.second.erase(node);
-	}
-} // delete this node from Neighbour set
 void ClientDatabase::deleteFromLeafSet(node_Sptr node)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
-	if (!node)
+	if (node)
 	{
-		this->neighbourSet.erase(node);
+		auto &left_leaf = this->leafSet.first;
+		auto &right_leaf = this->leafSet.second;
+		auto leaf_entry = this->findInLeafSet(left_leaf, node->getNodeID());
+		if(leaf_entry){
+			left_leaf.erase(leaf_entry);
+		}
+		leaf_entry = this->findInLeafSet(right_leaf, node->getNodeID());
+		if(leaf_entry){
+			right_leaf.erase(leaf_entry);
+		}
+	}
+} // delete this node from Neighbour set
+void ClientDatabase::deleteFromNeighhbourSet(node_Sptr node)
+{
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	if (node)
+	{
+		auto &n_set = this->neighbourSet;
+		auto n_entry = this->findInNeighourSet(n_set, node->getNodeID());
+		if(n_entry){
+			n_set.erase(n_entry);
+		}
 		this->neighbourSet.erase(node);
 	}
 } // delete this node from leaf set
 void ClientDatabase::deleteFromRoutingTable(node_Sptr node)
 {
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	auto prefix = prefixMatchLen(this->listener->getNodeID(), node->getNodeID());
 	auto index = node->getNodeID()[prefix] - '0';
 	this->routingTable[prefix][index] = NULL;
@@ -339,8 +354,30 @@ bool ClientDatabase::is_same_node_as_me(node_Sptr node)
 
 void ClientDatabase::delete_from_all(node_Sptr node)
 {
-	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->deleteFromLeafSet(node);
 	this->deleteFromLeafSet(node);
 	this->deleteFromRoutingTable(node);
+}
+
+node_Sptr ClientDatabase::findInLeafSet(set<node_Sptr, leafComparator>& lset, std::string nodeId)
+{
+	for(auto node : lset)
+	{
+		if(node->getNodeID() == nodeId)
+		{
+			return node;
+		}
+	}
+	return NULL;
+}
+node_Sptr ClientDatabase::findInNeighourSet(std::set<node_Sptr, neighbourComparator>& nset, std::string nodeId)
+{
+	for(auto node : nset)
+	{
+		if(node->getNodeID() == nodeId)
+		{
+			return node;
+		}
+	}
+	return NULL;
 }
