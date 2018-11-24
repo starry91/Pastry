@@ -96,7 +96,7 @@ void CommandHandler::handleCommand(std::string command)
         else if (args.size() == 2 && args[0] == "get")
         {
             string key = args[1];
-            key = getHash(key,config_parameter_b);
+            key = getHash(key, config_parameter_b);
             message::Message msg;
             msg.set_type("GetVal");
             auto *temp = msg.mutable_getvalmsg();
@@ -123,11 +123,11 @@ void CommandHandler::handleCommand(std::string command)
         else if (args.size() == 1 && args[0] == "lset")
         {
             auto lSet = ClientDatabase::getInstance().getLeafSet();
-            for(auto it : lSet.first)
+            for (auto it : lSet.first)
             {
                 printNode(it);
             }
-            for(auto it : lSet.second)
+            for (auto it : lSet.second)
             {
                 printNode(it);
             }
@@ -135,12 +135,12 @@ void CommandHandler::handleCommand(std::string command)
         else if (args.size() == 1 && args[0] == "routetable")
         {
             auto rTable = ClientDatabase::getInstance().getRoutingTable();
-            //print the rTable  
-            for(auto it : rTable)
+            //print the rTable
+            for (auto it : rTable)
             {
-                for(auto node : it)
+                for (auto node : it)
                 {
-                    if(!node)
+                    if (!node)
                         printNode(node);
                 }
             }
@@ -148,16 +148,16 @@ void CommandHandler::handleCommand(std::string command)
         else if (args.size() == 1 && args[0] == "nset")
         {
             auto nSet = ClientDatabase::getInstance().getNeighbourSet();
-            for(auto it : nSet)
+            for (auto it : nSet)
             {
                 printNode(it);
-            } 
+            }
         }
         else if (args.size() == 1 and args[0] == "quit")
         {
             std ::cerr << "Exiting " << endl;
             // std::thread::id listener_thread_id = ClientDatabase::getInstance().getListenerThreadID();
-            ////kill this listener thread 
+            ////kill this listener thread
             node_Sptr best_leaf;
             auto leafSet = ClientDatabase::getInstance().getLeafSet();
             auto my_node = ClientDatabase::getInstance().getListener();
@@ -170,26 +170,32 @@ void CommandHandler::handleCommand(std::string command)
             node->set_ip(my_node->getIp());
             node->set_nodeid(my_node->getNodeID());
             node->set_port(my_node->getPort());
-            
 
-            if(!leafSet.first.empty()){
+            if (!leafSet.first.empty())
+            {
                 auto left_leafSet = leafSet.first;
                 best_leaf = *left_leafSet.begin();
-                for(auto leaf: left_leafSet){
-                    if(is_better_node(leaf, best_leaf, my_nodeID)){
+                for (auto leaf : left_leafSet)
+                {
+                    if (is_better_node(leaf, best_leaf, my_nodeID))
+                    {
                         best_leaf = leaf;
                     }
                     PeerCommunicator peercommunicator(*leaf);
                     auto resp = peercommunicator.sendMsg(delete_msg);
                 }
             }
-            if(!leafSet.second.empty()){
+            if (!leafSet.second.empty())
+            {
                 auto right_leafSet = leafSet.second;
-                if(!best_leaf){
+                if (!best_leaf)
+                {
                     best_leaf = *right_leafSet.begin();
                 }
-                for(auto leaf: right_leafSet){
-                    if(is_better_node(leaf, best_leaf, my_nodeID)){
+                for (auto leaf : right_leafSet)
+                {
+                    if (is_better_node(leaf, best_leaf, my_nodeID))
+                    {
                         best_leaf = leaf;
                     }
                     PeerCommunicator peercommunicator(*leaf);
@@ -197,17 +203,20 @@ void CommandHandler::handleCommand(std::string command)
                 }
             }
             auto neighbour_set = ClientDatabase::getInstance().getNeighbourSet();
-            for(auto node: neighbour_set){
+            for (auto node : neighbour_set)
+            {
                 PeerCommunicator peercommunicator(*node);
                 auto resp = peercommunicator.sendMsg(delete_msg);
             }
-            if(best_leaf){
+            if (best_leaf)
+            {
                 auto hash_table = ClientDatabase::getInstance().getHashMap();
                 message::Message msg;
                 msg.set_type("AddToHashTable");
                 auto *temp = msg.mutable_addtohashtable();
                 auto hash_map_message = temp->mutable_hashmap();
-                for(auto entry: hash_table){
+                for (auto entry : hash_table)
+                {
                     (*hash_map_message)[entry.first] = entry.second;
                 }
                 PeerCommunicator peercommunicator(*best_leaf);
@@ -217,7 +226,38 @@ void CommandHandler::handleCommand(std::string command)
         }
         else if (args.size() == 1 and args[0] == "shutdown")
         {
-            
+            message::Message msg;
+            msg.set_type("ShutDowwn");
+            auto leaf_set = ClientDatabase::getInstance().getLeafSet();
+            auto neighbour_set = ClientDatabase::getInstance().getNeighbourSet();
+            auto routing_table = ClientDatabase::getInstance().getRoutingTable();
+            for (auto node : leaf_set.first)
+            {
+                PeerCommunicator peercommunicator(*node);
+                auto resp = peercommunicator.sendMsg(msg);
+            }
+            for (auto node : leaf_set.second)
+            {
+                PeerCommunicator peercommunicator(*node);
+                auto resp = peercommunicator.sendMsg(msg);
+            }
+            for (auto node : neighbour_set)
+            {
+                PeerCommunicator peercommunicator(*node);
+                auto resp = peercommunicator.sendMsg(msg);
+            }
+            for (auto row_entry : routing_table)
+            {
+                for (auto node : row_entry)
+                {
+                    if (node)
+                    {
+                        PeerCommunicator peercommunicator(*node);
+                        auto resp = peercommunicator.sendMsg(msg);
+                    }
+                }
+            }
+            exit(0);
         }
         else
         {
