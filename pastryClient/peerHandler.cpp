@@ -19,6 +19,7 @@ void PeerHandler::handleRpc(int client_fd)
         {
             NetworkReader reader(client_fd);
             auto byte_data = reader.readFromNetwork();
+            cout << "In reciever: byte data length: " << byte_data.size() << endl;
             message::Message reqMsg;
             reqMsg.ParseFromString(string(byte_data.data()));
             PeerMessageHandler msgHandler;

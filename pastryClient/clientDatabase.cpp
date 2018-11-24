@@ -240,10 +240,10 @@ int ClientDatabase::getTotalRouteLength()
 void ClientDatabase::incrementRecievedUpdateCount(int n)
 {
 	syslog(0,"In incrementRecievedUpdateCount");
-	syslog(0,"before increment: %d",this->total_route_length);
+	syslog(0,"before increment: %d",this->recieved_update_count);
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
-	this->total_route_length + n;
-	syslog(0,"after increment: %d",this->total_route_length);
+	this->recieved_update_count += n;
+	syslog(0,"after increment: %d",this->recieved_update_count);
 }
 int ClientDatabase::getRecievedUpdateCount()
 {
