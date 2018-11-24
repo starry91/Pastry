@@ -268,7 +268,7 @@ void PeerMessageHandler::sendAllStateUpdate()
 	auto new_routingList = temp->mutable_routingtable();
 	//adding routing entires
 	auto routingTable = ClientDatabase::getInstance().getRoutingTable();
-	for (int i = 0; i <= routingTable.size(); i++)
+	for (int i = 0; i < routingTable.size(); i++)
 	{
 		auto temp_list = temp->add_routingtable();
 		for (auto node : routingTable[i])
