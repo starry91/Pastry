@@ -66,5 +66,7 @@ class ClientDatabase
 	// std::thread::id getListenerThreadID();
 	void deleteFromHashMap(std::pair<std::string, std::string> entry_to_delete);
 	void delete_from_all(node_Sptr node);
+	node_Sptr findInLeafSet(std::set<node_Sptr, leafComparator>&, std::string nodeId);
+	node_Sptr findInNeighourSet(std::set<node_Sptr, neighbourComparator>&, std::string nodeId);
 };
 #endif

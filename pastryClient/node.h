@@ -26,6 +26,8 @@ class Node
     std::string getNodeID();
     int getProximity();
     void setProximity(int proximity);
+    bool operator==(Node s);
+    bool operator<(Node s);
 };
 
 typedef std::shared_ptr<Node> node_Sptr;
