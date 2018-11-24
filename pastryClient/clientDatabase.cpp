@@ -200,11 +200,13 @@ void ClientDatabase ::updateRoutingTable(vector<node_Sptr> row_entry, int index)
 
 int ClientDatabase::getRowSize()
 {
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	return this->row;
 }
 
 int ClientDatabase::getColSize()
 {
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	return this->col;
 }
 
