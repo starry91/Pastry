@@ -137,6 +137,10 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 	{
 		return;
 	}
+	if (this->is_same_node_as_me(node))
+	{
+		return;
+	}
 	if (node->getNodeID() < this->listener->getNodeID())
 	{
 		auto &left_leafSet = this->leafSet.first;
@@ -165,6 +169,10 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 	{
 		return;
 	}
+	if (this->is_same_node_as_me(node))
+	{
+		return;
+	}
 	auto &neighbour = this->neighbourSet;
 	neighbour.insert(node);
 	if (neighbour.size() > col)
@@ -178,6 +186,10 @@ void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (!node)
+	{
+		return;
+	}
+	if (this->is_same_node_as_me(node))
 	{
 		return;
 	}
@@ -252,7 +264,7 @@ int ClientDatabase::getRecievedUpdateCount()
 }
 void ClientDatabase::resetUpdateValues()
 {
-	syslog(0,"Resetting values");
+	syslog(0, "Resetting values");
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->total_route_length = this->row;
 	this->recieved_update_count = 0;
@@ -312,7 +324,23 @@ void ClientDatabase::deleteFromLeafSet(node_Sptr node)
 		this->neighbourSet.erase(node);
 		this->neighbourSet.erase(node);
 	}
-}	 // delete this node from leaf set
+} // delete this node from leaf set
 void ClientDatabase::deleteFromRoutingTable(node_Sptr node)
 {
+	auto prefix = prefixMatchLen(this->listener->getNodeID(), node->getNodeID());
+	auto index = node->getNodeID()[prefix] - '0';
+	this->routingTable[prefix][index] = NULL;
+	return;
+}
+bool ClientDatabase::is_same_node_as_me(node_Sptr node)
+{
+	return node->getNodeID() != this->listener->getNodeID();
+}
+
+void ClientDatabase::delete_from_all(node_Sptr node)
+{
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	this->deleteFromLeafSet(node);
+	this->deleteFromLeafSet(node);
+	this->deleteFromRoutingTable(node);
 }

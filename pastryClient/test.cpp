@@ -1,14 +1,19 @@
 #include <bits/stdc++.h>
+#include<iostream>
 #include <string>
 #include "node.h"
 #include <thread>
 #include <memory>
 using namespace std;
-struct node{
-    int x,y;
-};
 int main(){
-    // vector<shared_ptr<node> > x(5, NULL);
+    auto z = make_shared<int>();
+    auto y = make_shared<int>(nullptr);
+    if(y){
+        cout<<"hello";
+    }
+    // if(x[0]){
+    //     cout<<"hello";
+    // }
     // for(auto y:x)cout<<y<<endl;
     // set<int> tt;
     // // auto z = *tt.begin();
