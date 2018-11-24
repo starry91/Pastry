@@ -70,6 +70,7 @@ void CommandHandler::handleCommand(std::string command)
             string key = args[1];
             string value = args[2];
             key = getHash(key, config_parameter_b);
+            syslog(0,"hash value for %s is %s",args[1].c_str(),key.c_str());
             message::Message msg;
             msg.set_type("SetVal");
             auto *temp = msg.mutable_setvalmsg();
@@ -99,8 +100,12 @@ void CommandHandler::handleCommand(std::string command)
             key = getHash(key, config_parameter_b);
             message::Message msg;
             msg.set_type("GetVal");
+            auto sender = msg.mutable_sender();
+            populateMsgSender(sender, ClientDatabase::getInstance().getListener());
             auto *temp = msg.mutable_getvalmsg();
             temp->set_key(key);
+            sender = temp->mutable_node();
+            populateMsgSender(sender, ClientDatabase::getInstance().getListener());
             auto nextNode = ClientDatabase::getInstance().getNextRoutingNode(key);
             if (nextNode->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
             {
@@ -258,6 +263,14 @@ void CommandHandler::handleCommand(std::string command)
                 }
             }
             exit(0);
+        }
+        else if(args.size() == 1 and args[0] == "hashTable")
+        {
+            auto hashTable = ClientDatabase::getInstance().getHashMap();
+            for(auto pair : hashTable)
+            {
+                cout << "Key: " << pair.first << " value: " << pair.second << endl;
+            }
         }
         else
         {

@@ -16,6 +16,7 @@ public:
   void handleRoutingUpdateRequest(message::Message);
   void handleAllStateUpdateRequest(message::Message);
   void handleGetValRequest(message::Message);
+  void handleGetValResponse(message::Message);
   void handleSetValRequest(message::Message);
   void handleAddToHashTableRequest(message::Message);
   void handleDeleteNodeRequest(message::Message);

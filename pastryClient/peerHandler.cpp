@@ -70,6 +70,15 @@ void PeerHandler::handleRpc(int client_fd)
                 writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleGetValRequest(reqMsg);
             }
+            else if (reqMsg.type() == "GetValResponse")
+            {
+                LogHandler::getInstance().logMsg("Recieved GetValResponse request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
+                msgHandler.handleGetValResponse(reqMsg);
+            }
             else if (reqMsg.type() == "SetVal")
             {
                 LogHandler::getInstance().logMsg("Recieved SetVal request");

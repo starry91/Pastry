@@ -433,9 +433,11 @@ void PeerMessageHandler::handleGetValRequest(message::Message msg)
 			resp.set_type("GetValResponse");
 			auto temp = resp.mutable_getvalresponse();
 			temp->set_key(req.key());
+			temp->set_value(ClientDatabase::getInstance().getHashMapValue(req.key()));
 			//set value from hash table
 			PeerCommunicator peercommunicator(Node(req.node().ip(), req.node().port(), req.node().nodeid()));
 			peercommunicator.sendMsg(resp);
+			break;
 		}
 		else
 		{
@@ -450,16 +452,23 @@ void PeerMessageHandler::handleGetValRequest(message::Message msg)
 		}
 	}while(true);
 }
+
+void PeerMessageHandler::handleGetValResponse(message::Message msg)
+{
+	auto req = msg.getvalresponse();
+	cout << "Key: " << req.key() << " Value: " << req.value() << endl;
+}
+
 void PeerMessageHandler::handleSetValRequest(message::Message msg)
 {
 	auto req = msg.setvalmsg();
-	bool sent = true;
 	do{
 		auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.key());
 
 		if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
 		{
-			// ClientDatabase::getInstance().insertIntoHashMap(key, value);
+			ClientDatabase::getInstance().insertIntoHashMap(req.key(), req.val());
+			break;
 			//update local hash table
 		}
 		else
@@ -467,6 +476,7 @@ void PeerMessageHandler::handleSetValRequest(message::Message msg)
 			try{
 				PeerCommunicator peercommunicator(*next_node_sptr);
 				auto resp = peercommunicator.sendMsg(msg);
+				break;
 			}
 			catch (ErrorMsg e){
 				ClientDatabase::getInstance().delete_from_all(next_node_sptr);
