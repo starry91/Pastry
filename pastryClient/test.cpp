@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 #include <string>
-// #include "../include/md5.h"
-// #include <openssl/md5.h>
+#include "node.h"
+#include <thread>
+#include <memory>
 using namespace std;
 struct node{
     int x,y;
@@ -15,8 +16,15 @@ int main(){
     // m[0]=4;
     // m[5]=6;
     // for(auto it:m)cout<<it.first<<" "<<it.second<<endl;
-    set<int> s;
-    s.erase(5);
-    cout<<"Yes"<<endl;
+    auto x = make_shared<Node>();
+    if(x) {
+        cout << " true" << endl;
+    }
+    else {
+        cout << "false" << endl;
+    }
+    // set<int> s;
+    // s.erase(5);
+    // cout<<"Yes"<<endl;
     return 0;
 }

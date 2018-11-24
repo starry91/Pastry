@@ -10,10 +10,10 @@ ClientDatabase::ClientDatabase()
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->row = ceil((log((parameter_N)) * 1.000) / log(pow(2, config_parameter_b)));
 	this->col = pow(2, (config_parameter_b));
-	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col, NULL));
+	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col, nullptr));
 	this->recieved_update_count = 0;
 	this->total_route_length = this->row;
-};
+}
 
 ClientDatabase &ClientDatabase::getInstance()
 {
@@ -196,7 +196,7 @@ void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 		this->routingTable[prefix][index] = node;
 	}
 }
-void ClientDatabase ::updateAllState(node_Sptr node)
+void ClientDatabase::updateAllState(node_Sptr node)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->addToLeafSet(node);
