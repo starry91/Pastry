@@ -399,14 +399,17 @@ void PeerMessageHandler::handleSetValRequest(message::Message msg)
 		auto resp = peercommunicator.sendMsg(msg);
 	}	
 }
-// vector<pair<string, string>> PeerMessageHandler ::getRelevantKeyValuePairs(string nodeID){
-// 	string myNodeId = ClientDatabase::getInstance().getListener()->getNodeID();
-// 	auto hash_table = ClientDatabase::getInstance()->getHashTable();
-// 	vector<pair<string, string> > result;
-// 	for(auto message: hash_table){
-// 		if(is_better_node_for_message(nodeID, myNodeId, message.first)){
-// 			result.push_back(message);
-// 		}
-// 	}
-// 	return result;
-// }
+unordered_map<string, string> PeerMessageHandler ::getRelevantKeyValuePairs(string nodeID){
+	string myNodeId = ClientDatabase::getInstance().getListener()->getNodeID();
+	auto hash_table = ClientDatabase::getInstance().getHashMap();
+	unordered_map<string, string> result;
+	for(auto message: hash_table){
+		if(is_better_node_for_message(nodeID, myNodeId, message.first)){
+			result.insert(message);
+		}
+	}
+	for(auto entry: result){
+		ClientDatabase::getInstance().deleteFromHashMap(entry);
+	}
+	return result;
+}

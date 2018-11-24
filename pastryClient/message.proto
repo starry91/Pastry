@@ -84,6 +84,8 @@ message Message {
     RoutingUpdate routingUpdate = 7;
     AllStateUpdate allStateUpdate = 8;
     GetValResponse getValResponse = 9;
+    DeleteNode deleteNode = 10;
+    AddToHashTable addToHashTable = 11;
   }
 }
 
@@ -91,6 +93,12 @@ message Response {
   string status = 1;
 }
 
+message DeleteNode{
+  Node node = 1;
+}
 
+message AddToHashTable{
+  map<string, string> hashMap = 1;
+}
 
 // [END messages]

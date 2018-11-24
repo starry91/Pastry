@@ -9,7 +9,7 @@ ClientDatabase::ClientDatabase()
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->row = ceil((log((parameter_N)) * 1.000) / log(pow(2, config_parameter_b)));
 	this->col = pow(2, (config_parameter_b));
-	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col,NULL));
+	this->routingTable = vector<vector<node_Sptr>>(this->row, vector<node_Sptr>(this->col, NULL));
 	this->recieved_update_count = 0;
 	this->total_route_length = this->row;
 };
@@ -22,11 +22,13 @@ ClientDatabase &ClientDatabase::getInstance()
 
 node_Sptr ClientDatabase::getListener()
 {
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	return this->listener;
 }
 
 void ClientDatabase::setListener(node_Sptr temp)
 {
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->listener = temp;
 }
 
@@ -130,6 +132,10 @@ set<node_Sptr, neighbourComparator> ClientDatabase ::getNeighbourSet()
 void ClientDatabase::addToLeafSet(node_Sptr node)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	if (!node)
+	{
+		return;
+	}
 	if (node->getNodeID() < this->listener->getNodeID())
 	{
 		auto &left_leafSet = this->leafSet.first;
@@ -154,6 +160,10 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	if (!node)
+	{
+		return;
+	}
 	auto &neighbour = this->neighbourSet;
 	neighbour.insert(node);
 	if (neighbour.size() > col)
@@ -166,6 +176,10 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	if (!node)
+	{
+		return;
+	}
 	if (prefix == -1)
 	{
 		prefix = prefixMatchLen(this->listener->getNodeID(), node->getNodeID());
@@ -183,6 +197,7 @@ void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 }
 void ClientDatabase ::updateAllState(node_Sptr node)
 {
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->addToLeafSet(node);
 	this->addToNeighhbourSet(node);
 	this->addToRoutingTable(node);
@@ -216,7 +231,9 @@ void ClientDatabase::setTotalRouteLength(int s)
 	this->total_route_length = s;
 }
 
-int ClientDatabase::getTotalRouteLength() {
+int ClientDatabase::getTotalRouteLength()
+{
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	return this->total_route_length;
 }
 void ClientDatabase::incrementRecievedUpdateCount(int n)
@@ -234,4 +251,41 @@ void ClientDatabase::resetUpdateValues()
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->total_route_length = this->row;
 	this->recieved_update_count = 0;
+}
+
+void ClientDatabase::insertIntoHashMap(std ::string key, std ::string value)
+{
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	this->hashMap[key] = value;
+	return;
+}
+
+unordered_map<string, string> ClientDatabase::getHashMap()
+{
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	return this->hashMap;
+}
+string ClientDatabase::getHashMapValue(string key)
+{
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	return this->hashMap[key];
+}
+
+// void ClientDatabase::setListenerThreadID(std::thread::id thread_id)
+// {
+// 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+// 	this->listener_thread_id = thread_id;
+// }
+
+// std::thread::id ClientDatabase::getListenerThreadID()
+// {
+// 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+// 	;
+// 	return this->listener_thread_id;
+// }
+
+void ClientDatabase::deleteFromHashMap(pair<string, string> entry_to_delete)
+{
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
+	this->hashMap.erase(entry_to_delete.first);
 }

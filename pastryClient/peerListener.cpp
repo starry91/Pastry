@@ -48,6 +48,8 @@ void PeerListener::startListening()
         perror("listen");
         exit(EXIT_FAILURE);
     }
+    // std::thread::id listener_id = std::this_thread::get_id();
+    // ClientDatabase::getInstance().setListenerThreadID(listener_id);
     while (true)
     {
         int cli_fd;

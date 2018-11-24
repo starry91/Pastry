@@ -28,6 +28,9 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/map.h>  // IWYU pragma: export
+#include <google/protobuf/map_entry.h>
+#include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/unknown_field_set.h>
 #include <google/protobuf/timestamp.pb.h>
 // @@protoc_insertion_point(includes)
@@ -37,7 +40,7 @@ namespace protobuf_message_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[12];
+  static const ::google::protobuf::internal::ParseTable schema[15];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -67,6 +70,12 @@ void InitDefaultsMessageImpl();
 void InitDefaultsMessage();
 void InitDefaultsResponseImpl();
 void InitDefaultsResponse();
+void InitDefaultsDeleteNodeImpl();
+void InitDefaultsDeleteNode();
+void InitDefaultsAddToHashTable_HashMapEntry_DoNotUseImpl();
+void InitDefaultsAddToHashTable_HashMapEntry_DoNotUse();
+void InitDefaultsAddToHashTableImpl();
+void InitDefaultsAddToHashTable();
 inline void InitDefaults() {
   InitDefaultsJoinMe();
   InitDefaultsJoin();
@@ -80,12 +89,24 @@ inline void InitDefaults() {
   InitDefaultsSetVal();
   InitDefaultsMessage();
   InitDefaultsResponse();
+  InitDefaultsDeleteNode();
+  InitDefaultsAddToHashTable_HashMapEntry_DoNotUse();
+  InitDefaultsAddToHashTable();
 }
 }  // namespace protobuf_message_2eproto
 namespace message {
+class AddToHashTable;
+class AddToHashTableDefaultTypeInternal;
+extern AddToHashTableDefaultTypeInternal _AddToHashTable_default_instance_;
+class AddToHashTable_HashMapEntry_DoNotUse;
+class AddToHashTable_HashMapEntry_DoNotUseDefaultTypeInternal;
+extern AddToHashTable_HashMapEntry_DoNotUseDefaultTypeInternal _AddToHashTable_HashMapEntry_DoNotUse_default_instance_;
 class AllStateUpdate;
 class AllStateUpdateDefaultTypeInternal;
 extern AllStateUpdateDefaultTypeInternal _AllStateUpdate_default_instance_;
+class DeleteNode;
+class DeleteNodeDefaultTypeInternal;
+extern DeleteNodeDefaultTypeInternal _DeleteNode_default_instance_;
 class GetVal;
 class GetValDefaultTypeInternal;
 extern GetValDefaultTypeInternal _GetVal_default_instance_;
@@ -1437,6 +1458,8 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     kRoutingUpdate = 7,
     kAllStateUpdate = 8,
     kGetValResponse = 9,
+    kDeleteNode = 10,
+    kAddToHashTable = 11,
     MSG_NOT_SET = 0,
   };
 
@@ -1579,6 +1602,24 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::message::GetValResponse* mutable_getvalresponse();
   void set_allocated_getvalresponse(::message::GetValResponse* getvalresponse);
 
+  // .message.DeleteNode deleteNode = 10;
+  bool has_deletenode() const;
+  void clear_deletenode();
+  static const int kDeleteNodeFieldNumber = 10;
+  const ::message::DeleteNode& deletenode() const;
+  ::message::DeleteNode* release_deletenode();
+  ::message::DeleteNode* mutable_deletenode();
+  void set_allocated_deletenode(::message::DeleteNode* deletenode);
+
+  // .message.AddToHashTable addToHashTable = 11;
+  bool has_addtohashtable() const;
+  void clear_addtohashtable();
+  static const int kAddToHashTableFieldNumber = 11;
+  const ::message::AddToHashTable& addtohashtable() const;
+  ::message::AddToHashTable* release_addtohashtable();
+  ::message::AddToHashTable* mutable_addtohashtable();
+  void set_allocated_addtohashtable(::message::AddToHashTable* addtohashtable);
+
   MsgCase msg_case() const;
   // @@protoc_insertion_point(class_scope:message.Message)
  private:
@@ -1589,6 +1630,8 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void set_has_routingupdate();
   void set_has_allstateupdate();
   void set_has_getvalresponse();
+  void set_has_deletenode();
+  void set_has_addtohashtable();
 
   inline bool has_msg() const;
   void clear_msg();
@@ -1606,6 +1649,8 @@ class Message : public ::google::protobuf::Message /* @@protoc_insertion_point(c
     ::message::RoutingUpdate* routingupdate_;
     ::message::AllStateUpdate* allstateupdate_;
     ::message::GetValResponse* getvalresponse_;
+    ::message::DeleteNode* deletenode_;
+    ::message::AddToHashTable* addtohashtable_;
   } msg_;
   mutable int _cached_size_;
   ::google::protobuf::uint32 _oneof_case_[1];
@@ -1719,6 +1764,237 @@ class Response : public ::google::protobuf::Message /* @@protoc_insertion_point(
   mutable int _cached_size_;
   friend struct ::protobuf_message_2eproto::TableStruct;
   friend void ::protobuf_message_2eproto::InitDefaultsResponseImpl();
+};
+// -------------------------------------------------------------------
+
+class DeleteNode : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:message.DeleteNode) */ {
+ public:
+  DeleteNode();
+  virtual ~DeleteNode();
+
+  DeleteNode(const DeleteNode& from);
+
+  inline DeleteNode& operator=(const DeleteNode& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  DeleteNode(DeleteNode&& from) noexcept
+    : DeleteNode() {
+    *this = ::std::move(from);
+  }
+
+  inline DeleteNode& operator=(DeleteNode&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const DeleteNode& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const DeleteNode* internal_default_instance() {
+    return reinterpret_cast<const DeleteNode*>(
+               &_DeleteNode_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    12;
+
+  void Swap(DeleteNode* other);
+  friend void swap(DeleteNode& a, DeleteNode& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline DeleteNode* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  DeleteNode* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const DeleteNode& from);
+  void MergeFrom(const DeleteNode& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(DeleteNode* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // .message.Node node = 1;
+  bool has_node() const;
+  void clear_node();
+  static const int kNodeFieldNumber = 1;
+  const ::message::Node& node() const;
+  ::message::Node* release_node();
+  ::message::Node* mutable_node();
+  void set_allocated_node(::message::Node* node);
+
+  // @@protoc_insertion_point(class_scope:message.DeleteNode)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::message::Node* node_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_message_2eproto::TableStruct;
+  friend void ::protobuf_message_2eproto::InitDefaultsDeleteNodeImpl();
+};
+// -------------------------------------------------------------------
+
+class AddToHashTable_HashMapEntry_DoNotUse : public ::google::protobuf::internal::MapEntry<AddToHashTable_HashMapEntry_DoNotUse, 
+    ::std::string, ::std::string,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    0 > {
+public:
+  typedef ::google::protobuf::internal::MapEntry<AddToHashTable_HashMapEntry_DoNotUse, 
+    ::std::string, ::std::string,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+    0 > SuperType;
+  AddToHashTable_HashMapEntry_DoNotUse();
+  AddToHashTable_HashMapEntry_DoNotUse(::google::protobuf::Arena* arena);
+  void MergeFrom(const AddToHashTable_HashMapEntry_DoNotUse& other);
+  static const AddToHashTable_HashMapEntry_DoNotUse* internal_default_instance() { return reinterpret_cast<const AddToHashTable_HashMapEntry_DoNotUse*>(&_AddToHashTable_HashMapEntry_DoNotUse_default_instance_); }
+  void MergeFrom(const ::google::protobuf::Message& other) PROTOBUF_FINAL;
+  ::google::protobuf::Metadata GetMetadata() const;
+};
+
+// -------------------------------------------------------------------
+
+class AddToHashTable : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:message.AddToHashTable) */ {
+ public:
+  AddToHashTable();
+  virtual ~AddToHashTable();
+
+  AddToHashTable(const AddToHashTable& from);
+
+  inline AddToHashTable& operator=(const AddToHashTable& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  AddToHashTable(AddToHashTable&& from) noexcept
+    : AddToHashTable() {
+    *this = ::std::move(from);
+  }
+
+  inline AddToHashTable& operator=(AddToHashTable&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const AddToHashTable& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const AddToHashTable* internal_default_instance() {
+    return reinterpret_cast<const AddToHashTable*>(
+               &_AddToHashTable_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    14;
+
+  void Swap(AddToHashTable* other);
+  friend void swap(AddToHashTable& a, AddToHashTable& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline AddToHashTable* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  AddToHashTable* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const AddToHashTable& from);
+  void MergeFrom(const AddToHashTable& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(AddToHashTable* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+
+  // accessors -------------------------------------------------------
+
+  // map<string, string> hashMap = 1;
+  int hashmap_size() const;
+  void clear_hashmap();
+  static const int kHashMapFieldNumber = 1;
+  const ::google::protobuf::Map< ::std::string, ::std::string >&
+      hashmap() const;
+  ::google::protobuf::Map< ::std::string, ::std::string >*
+      mutable_hashmap();
+
+  // @@protoc_insertion_point(class_scope:message.AddToHashTable)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::MapField<
+      AddToHashTable_HashMapEntry_DoNotUse,
+      ::std::string, ::std::string,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      0 > hashmap_;
+  mutable int _cached_size_;
+  friend struct ::protobuf_message_2eproto::TableStruct;
+  friend void ::protobuf_message_2eproto::InitDefaultsAddToHashTableImpl();
 };
 // ===================================================================
 
@@ -3406,6 +3682,86 @@ inline ::message::GetValResponse* Message::mutable_getvalresponse() {
   return msg_.getvalresponse_;
 }
 
+// .message.DeleteNode deleteNode = 10;
+inline bool Message::has_deletenode() const {
+  return msg_case() == kDeleteNode;
+}
+inline void Message::set_has_deletenode() {
+  _oneof_case_[0] = kDeleteNode;
+}
+inline void Message::clear_deletenode() {
+  if (has_deletenode()) {
+    delete msg_.deletenode_;
+    clear_has_msg();
+  }
+}
+inline ::message::DeleteNode* Message::release_deletenode() {
+  // @@protoc_insertion_point(field_release:message.Message.deleteNode)
+  if (has_deletenode()) {
+    clear_has_msg();
+      ::message::DeleteNode* temp = msg_.deletenode_;
+    msg_.deletenode_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::message::DeleteNode& Message::deletenode() const {
+  // @@protoc_insertion_point(field_get:message.Message.deleteNode)
+  return has_deletenode()
+      ? *msg_.deletenode_
+      : *reinterpret_cast< ::message::DeleteNode*>(&::message::_DeleteNode_default_instance_);
+}
+inline ::message::DeleteNode* Message::mutable_deletenode() {
+  if (!has_deletenode()) {
+    clear_msg();
+    set_has_deletenode();
+    msg_.deletenode_ = new ::message::DeleteNode;
+  }
+  // @@protoc_insertion_point(field_mutable:message.Message.deleteNode)
+  return msg_.deletenode_;
+}
+
+// .message.AddToHashTable addToHashTable = 11;
+inline bool Message::has_addtohashtable() const {
+  return msg_case() == kAddToHashTable;
+}
+inline void Message::set_has_addtohashtable() {
+  _oneof_case_[0] = kAddToHashTable;
+}
+inline void Message::clear_addtohashtable() {
+  if (has_addtohashtable()) {
+    delete msg_.addtohashtable_;
+    clear_has_msg();
+  }
+}
+inline ::message::AddToHashTable* Message::release_addtohashtable() {
+  // @@protoc_insertion_point(field_release:message.Message.addToHashTable)
+  if (has_addtohashtable()) {
+    clear_has_msg();
+      ::message::AddToHashTable* temp = msg_.addtohashtable_;
+    msg_.addtohashtable_ = NULL;
+    return temp;
+  } else {
+    return NULL;
+  }
+}
+inline const ::message::AddToHashTable& Message::addtohashtable() const {
+  // @@protoc_insertion_point(field_get:message.Message.addToHashTable)
+  return has_addtohashtable()
+      ? *msg_.addtohashtable_
+      : *reinterpret_cast< ::message::AddToHashTable*>(&::message::_AddToHashTable_default_instance_);
+}
+inline ::message::AddToHashTable* Message::mutable_addtohashtable() {
+  if (!has_addtohashtable()) {
+    clear_msg();
+    set_has_addtohashtable();
+    msg_.addtohashtable_ = new ::message::AddToHashTable;
+  }
+  // @@protoc_insertion_point(field_mutable:message.Message.addToHashTable)
+  return msg_.addtohashtable_;
+}
+
 inline bool Message::has_msg() const {
   return msg_case() != MSG_NOT_SET;
 }
@@ -3472,9 +3828,93 @@ inline void Response::set_allocated_status(::std::string* status) {
   // @@protoc_insertion_point(field_set_allocated:message.Response.status)
 }
 
+// -------------------------------------------------------------------
+
+// DeleteNode
+
+// .message.Node node = 1;
+inline bool DeleteNode::has_node() const {
+  return this != internal_default_instance() && node_ != NULL;
+}
+inline void DeleteNode::clear_node() {
+  if (GetArenaNoVirtual() == NULL && node_ != NULL) {
+    delete node_;
+  }
+  node_ = NULL;
+}
+inline const ::message::Node& DeleteNode::node() const {
+  const ::message::Node* p = node_;
+  // @@protoc_insertion_point(field_get:message.DeleteNode.node)
+  return p != NULL ? *p : *reinterpret_cast<const ::message::Node*>(
+      &::message::_Node_default_instance_);
+}
+inline ::message::Node* DeleteNode::release_node() {
+  // @@protoc_insertion_point(field_release:message.DeleteNode.node)
+  
+  ::message::Node* temp = node_;
+  node_ = NULL;
+  return temp;
+}
+inline ::message::Node* DeleteNode::mutable_node() {
+  
+  if (node_ == NULL) {
+    node_ = new ::message::Node;
+  }
+  // @@protoc_insertion_point(field_mutable:message.DeleteNode.node)
+  return node_;
+}
+inline void DeleteNode::set_allocated_node(::message::Node* node) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete node_;
+  }
+  if (node) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      node = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, node, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  node_ = node;
+  // @@protoc_insertion_point(field_set_allocated:message.DeleteNode.node)
+}
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// AddToHashTable
+
+// map<string, string> hashMap = 1;
+inline int AddToHashTable::hashmap_size() const {
+  return hashmap_.size();
+}
+inline void AddToHashTable::clear_hashmap() {
+  hashmap_.Clear();
+}
+inline const ::google::protobuf::Map< ::std::string, ::std::string >&
+AddToHashTable::hashmap() const {
+  // @@protoc_insertion_point(field_map:message.AddToHashTable.hashMap)
+  return hashmap_.GetMap();
+}
+inline ::google::protobuf::Map< ::std::string, ::std::string >*
+AddToHashTable::mutable_hashmap() {
+  // @@protoc_insertion_point(field_mutable_map:message.AddToHashTable.hashMap)
+  return hashmap_.MutableMap();
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

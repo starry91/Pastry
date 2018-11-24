@@ -10,16 +10,16 @@
 #include <vector>
 class PeerMessageHandler
 {
-  public:
-    void handleJoinMeRequest(message::Message);
-    void handleJoinRequest(message::Message);
-    void handleRoutingUpdateRequest(message::Message);
-    void handleAllStateUpdateRequest(message::Message);
-    void handleGetValRequest(message::Message);
-    void handleSetValRequest(message::Message);
-    void sendAllStateUpdate();
-    // ClientDatabase::getInstance()->getHashTable();
-    std::vector<std::pair<std::string, std::string>> getRelevantKeyValuePairs(std::string nodeID);
+public:
+  void handleJoinMeRequest(message::Message);
+  void handleJoinRequest(message::Message);
+  void handleRoutingUpdateRequest(message::Message);
+  void handleAllStateUpdateRequest(message::Message);
+  void handleGetValRequest(message::Message);
+  void handleSetValRequest(message::Message);
+  void sendAllStateUpdate();
+  // ClientDatabase::getInstance()->getHashTable();
+  std::unordered_map<std::string, std::string> getRelevantKeyValuePairs(std::string nodeID);
 };
 
 #endif
