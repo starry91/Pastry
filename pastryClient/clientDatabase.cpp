@@ -469,6 +469,7 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 	auto right_iterator = this->leafSet.second.rbegin();
 	seeder_mtx.unlock();
 	node_Sptr fetch_from_node;
+	bool update = false;
 	while (true)
 	{
 		seeder_mtx.lock();
@@ -478,7 +479,15 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 		}
 		else
 		{
-			fetch_from_node = *right_iterator;
+			auto temp_iterator = this->leafSet.second.rend();
+			if(right_iterator != temp_iterator)
+			{
+				fetch_from_node = *right_iterator;
+			}
+			else {
+				seeder_mtx.unlock();
+				break;
+			}
 		}
 		seeder_mtx.unlock();
 		try
@@ -499,7 +508,16 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 				{
 					if (new_node->getNodeID() < myNodeID)
 					{
-						this->addToLeafSet(new_node);
+						try
+						{
+							PeerCommunicator peercommunicator(*new_node);
+							this->addToLeafSet(new_node);
+							update = true;
+							// break;
+						}
+						catch (ErrorMsg e)
+						{
+						}
 						// break;
 					}
 				}
@@ -507,10 +525,22 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 				{
 					if (new_node->getNodeID() > myNodeID)
 					{
-						this->addToLeafSet(new_node);
-						// break;
+						try
+						{
+
+							PeerCommunicator peercommunicator(*new_node);
+							this->addToLeafSet(new_node);
+							update = true;
+						}
+						catch (ErrorMsg e)
+						{
+						}
 					}
 				}
+			}
+			if (!update)
+			{
+				throw ErrorMsg("Try next");
 			}
 			break;
 		}
@@ -528,7 +558,7 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 			}
 			else
 			{
-				advance(right_iterator, 1);
+				++right_iterator;
 				if (right_iterator == this->leafSet.second.rend())
 				{
 					seeder_mtx.unlock();
@@ -543,9 +573,10 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 void ClientDatabase::lazyUpdateNeighbourSet()
 {
 	seeder_mtx.lock();
-	auto neighbour_iterator = this->neighbourSet.rbegin();
+	auto neighbour_iterator = this->neighbourSet.begin();
 	seeder_mtx.unlock();
 	node_Sptr fetch_from_node;
+	bool update = false;
 	while (true)
 	{
 		seeder_mtx.lock();
@@ -564,15 +595,31 @@ void ClientDatabase::lazyUpdateNeighbourSet()
 			{
 				auto nodeFrmMsg = req.neighbours().node(i);
 				node_Sptr new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid());
-				this->addToNeighhbourSet(new_node);
+
+				try
+				{
+					PeerCommunicator peercommunicator(*new_node);
+					this->addToNeighhbourSet(new_node);
+					update = true;
+				}
+				catch (ErrorMsg e)
+				{
+				}
 			}
-			break;
+			if (update)
+			{
+				break;
+			}
+			else
+			{
+				throw ErrorMsg("Try Next");
+			}
 		}
 		catch (ErrorMsg e)
 		{
 			seeder_mtx.lock();
 			advance(neighbour_iterator, 1);
-			if (neighbour_iterator == this->neighbourSet.rend())
+			if (neighbour_iterator == this->neighbourSet.end())
 			{
 				seeder_mtx.unlock();
 				break;
@@ -587,13 +634,14 @@ void ClientDatabase::lazyUpdateRoutingTable(pair<int, int> position)
 	int prefix = position.first;
 	int index = position.second;
 	auto routingTable = this->getRoutingTable();
+	bool update = true;
 	for (int add = 0;; add++)
 	{
-		if (prefix + add == this->getColSize())
+		if (prefix + add == this->getRowSize())
 		{
 			return;
 		}
-		for (int i = 0; i < this->getRowSize(); i++)
+		for (int i = 0; i < this->getColSize(); i++)
 		{
 			if (i != index and routingTable[prefix + add][i])
 			{
@@ -613,8 +661,15 @@ void ClientDatabase::lazyUpdateRoutingTable(pair<int, int> position)
 					{
 						continue;
 					}
-					this->addToRoutingTable(new_node);
-					return;
+					try
+					{
+						PeerCommunicator peercommunicator(*new_node);
+						this->addToRoutingTable(new_node);
+						return;
+					}
+					catch (ErrorMsg e)
+					{
+					}
 				}
 				catch (ErrorMsg e)
 				{

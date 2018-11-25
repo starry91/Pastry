@@ -9,6 +9,7 @@
 #include "errorMsg.h"
 #include "peerCommunicator.h"
 #include <vector>
+#include "logHandler.h"
 using namespace std;
 
 PeerCommunicator::PeerCommunicator(Node peer)
@@ -19,6 +20,8 @@ PeerCommunicator::PeerCommunicator(Node peer)
     }
     catch (ErrorMsg e)
     {
+        string logMsg = "Unable to establish connection with IP: " + peer.getIp() + " Port: " + peer.getPort() + " NodeID: " + peer.getNodeID();
+        LogHandler::getInstance().logError(logMsg);
         throw ErrorMsg("Unable to establish connection");
     }
     // cout << "### Created TrackerServiceServer with fd: " << this->tracker_fd << endl;
@@ -32,6 +35,8 @@ PeerCommunicator::PeerCommunicator(std::string ip, std::string port)
     }
     catch (ErrorMsg e)
     {
+        string logMsg = "Unable to establish connection with IP: " + ip + " Port: " + port;
+        LogHandler::getInstance().logError(logMsg);
         throw ErrorMsg("Unable to establish connection");
     }
     // cout << "### Created TrackerServiceServer with fd: " << this->tracker_fd << endl;

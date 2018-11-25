@@ -18,6 +18,7 @@
 #include <vector>
 #include <syslog.h>
 #include "peerCommunicator.h"
+#include "peerMessageHandler.h"
 using namespace std;
 
 using std::cout;
@@ -63,6 +64,7 @@ void CommandHandler::handleCommand(std::string command)
             key = getHash(key, (config_parameter_b));
             // syslog(0,"hash value for %s is %s",args[1].c_str(),key.c_str());
             LogHandler::getInstance().logMsg("In command handler -> put -> hash value for " + args[1] + " is " + key);
+
             message::Message msg;
             msg.set_type("SetVal");
             auto sender = msg.mutable_sender();
@@ -70,21 +72,47 @@ void CommandHandler::handleCommand(std::string command)
             auto *temp = msg.mutable_setvalmsg();
             temp->set_key(key);
             temp->set_val(value);
-            auto nextNode = ClientDatabase::getInstance().getNextRoutingNode(key);
-            if (nextNode->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
+
+            do
             {
-                ClientDatabase::getInstance().insertIntoHashMap(key, value);
-                return;
-            }
-            PeerCommunicator peercommunicator(*nextNode);
-            peercommunicator.sendMsg(msg);
+                auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(key);
+
+                if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
+                {
+                    ClientDatabase::getInstance().insertIntoHashMap(key, value);
+                    std::string log_msg = "Inserting into HASH TABLE, key: " + key + " Value: " + value;
+                    LogHandler::getInstance().logMsg(log_msg);
+                    break;
+                    //update local hash table
+                }
+                else
+                {
+                    try
+                    {
+                        std::string log_msg = "Forwarding Set Val request to IP: " + next_node_sptr->getIp() + " Port: " +
+                                              next_node_sptr->getPort() + " NodeID: " + next_node_sptr->getNodeID();
+                        LogHandler::getInstance().logMsg(log_msg);
+                        PeerCommunicator peercommunicator(*next_node_sptr);
+                        peercommunicator.sendMsg(msg);
+                        break;
+                    }
+                    catch (ErrorMsg e)
+                    {
+                        std::string log_msg = "FAILED Forwarding Get Val request to IP: " + next_node_sptr->getIp() + " Port: " +
+                                              next_node_sptr->getPort() + " NodeID: " + next_node_sptr->getNodeID();
+                        LogHandler::getInstance().logError(log_msg);
+                        PeerMessageHandler peerHandler;
+                        peerHandler.handleLazyUpdates(next_node_sptr);
+                        // ClientDatabase::getInstance().delete_from_all(next_node_sptr);
+                    }
+                }
+            } while (true);
         }
         else if (args.size() == 2 && args[0] == "get")
         {
             string key = args[1];
             key = getHash(key, config_parameter_b);
             message::Message msg;
-            syslog(0, "hash value in get for %s is %s", args[1].c_str(), key.c_str());
             msg.set_type("GetVal");
             auto sender = msg.mutable_sender();
             populateMsgSender(sender, ClientDatabase::getInstance().getListener());
@@ -92,15 +120,39 @@ void CommandHandler::handleCommand(std::string command)
             temp->set_key(key);
             sender = temp->mutable_node();
             populateMsgSender(sender, ClientDatabase::getInstance().getListener());
-            auto nextNode = ClientDatabase::getInstance().getNextRoutingNode(key);
-            if (nextNode->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
+
+            do
             {
-                auto value = ClientDatabase::getInstance().getHashMapValue(key);
-                printResponse(value); //printing get response to console
-                return;
-            }
-            PeerCommunicator peercommunicator(*nextNode);
-            peercommunicator.sendMsg(msg);
+                auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(key);
+
+                if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
+                {
+                    auto value = ClientDatabase::getInstance().getHashMapValue(key);
+                    printResponse(value); //printing get response to console
+                    break;
+                }
+                else
+                {
+                    try
+                    {
+                        std::string log_msg = "Forwarding Get Val request to IP: " + next_node_sptr->getIp() + " Port: " +
+                                              next_node_sptr->getPort() + " NodeID: " + next_node_sptr->getNodeID();
+                        LogHandler::getInstance().logMsg(log_msg);
+                        PeerCommunicator peercommunicator(*next_node_sptr);
+                        peercommunicator.sendMsg(msg);
+                        break;
+                    }
+                    catch (ErrorMsg e)
+                    {
+                        std::string log_msg = "FAILED Forwarding Get Val request to IP: " + next_node_sptr->getIp() + " Port: " +
+                                              next_node_sptr->getPort() + " NodeID: " + next_node_sptr->getNodeID();
+                        LogHandler::getInstance().logError(log_msg);
+                        PeerMessageHandler peerHandler;
+                        peerHandler.handleLazyUpdates(next_node_sptr);
+                        // ClientDatabase::getInstance().delete_from_all(next_node_sptr);
+                    }
+                }
+            } while (true);
         }
         else if (args.size() == 1 && args[0] == "lset")
         {
