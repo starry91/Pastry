@@ -39,6 +39,7 @@ message RoutingUpdate {
     List nodeList = 2;
   }
   repeated RoutingEntry routingEntires = 5;
+  int32 prefix_match = 6;
 } 
 
 message AllStateUpdate {

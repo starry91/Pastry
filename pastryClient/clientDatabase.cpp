@@ -111,6 +111,9 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 			closest_node = node;
 		}
 	}
+	std::string log_msg = "Next best route IP: " + closest_node->getIp() + " Port: " + closest_node->getPort()
+					+ " NodeID: " + closest_node->getNodeID();
+	LogHandler::getInstance().logMsg(log_msg);
 	return closest_node;
 }
 
@@ -271,10 +274,10 @@ int ClientDatabase::getTotalRouteLength()
 void ClientDatabase::incrementRecievedUpdateCount(int n)
 {
 	LogHandler::getInstance().logMsg("In incrementRecievedUpdateCount");
-	LogHandler::getInstance().logMsg("before increment: " + this->recieved_update_count);
+	LogHandler::getInstance().logMsg("before increment: " + std::to_string(this->recieved_update_count));
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->recieved_update_count += n;
-	LogHandler::getInstance().logMsg("after increment: " + this->recieved_update_count);
+	LogHandler::getInstance().logMsg("after increment: " + std::to_string(this->recieved_update_count));
 }
 int ClientDatabase::getRecievedUpdateCount()
 {

@@ -32,7 +32,7 @@ void CommandHandler::handleCommand(std::string command)
         {
             auto nodeID = getHash(args[1] + args[2], (config_parameter_b)); //b macro defined in Client Database
             auto trimmedNodeID = trimString(nodeID, ClientDatabase::getInstance().getRowSize());
-            cout << trimmedNodeID << endl;
+            LogHandler::getInstance().logMsg("Node ID: " + trimmedNodeID);
             ClientDatabase::getInstance().setListener(make_shared<Node>(Node(args[1], args[2], trimmedNodeID)));
         }
         else if (args.size() == 1 && args[0] == "create")
@@ -46,23 +46,27 @@ void CommandHandler::handleCommand(std::string command)
             string port = args[2];
             message::Message msg;
             msg.set_type("JoinMe");
+            auto sender = msg.mutable_sender();
+            populateMsgSender(sender, ClientDatabase::getInstance().getListener());
             auto *temp = msg.mutable_joinmemsg();
             temp->set_ip(ClientDatabase::getInstance().getListener()->getIp());
             temp->set_port(ClientDatabase::getInstance().getListener()->getPort());
             temp->set_nodeid(ClientDatabase::getInstance().getListener()->getNodeID());
             PeerCommunicator peercommunicator(ip, port);
-            LogHandler::getInstance().logMsg("In command handler -> join -> sending msg to ip " + temp->ip() + " port " + temp->port());
+            LogHandler::getInstance().logMsg("In command handler -> join -> sending msg to ip " + ip + " port " + port);
             peercommunicator.sendMsg(msg);
         }
         else if (args.size() == 3 && args[0] == "put")
         {
             string key = args[1];
             string value = args[2];
-            key = getHash(key, config_parameter_b);
+            key = getHash(key, (config_parameter_b));
             // syslog(0,"hash value for %s is %s",args[1].c_str(),key.c_str());
-            LogHandler::getInstance().logError("In command handler -> put -> hash value for " + args[1] + " is " + key);
+            LogHandler::getInstance().logMsg("In command handler -> put -> hash value for " + args[1] + " is " + key);
             message::Message msg;
             msg.set_type("SetVal");
+            auto sender = msg.mutable_sender();
+            populateMsgSender(sender, ClientDatabase::getInstance().getListener());
             auto *temp = msg.mutable_setvalmsg();
             temp->set_key(key);
             temp->set_val(value);
@@ -143,6 +147,8 @@ void CommandHandler::handleCommand(std::string command)
 
             message::Message delete_msg;
             delete_msg.set_type("DeleteNode");
+            auto sender = delete_msg.mutable_sender();
+            populateMsgSender(sender, ClientDatabase::getInstance().getListener());
             auto *temp = delete_msg.mutable_deletenode();
             auto *node = temp->mutable_node();
             node->set_ip(my_node->getIp());
@@ -155,12 +161,19 @@ void CommandHandler::handleCommand(std::string command)
                 best_leaf = *left_leafSet.begin();
                 for (auto leaf : left_leafSet)
                 {
-                    if (is_better_node(leaf, best_leaf, my_nodeID))
+                    try
                     {
-                        best_leaf = leaf;
+                        PeerCommunicator peercommunicator(*leaf);
+                        peercommunicator.sendMsg(delete_msg);
+                        if (is_better_node(leaf, best_leaf, my_nodeID))
+                        {
+                            best_leaf = leaf;
+                        }
                     }
-                    PeerCommunicator peercommunicator(*leaf);
-                    peercommunicator.sendMsg(delete_msg);
+                    catch (ErrorMsg e)
+                    {
+                        continue;
+                    }
                 }
             }
             if (!leafSet.second.empty())
@@ -172,19 +185,32 @@ void CommandHandler::handleCommand(std::string command)
                 }
                 for (auto leaf : right_leafSet)
                 {
-                    if (is_better_node(leaf, best_leaf, my_nodeID))
+                    try
                     {
-                        best_leaf = leaf;
+                        PeerCommunicator peercommunicator(*leaf);
+                        peercommunicator.sendMsg(delete_msg);
+                        if (is_better_node(leaf, best_leaf, my_nodeID))
+                        {
+                            best_leaf = leaf;
+                        }
                     }
-                    PeerCommunicator peercommunicator(*leaf);
-                    peercommunicator.sendMsg(delete_msg);
+                    catch (ErrorMsg e)
+                    {
+                        continue;
+                    }
                 }
             }
             auto neighbour_set = ClientDatabase::getInstance().getNeighbourSet();
             for (auto node : neighbour_set)
             {
-                PeerCommunicator peercommunicator(*node);
-                peercommunicator.sendMsg(delete_msg);
+                try{
+                    PeerCommunicator peercommunicator(*node);
+                    peercommunicator.sendMsg(delete_msg);
+                }
+                catch(ErrorMsg e)
+                {
+
+                }
             }
             if (best_leaf)
             {
@@ -212,18 +238,36 @@ void CommandHandler::handleCommand(std::string command)
             auto routing_table = ClientDatabase::getInstance().getRoutingTable();
             for (auto node : leaf_set.first)
             {
-                PeerCommunicator peercommunicator(*node);
-                peercommunicator.sendMsg(msg);
+                try {
+                    PeerCommunicator peercommunicator(*node);
+                    peercommunicator.sendMsg(msg);
+                }
+                catch(ErrorMsg e)
+                {
+
+                }
             }
             for (auto node : leaf_set.second)
             {
-                PeerCommunicator peercommunicator(*node);
-                peercommunicator.sendMsg(msg);
+                try {
+                    PeerCommunicator peercommunicator(*node);
+                    peercommunicator.sendMsg(msg);
+                }
+                catch(ErrorMsg e)
+                {
+                    
+                }
             }
             for (auto node : neighbour_set)
             {
-                PeerCommunicator peercommunicator(*node);
-                peercommunicator.sendMsg(msg);
+                try {
+                    PeerCommunicator peercommunicator(*node);
+                    peercommunicator.sendMsg(msg);
+                }
+                catch(ErrorMsg e)
+                {
+                    
+                }
             }
             for (auto row_entry : routing_table)
             {
@@ -231,17 +275,23 @@ void CommandHandler::handleCommand(std::string command)
                 {
                     if (node)
                     {
-                        PeerCommunicator peercommunicator(*node);
-                        peercommunicator.sendMsg(msg);
+                        try {
+                            PeerCommunicator peercommunicator(*node);
+                            peercommunicator.sendMsg(msg);
+                        }
+                        catch(ErrorMsg e)
+                        {
+                            
+                        }
                     }
                 }
             }
             exit(0);
         }
-        else if(args.size() == 1 and args[0] == "hashTable")
+        else if (args.size() == 1 and args[0] == "hashTable")
         {
             auto hashTable = ClientDatabase::getInstance().getHashMap();
-            for(auto pair : hashTable)
+            for (auto pair : hashTable)
             {
                 cout << "Key: " << pair.first << " value: " << pair.second << endl;
             }

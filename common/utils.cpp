@@ -170,23 +170,32 @@ bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
     }
 	auto node1_nodeID = node1->getNodeID();
 	auto node2_nodeID = node2->getNodeID();
-	for (auto i = 0; i < nodeID.length(); i++)
+    int node1_dist = 0, node2_dist = 0, nodeID_dist = 0;
+	for (auto i = 0; i < node1_nodeID.length(); i++)
 	{
-		if (node1_nodeID[i] != node2_nodeID[i])
+        node1_dist += node1_dist*10 + (node1_nodeID[i] - '0');
+        node2_dist += node2_dist*10 + (node2_nodeID[i] - '0');
+        nodeID_dist += nodeID_dist*10 + (nodeID[i] - '0');
+		if (node1_dist != node2_dist)
 		{
-			return abs(node1_nodeID[i] - nodeID[i]) < abs(node2_nodeID[i] - nodeID[i]);
+			return abs(node1_dist - nodeID_dist) < abs(node2_dist - nodeID_dist);
 		}
+        
 	}
 	return false;
 }
 
 bool is_better_node_for_message(string new_node, string current_node, string messageID)
 {
+    int new_node_dist = 0, curr_node_dist = 0, msg_id__dist = 0;
 	for (auto i = 0; i < new_node.length(); i++)
 	{
-		if (new_node[i] != current_node[i])
+        new_node_dist += new_node_dist*10 + (new_node[i] - '0');
+        curr_node_dist += curr_node_dist*10 + (current_node[i] - '0');
+        msg_id__dist += msg_id__dist*10 + (messageID[i] - '0');
+		if (new_node_dist != curr_node_dist)
 		{
-			return abs(new_node[i] - messageID[i]) < abs(new_node[i] - messageID[i]);
+			return abs(new_node_dist - msg_id__dist) < abs(curr_node_dist - msg_id__dist);
 		}
 	}
 	return false;

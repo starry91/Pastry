@@ -37,4 +37,7 @@ void LogHandler::logError(std::string msg)
 void LogHandler::setLogPath(std::string path)
 {
     this->log_path = path;
+    std::ofstream outfile;
+    outfile.open(this->log_path, std::ios_base::trunc);
+    outfile.close();
 }
