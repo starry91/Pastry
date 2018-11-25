@@ -24,6 +24,7 @@ class ClientDatabase
 {
   private:
 	std::mutex seeder_mtx; // mutex for critical section
+	std::mutex shutdown_mtx; // mutex for critical section
 	int row;
 	int col;
 	std::pair<std::set<node_Sptr, leafComparator>, std::set<node_Sptr, leafComparator>> leafSet;
@@ -75,5 +76,7 @@ class ClientDatabase
 	void lazyUpdateLeafSet(bool leaf_set_side);
 	void lazyUpdateNeighbourSet();
 	void lazyUpdateRoutingTable(std::pair<int, int> position);
+	void lockShutdown();
+	void unlockShutdown();
 };
 #endif

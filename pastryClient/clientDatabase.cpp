@@ -194,15 +194,21 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 	auto n_entry = this->findInNeighourSet(neighbour, node->getNodeID());
 	if (n_entry)
 	{
+		std::string log_msg = "Erasing DUPLICATE in neighbour set IP : " + n_entry->getIp() + " Port : " +
+							  n_entry->getPort() + " NodeID: " + n_entry->getNodeID();
+		LogHandler::getInstance().logMsg(log_msg);
 		neighbour.erase(n_entry);
 	}
 	neighbour.insert(node);
 	std::string log_msg = "adding to neighbour set IP : " + node->getIp() + " Port : " +
 						  node->getPort() + " NodeID: " + node->getNodeID();
 	LogHandler::getInstance().logMsg(log_msg);
-	if (neighbour.size() > col)
+	if (neighbour.size() > this->col)
 	{
-		neighbour.erase(*neighbour.rbegin());
+		std::string log_msg = "Erasing in OVERFLOW in neighbour set IP : " + (*neighbour.begin())->getIp() + " Port : " +
+							  (*neighbour.begin())->getPort() + " NodeID: " + (*neighbour.begin())->getNodeID();
+		LogHandler::getInstance().logMsg(log_msg);
+		neighbour.erase(neighbour.begin());
 	}
 	return;
 }
@@ -618,4 +624,13 @@ void ClientDatabase::lazyUpdateRoutingTable(pair<int, int> position)
 		}
 	}
 	return;
+}
+
+void ClientDatabase::lockShutdown()
+{
+	this->shutdown_mtx.lock();
+}
+void ClientDatabase::unlockShutdown()
+{
+	this->shutdown_mtx.unlock();
 }

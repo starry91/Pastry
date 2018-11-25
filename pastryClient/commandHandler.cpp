@@ -231,6 +231,7 @@ void CommandHandler::handleCommand(std::string command)
         }
         else if (args.size() == 1 and args[0] == "shutdown")
         {
+            ClientDatabase::getInstance().lockShutdown();
             LogHandler::getInstance().logError("Shutting Down");
             message::Message msg;
             msg.set_type("ShutDown");
@@ -289,6 +290,7 @@ void CommandHandler::handleCommand(std::string command)
                     }
                 }
             }
+            ClientDatabase::getInstance().unlockShutdown();
             exit(0);
         }
         else if (args.size() == 1 and args[0] == "hashTable")

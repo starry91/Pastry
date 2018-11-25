@@ -668,6 +668,7 @@ void PeerMessageHandler::handleDeleteNodeRequest(message::Message msg)
 
 void PeerMessageHandler::handleShutdownRequest()
 {
+	ClientDatabase::getInstance().lockShutdown();
 	LogHandler::getInstance().logError("Shutting Down");
 	message::Message msg;
 	msg.set_type("ShutDown");
@@ -753,6 +754,7 @@ void PeerMessageHandler::handleShutdownRequest()
 			}
 		}
 	}
+	ClientDatabase::getInstance().unlockShutdown();
 	exit(0);
 }
 

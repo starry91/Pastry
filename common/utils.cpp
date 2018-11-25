@@ -150,7 +150,9 @@ bool leafComparator::operator()(node_Sptr a, node_Sptr b)
 
 bool neighbourComparator::operator()(node_Sptr a, node_Sptr b)
 {
-    if (a->getProximity() > b->getProximity() < 0)
+    if (a->getProximity() == b->getProximity())
+        return a->getNodeID() < b->getNodeID();
+    if (a->getProximity() < b->getProximity())
         return true;
     else
         return false;
