@@ -11,6 +11,7 @@
 #include <openssl/md5.h>
 #include "md5.h"
 #include <errno.h>
+#include "proximity.h"
 using std::cout;
 using std::endl;
 using namespace std;
@@ -186,4 +187,11 @@ bool is_better_node_for_message(string new_node, string current_node, string mes
 		}
 	}
 	return false;
+}
+
+double calculateProximity(string ip_address)//rtt in msec 
+{
+    char* ip_addr;
+    ip_addr = (char *)ip_address.c_str();
+    return proximity(ip_addr);
 }
