@@ -3,6 +3,7 @@
 #include <tgmath.h>
 #include <vector>
 #include <syslog.h>
+#include "logHandler.h"
 using namespace std;
 
 ClientDatabase::ClientDatabase()
@@ -269,11 +270,11 @@ int ClientDatabase::getTotalRouteLength()
 }
 void ClientDatabase::incrementRecievedUpdateCount(int n)
 {
-	syslog(0, "In incrementRecievedUpdateCount");
-	syslog(0, "before increment: %d", this->recieved_update_count);
+	LogHandler::getInstance().logMsg("In incrementRecievedUpdateCount");
+	LogHandler::getInstance().logMsg("before increment: " + this->recieved_update_count);
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->recieved_update_count += n;
-	syslog(0, "after increment: %d", this->recieved_update_count);
+	LogHandler::getInstance().logMsg("after increment: " + this->recieved_update_count);
 }
 int ClientDatabase::getRecievedUpdateCount()
 {
@@ -282,7 +283,7 @@ int ClientDatabase::getRecievedUpdateCount()
 }
 void ClientDatabase::resetUpdateValues()
 {
-	syslog(0, "Resetting values");
+	LogHandler::getInstance().logMsg("Resetting values");
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->total_route_length = this->row;
 	this->recieved_update_count = 0;
