@@ -78,6 +78,10 @@ message Message {
     GetValResponse getValResponse = 9;
     DeleteNode deleteNode = 10;
     AddToHashTable addToHashTable = 11;
+    ResponseLeafSet responseLeafSet = 12;
+    ResponseNeighbourSet responseNeighbourSet = 13;
+    RequestRoutingEntry requestRoutingEntry = 14;
+    ResponseRoutingEntry responseRoutingEntry = 15;
   }
 }
 
@@ -95,6 +99,22 @@ message AddToHashTable{
 
 message ShutDown{
   
+}
+
+message ResponseLeafSet{
+  List leaf = 1;
+}
+
+message ResponseNeighbourSet{
+  List neighbours = 1;
+}
+
+message ResponseRoutingEntry{
+  List routingEntry = 1;
+}
+
+message RequestRoutingEntry{
+  int32 index = 1;
 }
 
 // [END messages]

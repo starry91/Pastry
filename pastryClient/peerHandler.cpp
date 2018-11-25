@@ -21,7 +21,7 @@ void PeerHandler::handleRpc(int client_fd)
             auto byte_data = reader.readFromNetwork();
             cout << "In reciever: byte data length: " << byte_data.size() << endl;
             message::Message reqMsg;
-            reqMsg.ParsePartialFromArray(byte_data.data(), byte_data.size());
+            reqMsg.ParseFromArray(byte_data.data(), byte_data.size());
             PeerMessageHandler msgHandler;
             NetworkWriter writer(client_fd);
             if (reqMsg.type() == "JoinMe")
