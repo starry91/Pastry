@@ -8,6 +8,7 @@
 #include <string>
 #include "message.pb.h"
 #include <vector>
+#include "node.h"
 class PeerMessageHandler
 {
 public:
@@ -22,6 +23,7 @@ public:
   void handleDeleteNodeRequest(message::Message);
   void handleShutdownRequest();
   void sendAllStateUpdate();
+  void handleLazyUpdates(node_Sptr node);
   // ClientDatabase::getInstance()->getHashTable();
   std::unordered_map<std::string, std::string> getRelevantKeyValuePairs(std::string nodeID);
 };

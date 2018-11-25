@@ -15,6 +15,7 @@
 #include <vector>
 #include <unordered_map>
 #include <thread>
+#include "peerCommunicator.h"
 //Pastry parameters
 #define config_parameter_b 3
 #define parameter_N 1000
@@ -68,5 +69,11 @@ class ClientDatabase
 	void delete_from_all(node_Sptr node);
 	node_Sptr findInLeafSet(std::set<node_Sptr, leafComparator>&, std::string nodeId);
 	node_Sptr findInNeighourSet(std::set<node_Sptr, neighbourComparator>&, std::string nodeId);
+	int findInLeafSet(node_Sptr node);
+	node_Sptr findInNeighourSet(node_Sptr node);
+	std:: pair<int, int> findInRoutingTable(node_Sptr node);
+	void lazyUpdateLeafSet(bool leaf_set_side);
+	void lazyUpdateNeighbourSet();
+	void lazyUpdateRoutingTable(std::pair<int, int> position);
 };
 #endif

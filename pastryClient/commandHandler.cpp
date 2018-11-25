@@ -52,18 +52,19 @@ void CommandHandler::handleCommand(std::string command)
             temp->set_nodeid(ClientDatabase::getInstance().getListener()->getNodeID());
             PeerCommunicator peercommunicator(ip, port);
             syslog(0, "In command handler -> join -> sending msg to ip %s port %s", temp->ip().c_str(), temp->port().c_str());
-            auto resp = peercommunicator.sendMsg(msg);
-            if (resp.status() == "FAIL")
-            {
-                syslog(0, "In command handler -> join -> recieved status: FAIL");
-                LogHandler::getInstance().logError("JOINME - FAIL");
-                throw ErrorMsg("Failed Join Me msg");
-            }
-            else
-            {
-                syslog(0, "In command handler -> join -> recieved status: SUCCESS");
-                LogHandler::getInstance().logMsg("JOINME - SUCCESS");
-            }
+            peercommunicator.sendMsg(msg);
+            // auto resp = peercommunicator.readMsg
+            // if (resp.status() == "FAIL")
+            // {
+            //     syslog(0, "In command handler -> join -> recieved status: FAIL");
+            //     LogHandler::getInstance().logError("JOINME - FAIL");
+            //     throw ErrorMsg("Failed Join Me msg");
+            // }
+            // else
+            // {
+            //     syslog(0, "In command handler -> join -> recieved status: SUCCESS");
+            //     LogHandler::getInstance().logMsg("JOINME - SUCCESS");
+            // }
         }
         else if (args.size() == 3 && args[0] == "put")
         {
@@ -83,16 +84,17 @@ void CommandHandler::handleCommand(std::string command)
                 return;
             }
             PeerCommunicator peercommunicator(*nextNode);
-            auto resp = peercommunicator.sendMsg(msg);
-            if (resp.status() == "FAIL")
-            {
-                LogHandler::getInstance().logError("SET - FAIL");
-                throw ErrorMsg("Failed Join Me msg");
-            }
-            else
-            {
-                LogHandler::getInstance().logMsg("SET - SUCCESS");
-            }
+            peercommunicator.sendMsg(msg);
+            // auto resp = 
+            // if (resp.status() == "FAIL")
+            // {
+            //     LogHandler::getInstance().logError("SET - FAIL");
+            //     throw ErrorMsg("Failed Join Me msg");
+            // }
+            // else
+            // {
+            //     LogHandler::getInstance().logMsg("SET - SUCCESS");
+            // }
         }
         else if (args.size() == 2 && args[0] == "get")
         {
@@ -114,16 +116,17 @@ void CommandHandler::handleCommand(std::string command)
                 return;
             }
             PeerCommunicator peercommunicator(*nextNode);
-            auto resp = peercommunicator.sendMsg(msg);
-            if (resp.status() == "FAIL")
-            {
-                LogHandler::getInstance().logError("GET - FAIL");
-                throw ErrorMsg("Failed Join Me msg");
-            }
-            else
-            {
-                LogHandler::getInstance().logMsg("GET - SUCCESS");
-            }
+            peercommunicator.sendMsg(msg);
+            // auto resp = 
+            // if (resp.status() == "FAIL")
+            // {
+            //     LogHandler::getInstance().logError("GET - FAIL");
+            //     throw ErrorMsg("Failed Join Me msg");
+            // }
+            // else
+            // {
+            //     LogHandler::getInstance().logMsg("GET - SUCCESS");
+            // }
         }
         else if (args.size() == 1 && args[0] == "lset")
         {
@@ -187,7 +190,7 @@ void CommandHandler::handleCommand(std::string command)
                         best_leaf = leaf;
                     }
                     PeerCommunicator peercommunicator(*leaf);
-                    auto resp = peercommunicator.sendMsg(delete_msg);
+                    peercommunicator.sendMsg(delete_msg);
                 }
             }
             if (!leafSet.second.empty())
@@ -204,14 +207,14 @@ void CommandHandler::handleCommand(std::string command)
                         best_leaf = leaf;
                     }
                     PeerCommunicator peercommunicator(*leaf);
-                    auto resp = peercommunicator.sendMsg(delete_msg);
+                    peercommunicator.sendMsg(delete_msg);
                 }
             }
             auto neighbour_set = ClientDatabase::getInstance().getNeighbourSet();
             for (auto node : neighbour_set)
             {
                 PeerCommunicator peercommunicator(*node);
-                auto resp = peercommunicator.sendMsg(delete_msg);
+                peercommunicator.sendMsg(delete_msg);
             }
             if (best_leaf)
             {
@@ -225,7 +228,7 @@ void CommandHandler::handleCommand(std::string command)
                     (*hash_map_message)[entry.first] = entry.second;
                 }
                 PeerCommunicator peercommunicator(*best_leaf);
-                auto resp = peercommunicator.sendMsg(msg);
+                peercommunicator.sendMsg(msg);
             }
             exit(0);
         }
@@ -239,17 +242,17 @@ void CommandHandler::handleCommand(std::string command)
             for (auto node : leaf_set.first)
             {
                 PeerCommunicator peercommunicator(*node);
-                auto resp = peercommunicator.sendMsg(msg);
+                peercommunicator.sendMsg(msg);
             }
             for (auto node : leaf_set.second)
             {
                 PeerCommunicator peercommunicator(*node);
-                auto resp = peercommunicator.sendMsg(msg);
+                peercommunicator.sendMsg(msg);
             }
             for (auto node : neighbour_set)
             {
                 PeerCommunicator peercommunicator(*node);
-                auto resp = peercommunicator.sendMsg(msg);
+                peercommunicator.sendMsg(msg);
             }
             for (auto row_entry : routing_table)
             {
@@ -258,7 +261,7 @@ void CommandHandler::handleCommand(std::string command)
                     if (node)
                     {
                         PeerCommunicator peercommunicator(*node);
-                        auto resp = peercommunicator.sendMsg(msg);
+                        peercommunicator.sendMsg(msg);
                     }
                 }
             }

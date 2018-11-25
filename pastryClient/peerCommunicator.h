@@ -23,6 +23,7 @@ public:
   Response sendMsg(Message msg);
   void connectToTracker();
   virtual ~PeerCommunicator();
+  Message recieveMsg();
 };
 
 #endif

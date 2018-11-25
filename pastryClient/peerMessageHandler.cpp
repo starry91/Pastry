@@ -62,7 +62,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	}
 
 	///Checking for lazy routing updates
-	while(next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
+	while (next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		cout << "in handle joinme request next not equal to current" << endl;
 		message::Message req_msg;
@@ -72,13 +72,16 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 		join_msg->set_port(req.port());
 		join_msg->set_nodeid(req.nodeid());
 		join_msg->set_row_index(prefix_match_len);
-		try{
+		try
+		{
 			PeerCommunicator peercommunicator(*next_node_sptr);
-			auto resp = peercommunicator.sendMsg(routingUpdate);
+			peercommunicator.sendMsg(routingUpdate);
 			break;
 		}
-		catch(ErrorMsg e){
-			ClientDatabase::getInstance().delete_from_all(next_node_sptr);;
+		catch (ErrorMsg e)
+		{
+			// ClientDatabase::getInstance().delete_from_all(next_node_sptr);
+			this->handleLazyUpdates(next_node_sptr);
 			next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
 		}
 	}
@@ -108,8 +111,8 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	populateMsgSender(sender, ClientDatabase::getInstance().getListener());
 	cout << "after populating " << routingUpdate.sender().nodeid() << endl;
 	cout << "In handleJoinMeRequest, routing table size: " << routingUpdate.routingupdate().routingentires_size() << endl;
-	PeerCommunicator peercommunicator(Node(req.ip(), req.port(),req.nodeid()));
-	auto resp = peercommunicator.sendMsg(routingUpdate);
+	PeerCommunicator peercommunicator(Node(req.ip(), req.port(), req.nodeid()));
+	peercommunicator.sendMsg(routingUpdate);
 	return;
 }
 void PeerMessageHandler::handleJoinRequest(message::Message msg)
@@ -155,7 +158,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	}
 
 	///Checking for lazy routing updates
-	while(next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
+	while (next_node_sptr->getNodeID() != ClientDatabase::getInstance().getListener()->getNodeID())
 	{
 		cout << "in handle joinme request next not equal to current" << endl;
 		message::Message req_msg;
@@ -165,13 +168,16 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 		join_msg->set_port(req.port());
 		join_msg->set_nodeid(req.nodeid());
 		join_msg->set_row_index(prefix_match_len);
-		try{
+		try
+		{
 			PeerCommunicator peercommunicator(*next_node_sptr);
-			auto resp = peercommunicator.sendMsg(routingUpdate);
+			peercommunicator.sendMsg(routingUpdate);
 			break;
 		}
-		catch(ErrorMsg e){
-			ClientDatabase::getInstance().delete_from_all(next_node_sptr);;
+		catch (ErrorMsg e)
+		{
+			// ClientDatabase::getInstance().delete_from_all(next_node_sptr);
+			this->handleLazyUpdates(next_node_sptr);
 			next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
 		}
 	}
@@ -200,7 +206,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	auto sender = routingUpdate.mutable_sender();
 	populateMsgSender(sender, next_node_sptr);
 	PeerCommunicator peercommunicator(Node(req.ip(), req.port(), req.nodeid()));
-	auto resp = peercommunicator.sendMsg(routingUpdate);
+	peercommunicator.sendMsg(routingUpdate);
 	return;
 }
 void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
@@ -214,7 +220,7 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 	cout << "in handle routing update, routing entries count " << req.routingentires_size() << endl;
 	ClientDatabase::getInstance().incrementRecievedUpdateCount(req.routingentires_size());
 
-	cout<<"in handle routing updatemake c";
+	cout << "in handle routing updatemake c";
 	printNode(sender_node);
 
 	for (int i = 0; i < req.routingentires_size(); i++)
@@ -257,7 +263,7 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 	{
 		auto sender = msg.sender();
 		auto sender_node = make_shared<Node>(sender.ip(), sender.port(), sender.nodeid());
-		ClientDatabase::getInstance().setTotalRouteLength(req.routingentires(req.routingentires_size()-1).index()+1);
+		ClientDatabase::getInstance().setTotalRouteLength(req.routingentires(req.routingentires_size() - 1).index() + 1);
 		ClientDatabase::getInstance().addToLeafSet(sender_node);
 		for (int j = 0; j < req.leaf().node_size(); j++)
 		{
@@ -271,8 +277,8 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 		}
 	}
 	syslog(0, "Current route update count: %d, required route update count: %d",
-				ClientDatabase::getInstance().getRecievedUpdateCount(),ClientDatabase::getInstance().getTotalRouteLength());
-	if(ClientDatabase::getInstance().getRecievedUpdateCount() == ClientDatabase::getInstance().getTotalRouteLength())
+		   ClientDatabase::getInstance().getRecievedUpdateCount(), ClientDatabase::getInstance().getTotalRouteLength());
+	if (ClientDatabase::getInstance().getRecievedUpdateCount() == ClientDatabase::getInstance().getTotalRouteLength())
 	{
 		this->sendAllStateUpdate();
 	}
@@ -342,25 +348,26 @@ void PeerMessageHandler::sendAllStateUpdate()
 	for (auto node : neighbourSet)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(all_state_req);
+		peercommunicator.sendMsg(all_state_req);
 	}
 	for (auto node : leafSet.first)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(all_state_req);
+		peercommunicator.sendMsg(all_state_req);
 	}
 	for (auto node : leafSet.second)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(all_state_req);
+		peercommunicator.sendMsg(all_state_req);
 	}
 	for (int i = 0; i < routingTable.size(); i++)
 	{
 		for (auto node : routingTable[i])
 		{
-			if(node) {
+			if (node)
+			{
 				PeerCommunicator peercommunicator(*node);
-				auto resp = peercommunicator.sendMsg(all_state_req);
+				peercommunicator.sendMsg(all_state_req);
 			}
 		}
 	}
@@ -371,7 +378,7 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 	auto req = msg.allstateupdate();
 	auto sender = msg.sender();
 	auto sender_node = make_shared<Node>(sender.ip(), sender.port(), sender.nodeid());
-	cout<<"in handle all state update";
+	cout << "in handle all state update";
 	printNode(sender_node);
 	ClientDatabase::getInstance().updateAllState(sender_node);
 	for (int i = 0; i < req.leaf().node_size(); i++)
@@ -424,7 +431,8 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 void PeerMessageHandler::handleGetValRequest(message::Message msg)
 {
 	auto req = msg.getvalmsg();
-	do{
+	do
+	{
 		auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.key());
 
 		if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
@@ -441,16 +449,19 @@ void PeerMessageHandler::handleGetValRequest(message::Message msg)
 		}
 		else
 		{
-			try{
+			try
+			{
 				PeerCommunicator peercommunicator(*next_node_sptr);
 				peercommunicator.sendMsg(msg);
 				break;
 			}
-			catch (ErrorMsg e){
-				ClientDatabase::getInstance().delete_from_all(next_node_sptr);
+			catch (ErrorMsg e)
+			{
+				this->handleLazyUpdates(next_node_sptr);
+				// ClientDatabase::getInstance().delete_from_all(next_node_sptr);
 			}
 		}
-	}while(true);
+	} while (true);
 }
 
 void PeerMessageHandler::handleGetValResponse(message::Message msg)
@@ -462,7 +473,8 @@ void PeerMessageHandler::handleGetValResponse(message::Message msg)
 void PeerMessageHandler::handleSetValRequest(message::Message msg)
 {
 	auto req = msg.setvalmsg();
-	do{
+	do
+	{
 		auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.key());
 
 		if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
@@ -473,16 +485,19 @@ void PeerMessageHandler::handleSetValRequest(message::Message msg)
 		}
 		else
 		{
-			try{
+			try
+			{
 				PeerCommunicator peercommunicator(*next_node_sptr);
-				auto resp = peercommunicator.sendMsg(msg);
+				peercommunicator.sendMsg(msg);
 				break;
 			}
-			catch (ErrorMsg e){
-				ClientDatabase::getInstance().delete_from_all(next_node_sptr);
+			catch (ErrorMsg e)
+			{
+				this->handleLazyUpdates(next_node_sptr);
+				// ClientDatabase::getInstance().delete_from_all(next_node_sptr);
 			}
 		}
-	}while(true);
+	} while (true);
 }
 unordered_map<string, string> PeerMessageHandler::getRelevantKeyValuePairs(string nodeID)
 {
@@ -517,7 +532,8 @@ void PeerMessageHandler::handleDeleteNodeRequest(message::Message msg)
 	//   ClientDatabase::getInstance().deleteFromHashMap()
 }
 
-void PeerMessageHandler:: handleShutdownRequest(){
+void PeerMessageHandler::handleShutdownRequest()
+{
 	message::Message msg;
 	msg.set_type("ShutDown");
 	auto leaf_set = ClientDatabase::getInstance().getLeafSet();
@@ -526,17 +542,17 @@ void PeerMessageHandler:: handleShutdownRequest(){
 	for (auto node : leaf_set.first)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(msg);
+		peercommunicator.sendMsg(msg);
 	}
 	for (auto node : leaf_set.second)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(msg);
+		peercommunicator.sendMsg(msg);
 	}
 	for (auto node : neighbour_set)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(msg);
+		peercommunicator.sendMsg(msg);
 	}
 	for (auto row_entry : routing_table)
 	{
@@ -545,9 +561,47 @@ void PeerMessageHandler:: handleShutdownRequest(){
 			if (node)
 			{
 				PeerCommunicator peercommunicator(*node);
-				auto resp = peercommunicator.sendMsg(msg);
+				peercommunicator.sendMsg(msg);
 			}
 		}
 	}
 	exit(0);
+}
+
+void PeerMessageHandler::handleLazyUpdates(node_Sptr node)
+{
+	auto leaf_set_side = ClientDatabase::getInstance().findInLeafSet(node);
+	if (leaf_set_side != -1)
+	{
+		ClientDatabase::getInstance().deleteFromLeafSet(node);
+		std::thread T(&ClientDatabase::lazyUpdateLeafSet, std::ref(ClientDatabase::getInstance()), leaf_set_side);
+		T.detach();
+	}
+	else
+	{
+		ClientDatabase::getInstance().deleteFromLeafSet(node);
+	}
+
+	if (ClientDatabase::getInstance().findInNeighourSet(node))
+	{
+		ClientDatabase::getInstance().deleteFromNeighhbourSet(node);
+		std::thread T(&ClientDatabase::lazyUpdateNeighbourSet, std::ref(ClientDatabase::getInstance()));
+		T.detach();
+	}
+	else
+	{
+		ClientDatabase::getInstance().deleteFromNeighhbourSet(node);
+	}
+	auto position_in_routing_table = ClientDatabase::getInstance().findInRoutingTable(node);
+	if (position_in_routing_table.first != -1)
+	{
+		ClientDatabase::getInstance().deleteFromRoutingTable(node);
+		std::thread T(&ClientDatabase::lazyUpdateRoutingTable, std::ref(ClientDatabase::getInstance()), position_in_routing_table);
+		T.detach();
+	}
+	else
+	{
+		ClientDatabase::getInstance().deleteFromRoutingTable(node);
+	}
+	return;
 }
