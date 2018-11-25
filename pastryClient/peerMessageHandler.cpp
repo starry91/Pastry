@@ -15,6 +15,23 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	syslog(7, "In peer handler -> join -> recieved JoinMe request from ip %s, port %s, nodeID %s",
 		   msg.joinmemsg().ip().c_str(), msg.joinmemsg().port().c_str(), msg.joinmemsg().nodeid().c_str());
 	auto req = msg.joinmemsg();
+
+	//updating the joining node with relevant data
+	auto relevant_pairs = getRelevantKeyValuePairs(req.nodeid());
+	if(!relevant_pairs.empty())
+	{
+		message::Message msg;
+		msg.set_type("AddToHashTable");
+		auto *temp = msg.mutable_addtohashtable();
+		auto hash_map_message = temp->mutable_hashmap();
+		for (auto entry : relevant_pairs)
+		{
+			(*hash_map_message)[entry.first] = entry.second;
+		}
+		PeerCommunicator peercommunicator(req.ip(),req.port());
+		auto resp = peercommunicator.sendMsg(msg);
+	}
+
 	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
 	message::Message routingUpdate;
 	routingUpdate.set_type("RoutingUpdate");
@@ -120,6 +137,23 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	syslog(7, "In peer handler -> join -> recieved Join request from ip %s, port %s, nodeID %s",
 		   msg.joinmemsg().ip().c_str(), msg.joinmemsg().port().c_str(), msg.joinmemsg().nodeid().c_str());
 	auto req = msg.joinmsg();
+
+	//updating the joining node with relevant data
+	auto relevant_pairs = getRelevantKeyValuePairs(req.nodeid());
+	if(!relevant_pairs.empty())
+	{
+		message::Message msg;
+		msg.set_type("AddToHashTable");
+		auto *temp = msg.mutable_addtohashtable();
+		auto hash_map_message = temp->mutable_hashmap();
+		for (auto entry : relevant_pairs)
+		{
+			(*hash_map_message)[entry.first] = entry.second;
+		}
+		PeerCommunicator peercommunicator(req.ip(),req.port());
+		auto resp = peercommunicator.sendMsg(msg);
+	}
+
 	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
 	message::Message routingUpdate;
 	routingUpdate.set_type("RoutingUpdate");
