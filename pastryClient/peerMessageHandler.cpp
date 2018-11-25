@@ -29,7 +29,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 			(*hash_map_message)[entry.first] = entry.second;
 		}
 		PeerCommunicator peercommunicator(req.ip(),req.port());
-		auto resp = peercommunicator.sendMsg(msg);
+		peercommunicator.sendMsg(msg);
 	}
 
 	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
@@ -91,7 +91,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 		join_msg->set_row_index(prefix_match_len);
 		try{
 			PeerCommunicator peercommunicator(*next_node_sptr);
-			auto resp = peercommunicator.sendMsg(routingUpdate);
+			peercommunicator.sendMsg(routingUpdate);
 			break;
 		}
 		catch(ErrorMsg e){
@@ -126,7 +126,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	cout << "after populating " << routingUpdate.sender().nodeid() << endl;
 	cout << "In handleJoinMeRequest, routing table size: " << routingUpdate.routingupdate().routingentires_size() << endl;
 	PeerCommunicator peercommunicator(Node(req.ip(), req.port(),req.nodeid()));
-	auto resp = peercommunicator.sendMsg(routingUpdate);
+	peercommunicator.sendMsg(routingUpdate);
 	return;
 }
 void PeerMessageHandler::handleJoinRequest(message::Message msg)
@@ -148,7 +148,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 			(*hash_map_message)[entry.first] = entry.second;
 		}
 		PeerCommunicator peercommunicator(req.ip(),req.port());
-		auto resp = peercommunicator.sendMsg(msg);
+		peercommunicator.sendMsg(msg);
 	}
 
 	auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.nodeid());
@@ -201,7 +201,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 		join_msg->set_row_index(prefix_match_len);
 		try{
 			PeerCommunicator peercommunicator(*next_node_sptr);
-			auto resp = peercommunicator.sendMsg(routingUpdate);
+			peercommunicator.sendMsg(routingUpdate);
 			break;
 		}
 		catch(ErrorMsg e){
@@ -234,7 +234,7 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	auto sender = routingUpdate.mutable_sender();
 	populateMsgSender(sender, next_node_sptr);
 	PeerCommunicator peercommunicator(Node(req.ip(), req.port(), req.nodeid()));
-	auto resp = peercommunicator.sendMsg(routingUpdate);
+	peercommunicator.sendMsg(routingUpdate);
 	return;
 }
 void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
@@ -376,17 +376,17 @@ void PeerMessageHandler::sendAllStateUpdate()
 	for (auto node : neighbourSet)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(all_state_req);
+		peercommunicator.sendMsg(all_state_req);
 	}
 	for (auto node : leafSet.first)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(all_state_req);
+		peercommunicator.sendMsg(all_state_req);
 	}
 	for (auto node : leafSet.second)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(all_state_req);
+		peercommunicator.sendMsg(all_state_req);
 	}
 	for (int i = 0; i < routingTable.size(); i++)
 	{
@@ -394,7 +394,7 @@ void PeerMessageHandler::sendAllStateUpdate()
 		{
 			if(node) {
 				PeerCommunicator peercommunicator(*node);
-				auto resp = peercommunicator.sendMsg(all_state_req);
+				peercommunicator.sendMsg(all_state_req);
 			}
 		}
 	}
@@ -509,7 +509,7 @@ void PeerMessageHandler::handleSetValRequest(message::Message msg)
 		{
 			try{
 				PeerCommunicator peercommunicator(*next_node_sptr);
-				auto resp = peercommunicator.sendMsg(msg);
+				peercommunicator.sendMsg(msg);
 				break;
 			}
 			catch (ErrorMsg e){
@@ -560,17 +560,17 @@ void PeerMessageHandler:: handleShutdownRequest(){
 	for (auto node : leaf_set.first)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(msg);
+		peercommunicator.sendMsg(msg);
 	}
 	for (auto node : leaf_set.second)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(msg);
+		peercommunicator.sendMsg(msg);
 	}
 	for (auto node : neighbour_set)
 	{
 		PeerCommunicator peercommunicator(*node);
-		auto resp = peercommunicator.sendMsg(msg);
+		peercommunicator.sendMsg(msg);
 	}
 	for (auto row_entry : routing_table)
 	{
@@ -579,7 +579,7 @@ void PeerMessageHandler:: handleShutdownRequest(){
 			if (node)
 			{
 				PeerCommunicator peercommunicator(*node);
-				auto resp = peercommunicator.sendMsg(msg);
+				peercommunicator.sendMsg(msg);
 			}
 		}
 	}
