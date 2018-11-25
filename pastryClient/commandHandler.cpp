@@ -80,6 +80,7 @@ void CommandHandler::handleCommand(std::string command)
             string key = args[1];
             key = getHash(key, config_parameter_b);
             message::Message msg;
+            syslog(0,"hash value in get for %s is %s",args[1].c_str(),key.c_str());
             msg.set_type("GetVal");
             auto sender = msg.mutable_sender();
             populateMsgSender(sender, ClientDatabase::getInstance().getListener());

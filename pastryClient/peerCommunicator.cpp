@@ -37,6 +37,10 @@ PeerCommunicator::PeerCommunicator(std::string ip, std::string port)
     // cout << "### Created TrackerServiceServer with fd: " << this->tracker_fd << endl;
 }
 
+PeerCommunicator::PeerCommunicator(int peer_fd){
+    this->peer_fd = peer_fd;
+}
+
 PeerCommunicator::~PeerCommunicator()
 {
     syslog(LOG_INFO, "### Closing PeerCommunicator() with fd: %d", this->peer_fd);

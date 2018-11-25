@@ -24,6 +24,9 @@ public:
   void handleShutdownRequest();
   void sendAllStateUpdate();
   void handleLazyUpdates(node_Sptr node);
+  void handleRequestLeafSet(int peer_fd);
+  void handleRequestNeighbourSet(int peer_fd);
+  void handleRequestRoutingEntry(int peer_fd, message:: Message);
   std::unordered_map<std::string, std::string> getRelevantKeyValuePairs(std::string nodeID);
 };
 
