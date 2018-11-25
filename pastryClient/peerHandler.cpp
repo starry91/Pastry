@@ -7,7 +7,7 @@
 #include "clientDatabase.h"
 #include "unistd.h"
 #include <vector>
-
+#include <syslog.h>
 using std::cout;
 using std::endl;
 using namespace std;
@@ -19,13 +19,15 @@ void PeerHandler::handleRpc(int client_fd)
         {
             NetworkReader reader(client_fd);
             auto byte_data = reader.readFromNetwork();
+            cout << "In reciever: byte data length: " << byte_data.size() << endl;
             message::Message reqMsg;
-            reqMsg.ParseFromString(string(byte_data.data()));
+            reqMsg.ParseFromArray(byte_data.data(), byte_data.size());
             PeerMessageHandler msgHandler;
             NetworkWriter writer(client_fd);
             if (reqMsg.type() == "JoinMe")
             {
                 LogHandler::getInstance().logMsg("Recieved JoinMe request");
+                syslog(5,"In peer handler -> join -> recieved JoinMe request");
                 message::Response resp;
                 resp.set_status("SUCCESS");
                 auto resp_string = resp.SerializeAsString();
@@ -68,6 +70,15 @@ void PeerHandler::handleRpc(int client_fd)
                 writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleGetValRequest(reqMsg);
             }
+            else if (reqMsg.type() == "GetValResponse")
+            {
+                LogHandler::getInstance().logMsg("Recieved GetValResponse request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
+                msgHandler.handleGetValResponse(reqMsg);
+            }
             else if (reqMsg.type() == "SetVal")
             {
                 LogHandler::getInstance().logMsg("Recieved SetVal request");
@@ -77,11 +88,33 @@ void PeerHandler::handleRpc(int client_fd)
                 writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
                 msgHandler.handleSetValRequest(reqMsg);
             }
+            else if (reqMsg.type() == "DeleteNode")
+            {
+                LogHandler::getInstance().logMsg("Recieved DeleteNode request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
+                msgHandler.handleDeleteNodeRequest(reqMsg);
+            }
+            else if (reqMsg.type() == "AddToHashTable")
+            {
+                LogHandler::getInstance().logMsg("Recieved AddToHashTable request");
+                message::Response resp;
+                resp.set_status("SUCCESS");
+                auto resp_string = resp.SerializeAsString();
+                writer.writeToNetwork(vector<char>(resp_string.begin(),resp_string.end()));
+                msgHandler.handleAddToHashTableRequest(reqMsg);
+            }
+            else if(reqMsg.type() == "ShutDown"){
+                LogHandler::getInstance().logMsg("Recieved Shutdown request");
+                msgHandler.handleShutdownRequest();
+            }
         }
     }
     catch (ErrorMsg e)
     {
-        //std::cout << "PeerHandler::handleRpc() Exception received: " << e.getErrorMsg() << "For fd: " << client_fd << std::endl;
+        syslog(5,("PeerHandler::handleRpc() Exception received: " + e.getErrorMsg() + "For fd: " + std::to_string(client_fd)).c_str());
     }
     close(client_fd);   
 }

@@ -165,6 +165,9 @@ int prefixMatchLen(string x, string y)
 
 bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
 {
+    if(!node1){
+        return false;
+    }
 	auto node1_nodeID = node1->getNodeID();
 	auto node2_nodeID = node2->getNodeID();
 	for (auto i = 0; i < nodeID.length(); i++)
@@ -187,6 +190,21 @@ bool is_better_node_for_message(string new_node, string current_node, string mes
 		}
 	}
 	return false;
+}
+
+void printNode(node_Sptr node)
+{
+    cout << "NodeID: " << node->getNodeID() << " IP: " << node->getIp() 
+            << " Port: " << node->getPort() << " Proximity: " << node->getProximity() << endl;
+}
+
+void populateMsgSender(message::Node * sender, node_Sptr node)
+{
+    cout << "in print msg sender" << endl;
+    printNode(node);
+    sender->set_ip(node->getIp());
+	sender->set_port(node->getPort());
+    sender->set_nodeid(node->getNodeID());
 }
 
 double calculateProximity(string ip_address)//rtt in msec 

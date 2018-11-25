@@ -11,6 +11,7 @@ TOPTARGETS := all clean
 $(TOPTARGETS): $(SUBDIRS)
 
 $(SUBDIRS):
+	protoc -I=./pastryClient --cpp_out=./pastryClient ./pastryClient/message.proto
 	$(MAKE) -C $@ $(MAKECMDGOALS)
 
 .PHONY: $(TOPTARGETS) $(SUBDIRS)
