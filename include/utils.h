@@ -31,4 +31,5 @@ bool is_better_node(node_Sptr node1, node_Sptr node2, std::string nodeID); //is 
 bool is_better_node_for_message(std::string new_node, std::string current_node, std::string messageID);
 void printNode(node_Sptr);
 void populateMsgSender(message::Node * node, node_Sptr);
+double calculateProximity(string ip_address);
 #endif
