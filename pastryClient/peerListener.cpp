@@ -31,9 +31,7 @@ void PeerListener::startListening()
 
     // Filling server information
     server_addr.sin_family = AF_INET; // IPv4
-    // cout << "PeerListener::startListening() listen host: " << ClientDatabase::getInstance().getHost().getIp() << endl;
-    server_addr.sin_addr.s_addr = inet_addr(ClientDatabase::getInstance().getListener()->getIp().c_str());
-    // cout << "PeerListener::startListening() listen port: " << ClientDatabase::getInstance().getHost().getPort() << endl;
+    server_addr.sin_addr.s_addr = inet_addr(ClientDatabase::getInstance().getListener()->getIp().c_str());;
     server_addr.sin_port = htons(stoi(ClientDatabase::getInstance().getListener()->getPort()));
 
     // Bind the socket with the server address
@@ -48,8 +46,6 @@ void PeerListener::startListening()
         perror("listen");
         exit(EXIT_FAILURE);
     }
-    // std::thread::id listener_id = std::this_thread::get_id();
-    // ClientDatabase::getInstance().setListenerThreadID(listener_id);
     while (true)
     {
         int cli_fd;
@@ -59,7 +55,6 @@ void PeerListener::startListening()
             perror("accept");
             exit(EXIT_FAILURE);
         }
-        //cout << "in PeerListener::startListening() accepted new connection with fd: " << cli_fd << endl;
         std::thread t1(&PeerHandler::handleRpc, PeerHandler(), cli_fd);
         t1.detach();
     }

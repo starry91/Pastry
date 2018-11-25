@@ -11,6 +11,7 @@
 #include <openssl/md5.h>
 #include "md5.h"
 #include <errno.h>
+#include "proximity.h"
 using std::cout;
 using std::endl;
 using namespace std;
@@ -73,7 +74,7 @@ std::vector<std::string> extractArgs(std::string command)
     pch = strtok((char *)command.c_str(), " ");
     while (pch != NULL)
     {
-        args.push_back(std::string(pch));
+        args.push_  back(std::string(pch));
         pch = strtok(NULL, " ");
     }
     return args;
@@ -204,4 +205,11 @@ void populateMsgSender(message::Node * sender, node_Sptr node)
     sender->set_ip(node->getIp());
 	sender->set_port(node->getPort());
     sender->set_nodeid(node->getNodeID());
+}
+
+double calculateProximity(string ip_address)//rtt in msec 
+{
+    char* ip_addr;
+    ip_addr = (char *)ip_address.c_str();
+    return proximity(ip_addr);
 }
