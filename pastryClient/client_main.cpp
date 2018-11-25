@@ -17,7 +17,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    syslog(0,"----------------------------------");
+    syslog(0, "----------------------------------");
     if (argc == 2)
     {
         //Setting log path

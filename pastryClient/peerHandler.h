@@ -7,8 +7,8 @@
 
 class PeerHandler
 {
-  public:
-    void handleRpc(int sock_fd);
+public:
+  void handleRpc(int sock_fd);
 };
 
 #endif

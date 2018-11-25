@@ -127,16 +127,17 @@ std::string getHash(std::string bytes, int len)
         for (int j = 0; j < len; j++)
         {
             res *= 2;
-            if (n&(1<<(i+j))) res++;
+            if (n & (1 << (i + j)))
+                res++;
         }
-        nodeID += char(res+'0');
+        nodeID += char(res + '0');
     }
     return nodeID;
 }
 
 std::string trimString(std::string name, int len)
 {
-    return name.substr(0,len);
+    return name.substr(0, len);
 }
 
 bool leafComparator::operator()(node_Sptr a, node_Sptr b)
@@ -165,60 +166,60 @@ int prefixMatchLen(string x, string y)
 
 bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
 {
-    if(!node1){
+    if (!node1)
+    {
         return false;
     }
-	auto node1_nodeID = node1->getNodeID();
-	auto node2_nodeID = node2->getNodeID();
+    auto node1_nodeID = node1->getNodeID();
+    auto node2_nodeID = node2->getNodeID();
     int node1_dist = 0, node2_dist = 0, nodeID_dist = 0;
-	for (auto i = 0; i < node1_nodeID.length(); i++)
-	{
-        node1_dist += node1_dist*10 + (node1_nodeID[i] - '0');
-        node2_dist += node2_dist*10 + (node2_nodeID[i] - '0');
-        nodeID_dist += nodeID_dist*10 + (nodeID[i] - '0');
-		if (node1_dist != node2_dist)
-		{
-			return abs(node1_dist - nodeID_dist) < abs(node2_dist - nodeID_dist);
-		}
-        
-	}
-	return false;
+    for (auto i = 0; i < node1_nodeID.length(); i++)
+    {
+        node1_dist += node1_dist * 10 + (node1_nodeID[i] - '0');
+        node2_dist += node2_dist * 10 + (node2_nodeID[i] - '0');
+        nodeID_dist += nodeID_dist * 10 + (nodeID[i] - '0');
+        if (node1_dist != node2_dist)
+        {
+            return abs(node1_dist - nodeID_dist) < abs(node2_dist - nodeID_dist);
+        }
+    }
+    return false;
 }
 
 bool is_better_node_for_message(string new_node, string current_node, string messageID)
 {
     int new_node_dist = 0, curr_node_dist = 0, msg_id__dist = 0;
-	for (auto i = 0; i < new_node.length(); i++)
-	{
-        new_node_dist += new_node_dist*10 + (new_node[i] - '0');
-        curr_node_dist += curr_node_dist*10 + (current_node[i] - '0');
-        msg_id__dist += msg_id__dist*10 + (messageID[i] - '0');
-		if (new_node_dist != curr_node_dist)
-		{
-			return abs(new_node_dist - msg_id__dist) < abs(curr_node_dist - msg_id__dist);
-		}
-	}
-	return false;
+    for (auto i = 0; i < new_node.length(); i++)
+    {
+        new_node_dist += new_node_dist * 10 + (new_node[i] - '0');
+        curr_node_dist += curr_node_dist * 10 + (current_node[i] - '0');
+        msg_id__dist += msg_id__dist * 10 + (messageID[i] - '0');
+        if (new_node_dist != curr_node_dist)
+        {
+            return abs(new_node_dist - msg_id__dist) < abs(curr_node_dist - msg_id__dist);
+        }
+    }
+    return false;
 }
 
 void printNode(node_Sptr node)
 {
-    cout << "NodeID: " << node->getNodeID() << " IP: " << node->getIp() 
-            << " Port: " << node->getPort() << " Proximity: " << node->getProximity() << endl;
+    cout << "NodeID: " << node->getNodeID() << " IP: " << node->getIp()
+         << " Port: " << node->getPort() << " Proximity: " << node->getProximity() << endl;
 }
 
-void populateMsgSender(message::Node * sender, node_Sptr node)
+void populateMsgSender(message::Node *sender, node_Sptr node)
 {
     cout << "in print msg sender" << endl;
     printNode(node);
     sender->set_ip(node->getIp());
-	sender->set_port(node->getPort());
+    sender->set_port(node->getPort());
     sender->set_nodeid(node->getNodeID());
 }
 
-double calculateProximity(string ip_address)//rtt in msec 
+double calculateProximity(string ip_address) //rtt in msec
 {
-    char* ip_addr;
+    char *ip_addr;
     ip_addr = (char *)ip_address.c_str();
     return proximity(ip_addr);
 }

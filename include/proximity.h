@@ -32,16 +32,11 @@ using namespace std;
 // in seconds
 #define RECV_TIMEOUT 1
 
-
-
 // Calculating the Check Sum
 unsigned short checksum(void *b, int len);
 
 double send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_ip);
 
-
-
 double proximity(char *ip_addr);
 
-#endif  
-
+#endif

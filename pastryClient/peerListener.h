@@ -5,8 +5,9 @@
 #include <string>
 #include <map>
 
-class PeerListener {
-    public:
+class PeerListener
+{
+  public:
     void startListening();
 };
 

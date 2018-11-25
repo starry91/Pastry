@@ -7,7 +7,7 @@
 using message::Response;
 class CommandHandler
 {
-  public:
+public:
 	void handleCommand(std::string);
 	void printResponse(Response);
 	void printResponse(std::string msg_type, Response res);

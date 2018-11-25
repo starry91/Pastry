@@ -7,7 +7,8 @@
 class ErrorMsg
 {
     std::string msg;
-    public:
+
+  public:
     ErrorMsg(std::string msg);
     std::string getErrorMsg();
 };
