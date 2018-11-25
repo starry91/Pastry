@@ -78,6 +78,9 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 	auto prefix = prefixMatchLen(nodeID, this->listener->getNodeID());
 	if (this->routingTable[prefix][nodeID[prefix] - '0'])
 	{
+		std::string log_msg = "node chosen from ROUTING TABLE IP: " + this->routingTable[prefix][nodeID[prefix] - '0']->getIp() + 
+							"Port: " + this->routingTable[prefix][nodeID[prefix] - '0']->getPort();
+		LogHandler::getInstance().logMsg(log_msg);
 		return routingTable[prefix][nodeID[prefix] - '0'];
 	}
 	auto closest_node = this->listener;
@@ -475,7 +478,15 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 		seeder_mtx.lock();
 		if (!leaf_set_side)
 		{
-			fetch_from_node = *left_iterator;
+			auto temp_iterator = this->leafSet.first.end();
+			if(left_iterator != temp_iterator)
+			{
+				fetch_from_node = *left_iterator;
+			}
+			else {
+				seeder_mtx.unlock();
+				break;
+			}
 		}
 		else
 		{

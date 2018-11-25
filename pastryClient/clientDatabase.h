@@ -17,7 +17,7 @@
 #include <thread>
 #include "peerCommunicator.h"
 //Pastry parameters
-#define config_parameter_b 3
+#define config_parameter_b 1
 #define parameter_N 1000
 
 class ClientDatabase

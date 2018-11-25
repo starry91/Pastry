@@ -276,8 +276,14 @@ void CommandHandler::handleCommand(std::string command)
                 {
                     (*hash_map_message)[entry.first] = entry.second;
                 }
-                PeerCommunicator peercommunicator(*best_leaf);
-                peercommunicator.sendMsg(msg);
+                try {
+                    PeerCommunicator peercommunicator(*best_leaf);
+                    peercommunicator.sendMsg(msg);
+                }
+                catch(ErrorMsg e)
+                {
+                    
+                }
             }
             exit(0);
         }
