@@ -460,13 +460,16 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 
 				if (!leaf_set_side)
 				{
-					if (new_node->getNodeID() < myNodeID){
+					if (new_node->getNodeID() < myNodeID)
+					{
 						this->addToLeafSet(new_node);
 						// break;
 					}
 				}
-				else{
-					if(new_node->getNodeID() > myNodeID){
+				else
+				{
+					if (new_node->getNodeID() > myNodeID)
+					{
 						this->addToLeafSet(new_node);
 						// break;
 					}
@@ -477,16 +480,20 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 		catch (ErrorMsg e)
 		{
 			seeder_mtx.lock();
-			if(!leaf_set_side){
+			if (!leaf_set_side)
+			{
 				advance(left_iterator, 1);
-				if(left_iterator == this->leafSet.first.end()){
+				if (left_iterator == this->leafSet.first.end())
+				{
 					seeder_mtx.unlock();
 					break;
 				}
 			}
-			else{
+			else
+			{
 				advance(right_iterator, 1);
-				if(right_iterator == this->leafSet.second.rend()){
+				if (right_iterator == this->leafSet.second.rend())
+				{
 					seeder_mtx.unlock();
 					break;
 				}
@@ -528,7 +535,8 @@ void ClientDatabase::lazyUpdateNeighbourSet()
 		{
 			seeder_mtx.lock();
 			advance(neighbour_iterator, 1);
-			if(neighbour_iterator == this->neighbourSet.rend()){
+			if (neighbour_iterator == this->neighbourSet.rend())
+			{
 				seeder_mtx.unlock();
 				break;
 			}
@@ -539,4 +547,45 @@ void ClientDatabase::lazyUpdateNeighbourSet()
 }
 void ClientDatabase::lazyUpdateRoutingTable(pair<int, int> position)
 {
+	int prefix = position.first;
+	int index = position.second;
+	int i = 0;
+	auto routingTable = this->getRoutingTable();
+	for (int add = 0;; add++)
+	{
+		if (prefix + add == this->getColSize())
+		{
+			return;
+		}
+		for (int i = 0; i < this->getRowSize(); i++)
+		{
+			if (i != index and routingTable[prefix + add][i])
+			{
+				try
+				{
+					message::Message req_msg;
+					req_msg.set_type("RequestRoutingEntry");
+					auto temp = req_msg.mutable_requestroutingentry();
+					temp->set_index(prefix);
+					PeerCommunicator peercommunicator(*routingTable[prefix + add][i]);
+					peercommunicator.sendMsg(req_msg);
+					auto recieved_msg = peercommunicator.recieveMsg();
+					auto req = recieved_msg.responseroutingentry();
+					auto nodeFrmMsg = req.routingentry().node(index);
+					node_Sptr new_node = make_shared<Node>(nodeFrmMsg.ip(), nodeFrmMsg.port(), nodeFrmMsg.nodeid());
+					if (new_node->getNodeID() == "-1")
+					{
+						continue;
+					}
+					this->addToRoutingTable(new_node);
+					return;
+				}
+				catch (ErrorMsg e)
+				{
+					continue;
+				}
+			}
+		}
+	}
+	return;
 }
