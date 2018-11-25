@@ -136,7 +136,7 @@ void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
 	populateMsgSender(sender, ClientDatabase::getInstance().getListener());
 	// cout << "after populating " << routingUpdate.sender().nodeid() << endl;
 	// cout << "In handleJoinMeRequest, routing table size: " << routingUpdate.routingupdate().routingentires_size() << endl;
-	std::string log_msg = "Sending RoutingUpdate request to IP: " + req.ip() + 
+	log_msg = "Sending RoutingUpdate request to IP: " + req.ip() + 
 										" Port: " + req.port();
 	LogHandler::getInstance().logMsg(log_msg);
 	PeerCommunicator peercommunicator(Node(req.ip(), req.port(),req.nodeid()));
@@ -263,14 +263,12 @@ void PeerMessageHandler::handleJoinRequest(message::Message msg)
 	}
 	auto sender = routingUpdate.mutable_sender();
 	populateMsgSender(sender, next_node_sptr);
-	std::string log_msg = "Sending RoutingUpdate request to IP: " + req.ip() + 
+	log_msg = "Sending RoutingUpdate request to IP: " + req.ip() + 
 										" Port: " + req.port();
 	PeerCommunicator peercommunicator(Node(req.ip(), req.port(), req.nodeid()));
 	peercommunicator.sendMsg(routingUpdate);
 	return;
 }
-
-
 
 void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 {

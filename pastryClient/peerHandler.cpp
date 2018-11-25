@@ -25,7 +25,7 @@ void PeerHandler::handleRpc(int client_fd)
             NetworkWriter writer(client_fd);
             if (reqMsg.type() == "JoinMe")
             {
-                LogHandler::getInstance().logMsg("Recieved JoinMe request");
+                LogHandler::getInstance().logMsg("Recieved JoinMe request for IP: " + reqMsg.sender().ip() + " Port: " + reqMsg.sender().port());
                 msgHandler.handleJoinMeRequest(reqMsg);
             }
             else if (reqMsg.type() == "Join")

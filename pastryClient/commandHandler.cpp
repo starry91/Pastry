@@ -51,7 +51,7 @@ void CommandHandler::handleCommand(std::string command)
             temp->set_port(ClientDatabase::getInstance().getListener()->getPort());
             temp->set_nodeid(ClientDatabase::getInstance().getListener()->getNodeID());
             PeerCommunicator peercommunicator(ip, port);
-            LogHandler::getInstance().logError("In command handler -> join -> sending msg to ip " + temp->ip() + " port " + temp->port());
+            LogHandler::getInstance().logMsg("In command handler -> join -> sending msg to ip " + temp->ip() + " port " + temp->port());
             peercommunicator.sendMsg(msg);
         }
         else if (args.size() == 3 && args[0] == "put")
@@ -60,7 +60,7 @@ void CommandHandler::handleCommand(std::string command)
             string value = args[2];
             key = getHash(key, config_parameter_b);
             // syslog(0,"hash value for %s is %s",args[1].c_str(),key.c_str());
-            LogHandler::getInstance().logError("In command handler -> put -> hash value for " + arg[1] + " is " + key);
+            LogHandler::getInstance().logError("In command handler -> put -> hash value for " + args[1] + " is " + key);
             message::Message msg;
             msg.set_type("SetVal");
             auto *temp = msg.mutable_setvalmsg();

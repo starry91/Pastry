@@ -187,11 +187,11 @@ double proximity(char *ip_addr)
     return rtt;
 }
 
-int main()
-{
-    string x;
-    cin >> x;
-    char* ip_addr;
-    ip_addr = (char *)x.c_str();
-    cout << proximity(ip_addr)<< endl;
-}
+// int main()
+// {
+//     string x;
+//     cin >> x;
+//     char* ip_addr;
+//     ip_addr = (char *)x.c_str();
+//     cout << proximity(ip_addr)<< endl;
+// }
