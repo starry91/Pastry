@@ -67,9 +67,25 @@ void PeerHandler::handleRpc(int client_fd)
                 LogHandler::getInstance().logMsg("Recieved AddToHashTable request");
                 msgHandler.handleAddToHashTableRequest(reqMsg);
             }
-            else if(reqMsg.type() == "ShutDown"){
+            else if (reqMsg.type() == "ShutDown")
+            {
                 LogHandler::getInstance().logMsg("Recieved Shutdown request");
                 msgHandler.handleShutdownRequest();
+            }
+            else if (reqMsg.type() == "RequestLeafSet")
+            {
+                LogHandler::getInstance().logMsg("Recieved RequestLeafSet request");
+                msgHandler.handleRequestLeafSet(client_fd);
+            }
+            else if (reqMsg.type() == "RequestNeighbourSet")
+            {
+                LogHandler::getInstance().logMsg("Recieved RequestNeighbourSet request");
+                msgHandler.handleRequestNeighbourSet(client_fd);
+            }
+            else if (reqMsg.type() == "RequestRoutingEntry")
+            {
+                LogHandler::getInstance().logMsg("Recieved RequestRoutingEntry request");
+                msgHandler.handleRequestRoutingEntry(client_fd, reqMsg);
             }
         }
     }
@@ -77,5 +93,5 @@ void PeerHandler::handleRpc(int client_fd)
     {
         LogHandler::getInstance().logError("PeerHandler::handleRpc() Exception received: " + e.getErrorMsg() + " For fd: " + std::to_string(client_fd));
     }
-    close(client_fd);   
+    close(client_fd);
 }

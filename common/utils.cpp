@@ -74,7 +74,7 @@ std::vector<std::string> extractArgs(std::string command)
     pch = strtok((char *)command.c_str(), " ");
     while (pch != NULL)
     {
-        args.push_  back(std::string(pch));
+        args.push_back(std::string(pch));
         pch = strtok(NULL, " ");
     }
     return args;
