@@ -71,7 +71,7 @@ void CommandHandler::handleCommand(std::string command)
             string key = args[1];
             string value = args[2];
             key = getHash(key, config_parameter_b);
-            syslog(0,"hash value for %s is %s",args[1].c_str(),key.c_str());
+            syslog(0,"hash value in put for %s is %s",args[1].c_str(),key.c_str());
             message::Message msg;
             msg.set_type("SetVal");
             auto *temp = msg.mutable_setvalmsg();
@@ -101,6 +101,7 @@ void CommandHandler::handleCommand(std::string command)
             string key = args[1];
             key = getHash(key, config_parameter_b);
             message::Message msg;
+            syslog(0,"hash value in get for %s is %s",args[1].c_str(),key.c_str());
             msg.set_type("GetVal");
             auto sender = msg.mutable_sender();
             populateMsgSender(sender, ClientDatabase::getInstance().getListener());
