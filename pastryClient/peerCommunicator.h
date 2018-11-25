@@ -10,8 +10,8 @@
 #include "node.h"
 #include <vector>
 
-using message::Response;
 using message::Message;
+using message::Response;
 
 class PeerCommunicator
 {

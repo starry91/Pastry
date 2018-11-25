@@ -67,11 +67,11 @@ class ClientDatabase
 	// std::thread::id getListenerThreadID();
 	void deleteFromHashMap(std::pair<std::string, std::string> entry_to_delete);
 	void delete_from_all(node_Sptr node);
-	node_Sptr findInLeafSet(std::set<node_Sptr, leafComparator>&, std::string nodeId);
-	node_Sptr findInNeighourSet(std::set<node_Sptr, neighbourComparator>&, std::string nodeId);
+	node_Sptr findInLeafSet(std::set<node_Sptr, leafComparator> &, std::string nodeId);
+	node_Sptr findInNeighourSet(std::set<node_Sptr, neighbourComparator> &, std::string nodeId);
 	int findInLeafSet(node_Sptr node);
 	node_Sptr findInNeighourSet(node_Sptr node);
-	std:: pair<int, int> findInRoutingTable(node_Sptr node);
+	std::pair<int, int> findInRoutingTable(node_Sptr node);
 	void lazyUpdateLeafSet(bool leaf_set_side);
 	void lazyUpdateNeighbourSet();
 	void lazyUpdateRoutingTable(std::pair<int, int> position);

@@ -84,7 +84,7 @@ void CommandHandler::handleCommand(std::string command)
             string key = args[1];
             key = getHash(key, config_parameter_b);
             message::Message msg;
-            syslog(0,"hash value in get for %s is %s",args[1].c_str(),key.c_str());
+            syslog(0, "hash value in get for %s is %s", args[1].c_str(), key.c_str());
             msg.set_type("GetVal");
             auto sender = msg.mutable_sender();
             populateMsgSender(sender, ClientDatabase::getInstance().getListener());
@@ -204,13 +204,13 @@ void CommandHandler::handleCommand(std::string command)
             auto neighbour_set = ClientDatabase::getInstance().getNeighbourSet();
             for (auto node : neighbour_set)
             {
-                try{
+                try
+                {
                     PeerCommunicator peercommunicator(*node);
                     peercommunicator.sendMsg(delete_msg);
                 }
-                catch(ErrorMsg e)
+                catch (ErrorMsg e)
                 {
-
                 }
             }
             if (best_leaf)
@@ -239,35 +239,35 @@ void CommandHandler::handleCommand(std::string command)
             auto routing_table = ClientDatabase::getInstance().getRoutingTable();
             for (auto node : leaf_set.first)
             {
-                try {
+                try
+                {
                     PeerCommunicator peercommunicator(*node);
                     peercommunicator.sendMsg(msg);
                 }
-                catch(ErrorMsg e)
+                catch (ErrorMsg e)
                 {
-
                 }
             }
             for (auto node : leaf_set.second)
             {
-                try {
+                try
+                {
                     PeerCommunicator peercommunicator(*node);
                     peercommunicator.sendMsg(msg);
                 }
-                catch(ErrorMsg e)
+                catch (ErrorMsg e)
                 {
-                    
                 }
             }
             for (auto node : neighbour_set)
             {
-                try {
+                try
+                {
                     PeerCommunicator peercommunicator(*node);
                     peercommunicator.sendMsg(msg);
                 }
-                catch(ErrorMsg e)
+                catch (ErrorMsg e)
                 {
-                    
                 }
             }
             for (auto row_entry : routing_table)
@@ -276,13 +276,13 @@ void CommandHandler::handleCommand(std::string command)
                 {
                     if (node)
                     {
-                        try {
+                        try
+                        {
                             PeerCommunicator peercommunicator(*node);
                             peercommunicator.sendMsg(msg);
                         }
-                        catch(ErrorMsg e)
+                        catch (ErrorMsg e)
                         {
-                            
                         }
                     }
                 }

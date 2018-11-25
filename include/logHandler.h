@@ -7,14 +7,14 @@
 
 class LogHandler
 {
-    std::string log_path;
-    LogHandler();
+  std::string log_path;
+  LogHandler();
 
-  public:
-    static LogHandler &getInstance();
-    void logMsg(std::string);
-    void logError(std::string);
-    void setLogPath(std::string path);
+public:
+  static LogHandler &getInstance();
+  void logMsg(std::string);
+  void logError(std::string);
+  void setLogPath(std::string path);
 };
 
 #endif

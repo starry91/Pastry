@@ -31,7 +31,8 @@ void PeerListener::startListening()
 
     // Filling server information
     server_addr.sin_family = AF_INET; // IPv4
-    server_addr.sin_addr.s_addr = inet_addr(ClientDatabase::getInstance().getListener()->getIp().c_str());;
+    server_addr.sin_addr.s_addr = inet_addr(ClientDatabase::getInstance().getListener()->getIp().c_str());
+    ;
     server_addr.sin_port = htons(stoi(ClientDatabase::getInstance().getListener()->getPort()));
 
     // Bind the socket with the server address
