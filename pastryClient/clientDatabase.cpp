@@ -37,6 +37,9 @@ void ClientDatabase::setListener(node_Sptr temp)
 
 node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 {
+
+	std::string log_msg = " getNextRoutingNode for nodeID : " + nodeID;
+	LogHandler::getInstance().logMsg(log_msg);
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 
 	auto &left_leafSet = this->leafSet.first;
@@ -62,6 +65,10 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 				if (is_better_node(node, closest_node, nodeID))
 				{
 					closest_node = node;
+					std::string log_msg = " node chosen from left leaf 
+										   ip : " + closest_node->ip + " port : " 
+										   + closest_node->port;
+					LogHandler::getInstance().logMsg(log_msg);
 				}
 			}
 			for (auto node : right_leafSet)
@@ -69,6 +76,10 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 				if (is_better_node(node, closest_node, nodeID))
 				{
 					closest_node = node;
+					std::string log_msg = " node chosen from right leaf 
+										   ip : " + closest_node->ip + " port : " 
+										   + closest_node->port ;
+					LogHandler::getInstance().logMsg(log_msg);
 				}
 			}
 			return closest_node;
@@ -77,6 +88,12 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 	auto prefix = prefixMatchLen(nodeID, this->listener->getNodeID());
 	if (this->routingTable[prefix][nodeID[prefix] - '0'])
 	{
+		std::string log_msg = " node chosen from route table  ip : " 
+								+ routingTable[prefix][nodeID[prefix] - '0']->ip + 
+								" port : " + routingTable[prefix][nodeID[prefix] - '0']->port
+								+ " at prefix : " + prefix + " at index : " + [nodeID[prefix] - '0'] ;
+				
+		LogHandler::getInstance().logMsg(log_msg);
 		return routingTable[prefix][nodeID[prefix] - '0'];
 	}
 	auto closest_node = this->listener;
@@ -85,6 +102,9 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 		if (is_better_node(node, closest_node, nodeID))
 		{
 			closest_node = node;
+			std::string log_msg = "node chosen from leaf set(step 3) ip : " + closest_node->ip + " port : " 
+										   + closest_node->port ;
+			LogHandler::getInstance().logMsg(log_msg);
 		}
 	}
 	for (auto node : right_leafSet)
@@ -92,6 +112,9 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 		if (is_better_node(node, closest_node, nodeID))
 		{
 			closest_node = node;
+			std::string log_msg = "node chosen from right set(step 3) ip : " + closest_node->ip + " port : " 
+										   + closest_node->port ;
+			LogHandler::getInstance().logMsg(log_msg);
 		}
 	}
 	for (auto routingRow : routingTable)
@@ -101,6 +124,10 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 			if (is_better_node(node, closest_node, nodeID))
 			{
 				closest_node = node;
+				std::string log_msg = "node chosen from route table(step 3) ip : " + closest_node->ip + " port : " 
+										   + closest_node->port ;
+			LogHandler::getInstance().logMsg(log_msg);
+				
 			}
 		}
 	}
@@ -109,6 +136,9 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 		if (is_better_node(node, closest_node, nodeID))
 		{
 			closest_node = node;
+			std::string log_msg = "node chosen from neibr set(step 3) ip : " + closest_node->ip + " port : " 
+										   + closest_node->port ;
+			LogHandler::getInstance().logMsg(log_msg);
 		}
 	}
 	return closest_node;
@@ -151,6 +181,9 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 		if (!leaf_entry)
 		{
 			left_leafSet.insert(node);
+			std::string log_msg = "add to left set ip : " + node->ip + " port : " 
+								  + node->port ;
+			LogHandler::getInstance().logMsg(log_msg);
 		}
 		if (left_leafSet.size() > this->col / 2)
 		{
@@ -163,6 +196,9 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 		if (!this->findInLeafSet(right_leafSet, node->getNodeID()))
 		{
 			right_leafSet.insert(node);
+			std::string log_msg = " add to right setnode ip : " + node->ip + "node port : "
+							      + node->port;
+			LogHandler::getInstance().logMsg(log_msg);
 		}
 		if (right_leafSet.size() > this->col / 2)
 		{
@@ -174,6 +210,7 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 
 void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 {
+	LogHandler::getInstance().logMsg(log_msg);
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (!node)
 	{
@@ -190,6 +227,8 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 		neighbour.erase(n_entry);
 	}
 	neighbour.insert(node);
+	std::string log_msg = " add to neibr set for ip : " + node->ip +
+	                      " port : " + node->port;
 	if (neighbour.size() > col)
 	{
 		neighbour.erase(*neighbour.rbegin());
@@ -217,11 +256,19 @@ void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 	if (!this->routingTable[prefix][index])
 	{
 		this->routingTable[prefix][index] = node;
+		std::string log_msg = " add to route table for ip : " + node->ip + 
+							  " port : " + node->port + " at prefix : " + prefix + 
+							  " at index : " + index ;
+		LogHandler::getInstance().logMsg(log_msg);
 		return;
 	}
 	if (node->getProximity() < this->routingTable[prefix][index]->getProximity())
 	{
 		this->routingTable[prefix][index] = node;
+		std::string log_msg = " add to route table for ip : " + node->ip + 
+							  " port : " + node->port + " at prefix : " + prefix + 
+							  " at index : " + index ;
+		LogHandler::getInstance().logMsg(log_msg);
 	}
 	return;
 }
@@ -238,6 +285,7 @@ void ClientDatabase::updateAllState(node_Sptr node)
 
 void ClientDatabase ::updateRoutingTable(vector<node_Sptr> row_entry, int index)
 {
+	LogHandler::getInstance().logMsg(log_msg);
 	for (auto node : row_entry)
 	{
 		this->addToRoutingTable(node, index);
@@ -283,7 +331,8 @@ int ClientDatabase::getRecievedUpdateCount()
 }
 void ClientDatabase::resetUpdateValues()
 {
-	LogHandler::getInstance().logMsg("Resetting values");
+	LogHandler::getInstance().logMsg(" reset update values route length 
+							: " + this->row + " updt count : zero ");
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->total_route_length = this->row;
 	this->recieved_update_count = 0;
@@ -291,6 +340,9 @@ void ClientDatabase::resetUpdateValues()
 
 void ClientDatabase::insertIntoHashMap(std ::string key, std ::string value)
 {
+	LogHandler::getInstance().logMsg(" Inserting key : " + key + " and hash value : " 
+										+ value + " in to hash map " + " for node id : "
+										 + this->nodeID);
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->hashMap[key] = value;
 	return;
@@ -309,12 +361,16 @@ string ClientDatabase::getHashMapValue(string key)
 
 void ClientDatabase::deleteFromHashMap(pair<string, string> entry_to_delete)
 {
+	LogHandler::getInstance().logMsg("deleteFromHashMap, deleting key : " + entry_to_delete.first);
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	this->hashMap.erase(entry_to_delete.first);
 }
 
 void ClientDatabase::deleteFromLeafSet(node_Sptr node)
 {
+	std::string log_msg = " deleteFromLeafSet for ip : " + node->ip + 
+						  " port : " + node->port +" deleting, " + node->getNodeID();
+	LogHandler::getInstance().logMsg(log_msg);
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (node)
 	{
@@ -334,6 +390,9 @@ void ClientDatabase::deleteFromLeafSet(node_Sptr node)
 } // delete this node from Neighbour set
 void ClientDatabase::deleteFromNeighhbourSet(node_Sptr node)
 {
+	std::string log_msg = "deleteFromNeighhbourSet for ip : " + node->ip + 
+							"port : " + node->port +" deleting, " + node->getNodeID();
+	LogHandler::getInstance().logMsg(log_msg);
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (node)
 	{
@@ -352,6 +411,10 @@ void ClientDatabase::deleteFromRoutingTable(node_Sptr node)
 	auto prefix = prefixMatchLen(this->listener->getNodeID(), node->getNodeID());
 	auto index = node->getNodeID()[prefix] - '0';
 	this->routingTable[prefix][index] = NULL;
+	std::string log_msg = "deleteFromRoutingTable for ip : " + node->ip + 
+							" port : " + node->port + " deleting, " + node->getNodeID()
+							+ " from prefix : " + prefix + " from index : " + index;
+	LogHandler::getInstance().logMsg(log_msg);
 	return;
 }
 bool ClientDatabase::is_same_node_as_me(node_Sptr node)
@@ -361,6 +424,7 @@ bool ClientDatabase::is_same_node_as_me(node_Sptr node)
 
 void ClientDatabase::delete_from_all(node_Sptr node)
 {
+	LogHandler::getInstance().logMsg(log_msg);
 	this->deleteFromLeafSet(node);
 	this->deleteFromLeafSet(node);
 	this->deleteFromRoutingTable(node);
@@ -461,13 +525,16 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 
 				if (!leaf_set_side)
 				{
-					if (new_node->getNodeID() < myNodeID){
+					if (new_node->getNodeID() < myNodeID)
+					{
 						this->addToLeafSet(new_node);
 						// break;
 					}
 				}
-				else{
-					if(new_node->getNodeID() > myNodeID){
+				else
+				{
+					if (new_node->getNodeID() > myNodeID)
+					{
 						this->addToLeafSet(new_node);
 						// break;
 					}
@@ -478,16 +545,20 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 		catch (ErrorMsg e)
 		{
 			seeder_mtx.lock();
-			if(!leaf_set_side){
+			if (!leaf_set_side)
+			{
 				advance(left_iterator, 1);
-				if(left_iterator == this->leafSet.first.end()){
+				if (left_iterator == this->leafSet.first.end())
+				{
 					seeder_mtx.unlock();
 					break;
 				}
 			}
-			else{
+			else
+			{
 				advance(right_iterator, 1);
-				if(right_iterator == this->leafSet.second.rend()){
+				if (right_iterator == this->leafSet.second.rend())
+				{
 					seeder_mtx.unlock();
 					break;
 				}
@@ -529,7 +600,8 @@ void ClientDatabase::lazyUpdateNeighbourSet()
 		{
 			seeder_mtx.lock();
 			advance(neighbour_iterator, 1);
-			if(neighbour_iterator == this->neighbourSet.rend()){
+			if (neighbour_iterator == this->neighbourSet.rend())
+			{
 				seeder_mtx.unlock();
 				break;
 			}
