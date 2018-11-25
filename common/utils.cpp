@@ -205,3 +205,10 @@ void populateMsgSender(message::Node * sender, node_Sptr node)
 	sender->set_port(node->getPort());
     sender->set_nodeid(node->getNodeID());
 }
+
+double calculateProximity(string ip_address)//rtt in msec 
+{
+    char* ip_addr;
+    ip_addr = (char *)ip_address.c_str();
+    return proximity(ip_addr);
+}
