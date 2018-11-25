@@ -141,7 +141,7 @@ std::string trimString(std::string name, int len)
 
 bool leafComparator::operator()(node_Sptr a, node_Sptr b)
 {
-    if (a->getNodeID().compare(b->getNodeID()) > 0)
+    if (a->getNodeID().compare(b->getNodeID()) < 0)
         return true;
     else
         return false;
@@ -149,7 +149,7 @@ bool leafComparator::operator()(node_Sptr a, node_Sptr b)
 
 bool neighbourComparator::operator()(node_Sptr a, node_Sptr b)
 {
-    if (a->getProximity() > b->getProximity() > 0)
+    if (a->getProximity() > b->getProximity() < 0)
         return true;
     else
         return false;

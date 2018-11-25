@@ -234,6 +234,8 @@ void CommandHandler::handleCommand(std::string command)
             LogHandler::getInstance().logError("Shutting Down");
             message::Message msg;
             msg.set_type("ShutDown");
+            auto sender = msg.mutable_sender();
+            populateMsgSender(sender, ClientDatabase::getInstance().getListener());
             auto leaf_set = ClientDatabase::getInstance().getLeafSet();
             auto neighbour_set = ClientDatabase::getInstance().getNeighbourSet();
             auto routing_table = ClientDatabase::getInstance().getRoutingTable();

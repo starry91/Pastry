@@ -168,7 +168,7 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 		if (!this->findInLeafSet(right_leafSet, node->getNodeID()))
 		{
 			right_leafSet.insert(node);
-			std::string log_msg = "adding to right leaft set IP : " + node->getIp() + " Port : " + node->getPort() + " NodeID: " + node->getNodeID();
+			std::string log_msg = "adding to right leaf set IP : " + node->getIp() + " Port : " + node->getPort() + " NodeID: " + node->getNodeID();
 			LogHandler::getInstance().logMsg(log_msg);
 		}
 		if (right_leafSet.size() > this->col / 2)
@@ -219,10 +219,7 @@ void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 	{
 		return;
 	}
-	if (prefix == -1)
-	{
-		prefix = prefixMatchLen(this->listener->getNodeID(), node->getNodeID());
-	}
+	prefix = prefixMatchLen(this->listener->getNodeID(), node->getNodeID());
 	auto index = node->getNodeID()[prefix] - '0';
 	if (!this->routingTable[prefix][index])
 	{
@@ -254,11 +251,11 @@ void ClientDatabase::updateAllState(node_Sptr node)
 	return;
 }
 
-void ClientDatabase ::updateRoutingTable(vector<node_Sptr> row_entry, int index)
+void ClientDatabase::updateRoutingTable(vector<node_Sptr> row_entry, int index)
 {
 	for (auto node : row_entry)
 	{
-		this->addToRoutingTable(node, index);
+		this->addToRoutingTable(node);
 	}
 	return;
 }
