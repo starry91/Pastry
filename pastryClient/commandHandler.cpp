@@ -51,27 +51,16 @@ void CommandHandler::handleCommand(std::string command)
             temp->set_port(ClientDatabase::getInstance().getListener()->getPort());
             temp->set_nodeid(ClientDatabase::getInstance().getListener()->getNodeID());
             PeerCommunicator peercommunicator(ip, port);
-            syslog(0, "In command handler -> join -> sending msg to ip %s port %s", temp->ip().c_str(), temp->port().c_str());
+            LogHandler::getInstance().logMsg("In command handler -> join -> sending msg to ip " + temp->ip() + " port " + temp->port());
             peercommunicator.sendMsg(msg);
-            // auto resp = peercommunicator.readMsg
-            // if (resp.status() == "FAIL")
-            // {
-            //     syslog(0, "In command handler -> join -> recieved status: FAIL");
-            //     LogHandler::getInstance().logError("JOINME - FAIL");
-            //     throw ErrorMsg("Failed Join Me msg");
-            // }
-            // else
-            // {
-            //     syslog(0, "In command handler -> join -> recieved status: SUCCESS");
-            //     LogHandler::getInstance().logMsg("JOINME - SUCCESS");
-            // }
         }
         else if (args.size() == 3 && args[0] == "put")
         {
             string key = args[1];
             string value = args[2];
             key = getHash(key, config_parameter_b);
-            syslog(0,"hash value in put for %s is %s",args[1].c_str(),key.c_str());
+            // syslog(0,"hash value for %s is %s",args[1].c_str(),key.c_str());
+            LogHandler::getInstance().logError("In command handler -> put -> hash value for " + args[1] + " is " + key);
             message::Message msg;
             msg.set_type("SetVal");
             auto *temp = msg.mutable_setvalmsg();
@@ -85,16 +74,6 @@ void CommandHandler::handleCommand(std::string command)
             }
             PeerCommunicator peercommunicator(*nextNode);
             peercommunicator.sendMsg(msg);
-            // auto resp = 
-            // if (resp.status() == "FAIL")
-            // {
-            //     LogHandler::getInstance().logError("SET - FAIL");
-            //     throw ErrorMsg("Failed Join Me msg");
-            // }
-            // else
-            // {
-            //     LogHandler::getInstance().logMsg("SET - SUCCESS");
-            // }
         }
         else if (args.size() == 2 && args[0] == "get")
         {
@@ -113,24 +92,15 @@ void CommandHandler::handleCommand(std::string command)
             if (nextNode->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
             {
                 auto value = ClientDatabase::getInstance().getHashMapValue(key);
-                ///Print the value on the screen
+                printResponse(value); //printing get response to console
                 return;
             }
             PeerCommunicator peercommunicator(*nextNode);
             peercommunicator.sendMsg(msg);
-            // auto resp = 
-            // if (resp.status() == "FAIL")
-            // {
-            //     LogHandler::getInstance().logError("GET - FAIL");
-            //     throw ErrorMsg("Failed Join Me msg");
-            // }
-            // else
-            // {
-            //     LogHandler::getInstance().logMsg("GET - SUCCESS");
-            // }
         }
         else if (args.size() == 1 && args[0] == "lset")
         {
+            //printing leaf set
             auto lSet = ClientDatabase::getInstance().getLeafSet();
             for (auto it : lSet.first)
             {
@@ -156,6 +126,7 @@ void CommandHandler::handleCommand(std::string command)
         }
         else if (args.size() == 1 && args[0] == "nset")
         {
+            //print neighbours
             auto nSet = ClientDatabase::getInstance().getNeighbourSet();
             for (auto it : nSet)
             {
@@ -164,9 +135,8 @@ void CommandHandler::handleCommand(std::string command)
         }
         else if (args.size() == 1 and args[0] == "quit")
         {
+            LogHandler::getInstance().logError("Exiting");
             std ::cerr << "Exiting " << endl;
-            // std::thread::id listener_thread_id = ClientDatabase::getInstance().getListenerThreadID();
-            ////kill this listener thread
             node_Sptr best_leaf;
             auto leafSet = ClientDatabase::getInstance().getLeafSet();
             auto my_node = ClientDatabase::getInstance().getListener();
@@ -235,6 +205,7 @@ void CommandHandler::handleCommand(std::string command)
         }
         else if (args.size() == 1 and args[0] == "shutdown")
         {
+            LogHandler::getInstance().logError("Shutting Down");
             message::Message msg;
             msg.set_type("ShutDown");
             auto leaf_set = ClientDatabase::getInstance().getLeafSet();
@@ -299,6 +270,12 @@ void CommandHandler::printResponse(Response res)
 {
     // LogHandler::getInstance().logMsg(res.status());
     cout << res.status() << endl;
+}
+
+void CommandHandler::printResponse(std::string res)
+{
+    // LogHandler::getInstance().logMsg(res.status());
+    cout << res << endl;
 }
 
 void CommandHandler::printError(std::string e)

@@ -11,6 +11,7 @@
 #include <openssl/md5.h>
 #include "md5.h"
 #include <errno.h>
+#include "proximity.h"
 using std::cout;
 using std::endl;
 using namespace std;

@@ -24,7 +24,6 @@ public:
   void handleShutdownRequest();
   void sendAllStateUpdate();
   void handleLazyUpdates(node_Sptr node);
-  // ClientDatabase::getInstance()->getHashTable();
   std::unordered_map<std::string, std::string> getRelevantKeyValuePairs(std::string nodeID);
 };
 

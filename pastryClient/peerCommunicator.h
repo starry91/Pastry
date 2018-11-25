@@ -20,7 +20,7 @@ class PeerCommunicator
 public:
   PeerCommunicator(Node peer);
   PeerCommunicator(std::string ip, std::string port);
-  Response sendMsg(Message msg);
+  void sendMsg(Message msg);
   void connectToTracker();
   virtual ~PeerCommunicator();
   Message recieveMsg();
