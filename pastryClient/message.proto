@@ -51,11 +51,13 @@ message AllStateUpdate {
 message GetVal {
   string key = 1;
   Node node = 2;
+  string actual_key = 3;
 }
 
 message GetValResponse {
   string key = 1;
   string value = 2;
+  string actual_key = 3;
 }
 
 

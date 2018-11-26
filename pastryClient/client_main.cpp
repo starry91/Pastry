@@ -10,7 +10,7 @@
 #include "commandHandler.h"
 #include "clientDatabase.h"
 #include "logHandler.h"
-
+#include "printer.h"
 using std::cout;
 using std::endl;
 using namespace std;
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     while (true)
     {
         //reading input command
-        std::cout << "Enter Command..." << std::endl;
+        Custom_Printer().printToConsole("Enter Command...");
         std::string command;
         std::getline(std::cin, command);
         std::thread t1(&CommandHandler::handleCommand, CommandHandler(), command);

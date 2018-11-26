@@ -19,6 +19,7 @@
 #include <syslog.h>
 #include "peerCommunicator.h"
 #include "peerMessageHandler.h"
+#include "printer.h"
 using namespace std;
 
 using std::cout;
@@ -82,6 +83,52 @@ void CommandHandler::handleCommand(std::string command)
                     ClientDatabase::getInstance().insertIntoHashMap(key, value);
                     std::string log_msg = "Inserting into HASH TABLE, key: " + key + " Value: " + value;
                     LogHandler::getInstance().logMsg(log_msg);
+                    auto leaf_set = ClientDatabase::getInstance().getLeafSet();
+                    msg.mutable_setvalmsg()->set_terminal(true);
+                    //iterate for left leaf
+                    for (auto it = leaf_set.first.rbegin(); it != leaf_set.first.rend(); it++)
+                    {
+                        try
+                        {
+                            std::string log_msg = "Forwarding left REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+                                                  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+                            LogHandler::getInstance().logMsg(log_msg);
+                            PeerCommunicator peercommunicator(**it);
+                            peercommunicator.sendMsg(msg);
+                            break;
+                        }
+                        catch (ErrorMsg e)
+                        {
+                            std::string log_msg = "FAILED Forwarding left REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+                                                  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+                            LogHandler::getInstance().logMsg(log_msg);
+                            PeerMessageHandler peerHandler;
+                            peerHandler.handleLazyUpdates(*it);
+                            continue;
+                        }
+                    }
+                    //iterate for right leaf
+                    for (auto it = leaf_set.second.begin(); it != leaf_set.second.end(); it++)
+                    {
+                        try
+                        {
+                            std::string log_msg = "Forwarding right REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+                                                  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+                            LogHandler::getInstance().logMsg(log_msg);
+                            PeerCommunicator peercommunicator(**it);
+                            peercommunicator.sendMsg(msg);
+                            break;
+                        }
+                        catch (ErrorMsg e)
+                        {
+                            std::string log_msg = "FAILED Forwarding right REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+                                                  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+                            LogHandler::getInstance().logMsg(log_msg);
+                            PeerMessageHandler peerHandler;
+                            peerHandler.handleLazyUpdates(*it);
+                            continue;
+                        }
+                    }
                     break;
                     //update local hash table
                 }
@@ -118,6 +165,7 @@ void CommandHandler::handleCommand(std::string command)
             populateMsgSender(sender, ClientDatabase::getInstance().getListener());
             auto *temp = msg.mutable_getvalmsg();
             temp->set_key(key);
+            temp->set_actual_key(args[1]);
             sender = temp->mutable_node();
             populateMsgSender(sender, ClientDatabase::getInstance().getListener());
 
@@ -128,7 +176,9 @@ void CommandHandler::handleCommand(std::string command)
                 if (next_node_sptr->getNodeID() == ClientDatabase::getInstance().getListener()->getNodeID())
                 {
                     auto value = ClientDatabase::getInstance().getHashMapValue(key);
-                    printResponse(value); //printing get response to console
+                    // this->printResponse(value); //printing get response to console
+                    string print_msg = "Key: " + temp->actual_key() + " Value: " + value;
+                    Custom_Printer().printToConsole(print_msg);         
                     break;
                 }
                 else
@@ -160,11 +210,11 @@ void CommandHandler::handleCommand(std::string command)
             auto lSet = ClientDatabase::getInstance().getLeafSet();
             for (auto it : lSet.first)
             {
-                printNode(it);
+                Custom_Printer().printNode(it);
             }
             for (auto it : lSet.second)
             {
-                printNode(it);
+                Custom_Printer().printNode(it);
             }
         }
         else if (args.size() == 1 && args[0] == "routetable")
@@ -176,7 +226,7 @@ void CommandHandler::handleCommand(std::string command)
                 for (auto node : it)
                 {
                     if (node)
-                        printNode(node);
+                        Custom_Printer().printNode(node);
                 }
             }
         }
@@ -186,7 +236,7 @@ void CommandHandler::handleCommand(std::string command)
             auto nSet = ClientDatabase::getInstance().getNeighbourSet();
             for (auto it : nSet)
             {
-                printNode(it);
+                Custom_Printer().printNode(it);
             }
         }
         else if (args.size() == 1 and args[0] == "quit")
@@ -276,13 +326,13 @@ void CommandHandler::handleCommand(std::string command)
                 {
                     (*hash_map_message)[entry.first] = entry.second;
                 }
-                try {
+                try
+                {
                     PeerCommunicator peercommunicator(*best_leaf);
                     peercommunicator.sendMsg(msg);
                 }
-                catch(ErrorMsg e)
+                catch (ErrorMsg e)
                 {
-                    
                 }
             }
             exit(0);
@@ -356,42 +406,49 @@ void CommandHandler::handleCommand(std::string command)
             auto hashTable = ClientDatabase::getInstance().getHashMap();
             for (auto pair : hashTable)
             {
-                cout << "Key: " << pair.first << " value: " << pair.second << endl;
+                std::string print_msg = "Value: " + pair.second;
+                Custom_Printer().printToConsole(print_msg);
             }
         }
         else
         {
-            std::cerr << "Invalid Command" << endl;
+            std::string print_msg = "Invalid Command";
+            Custom_Printer().printError(print_msg);
         }
     }
     catch (ErrorMsg m)
     {
         LogHandler::getInstance().logError(m.getErrorMsg());
-        this->printError(m.getErrorMsg());
+        // this->printError(m.getErrorMsg());
+        Custom_Printer().printError(m.getErrorMsg());
     }
 }
 
-void CommandHandler::printResponse(std::string msg, message::Response res)
-{
-    // LogHandler::getInstance().logMsg("Request: " + msg);
-    // LogHandler::getInstance().logMsg("Response: " + res.status());
-    cout << res.status() << endl;
-}
+// void CommandHandler::printResponse(std::string msg, message::Response res)
+// {
+//     // LogHandler::getInstance().logMsg("Request: " + msg);
+//     // LogHandler::getInstance().logMsg("Response: " + res.status());
+//     cout << res.status() << endl;
+// }
 
-void CommandHandler::printResponse(Response res)
-{
-    // LogHandler::getInstance().logMsg(res.status());
-    cout << res.status() << endl;
-}
+// void CommandHandler::printResponse(Response res)
+// {
+//     // LogHandler::getInstance().logMsg(res.status());
+//     cout << res.status() << endl;
+// }
 
-void CommandHandler::printResponse(std::string res)
-{
-    // LogHandler::getInstance().logMsg(res.status());
-    cout << res << endl;
-}
+// void CommandHandler::printResponse(std::string res)
+// {
+//     ClientDatabase::getInstance().lockPrint();
+//     // LogHandler::getInstance().logMsg(res.status());
+//     cout << res << endl;
+//     ClientDatabase::getInstance().unlockPrint();
+// }
 
-void CommandHandler::printError(std::string e)
-{
-    // LogHandler::getInstance().logMsg(e);
-    cout << e << endl;
-}
+// void CommandHandler::printError(std::string e)
+// {
+//     ClientDatabase::getInstance().lockPrint();
+//     // LogHandler::getInstance().logMsg(e);
+//     cout << "ERROR: " << e << endl;
+//     ClientDatabase::getInstance().unlockPrint();
+// }

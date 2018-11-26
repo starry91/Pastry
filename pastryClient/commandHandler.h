@@ -9,10 +9,10 @@ class CommandHandler
 {
 public:
 	void handleCommand(std::string);
-	void printResponse(Response);
-	void printResponse(std::string msg_type, Response res);
-	void printResponse(std::string res);
-	void printError(std::string e);
+	// void printResponse(Response);
+	// void printResponse(std::string msg_type, Response res);
+	// void printResponse(std::string res);
+	// void printError(std::string e);
 };
 
 #endif

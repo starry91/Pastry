@@ -172,17 +172,54 @@ bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
     {
         return false;
     }
-    auto node1_nodeID = node1->getNodeID();
-    auto node2_nodeID = node2->getNodeID();
-    int node1_dist = 0, node2_dist = 0, nodeID_dist = 0;
-    for (auto i = 0; i < node1_nodeID.length(); i++)
+    // auto node1_nodeID = node1->getNodeID();
+    // auto node2_nodeID = node2->getNodeID();
+    // int node1_dist = 0, node2_dist = 0, nodeID_dist = 0;
+    // for (auto i = 0; i < node1_nodeID.length(); i++)
+    // {
+    //     node1_dist += node1_dist * 10 + (node1_nodeID[i] - '0');
+    //     node2_dist += node2_dist * 10 + (node2_nodeID[i] - '0');
+    //     nodeID_dist += nodeID_dist * 10 + (nodeID[i] - '0');
+    //     if (node1_dist != node2_dist)
+    //     {
+    //         return abs(node1_dist - nodeID_dist) < abs(node2_dist - nodeID_dist);
+    //     }
+    // }
+    // return false;
+    auto new_node = node1->getNodeID();
+    auto current_node = node2->getNodeID();
+    bool lesser = false;
+    bool greater = false;
+    for (int i = 0; i < new_node.length(); i++)
     {
-        node1_dist += node1_dist * 10 + (node1_nodeID[i] - '0');
-        node2_dist += node2_dist * 10 + (node2_nodeID[i] - '0');
-        nodeID_dist += nodeID_dist * 10 + (nodeID[i] - '0');
-        if (node1_dist != node2_dist)
+        if (new_node[i] != current_node[i])
         {
-            return abs(node1_dist - nodeID_dist) < abs(node2_dist - nodeID_dist);
+            if (lesser)
+            {
+                return new_node[i] < current_node[i];
+            }
+            else if (greater)
+            {
+                return new_node[i] > current_node[i];
+            }
+            else
+            {
+                return abs(new_node[i] - nodeID[i]) < abs(current_node[i] - nodeID[i]);
+            }
+        }
+        if (new_node[i] > nodeID[i])
+        {
+            if (!greater)
+            {
+                lesser = true;
+            }
+        }
+        else if (new_node[i] < nodeID[i])
+        {
+            if (!lesser)
+            {
+                greater = true;
+            }
         }
     }
     return false;
@@ -190,30 +227,57 @@ bool is_better_node(node_Sptr node1, node_Sptr node2, string nodeID)
 
 bool is_better_node_for_message(string new_node, string current_node, string messageID)
 {
-    int new_node_dist = 0, curr_node_dist = 0, msg_id__dist = 0;
-    for (auto i = 0; i < new_node.length(); i++)
+    // int new_node_dist = 0, curr_node_dist = 0, msg_id__dist = 0;
+    // for (auto i = 0; i < new_node.length(); i++)
+    // {
+    //     new_node_dist += new_node_dist * 10 + (new_node[i] - '0');
+    //     curr_node_dist += curr_node_dist * 10 + (current_node[i] - '0');
+    //     msg_id__dist += msg_id__dist * 10 + (messageID[i] - '0');
+    //     if (new_node_dist != curr_node_dist)
+    //     {
+    //         return abs(new_node_dist - msg_id__dist) < abs(curr_node_dist - msg_id__dist);
+    //     }
+    // }
+    // return false;
+    bool lesser = false;
+    bool greater = false;
+    for (int i = 0; i < new_node.length(); i++)
     {
-        new_node_dist += new_node_dist * 10 + (new_node[i] - '0');
-        curr_node_dist += curr_node_dist * 10 + (current_node[i] - '0');
-        msg_id__dist += msg_id__dist * 10 + (messageID[i] - '0');
-        if (new_node_dist != curr_node_dist)
+        if (new_node[i] != current_node[i])
         {
-            return abs(new_node_dist - msg_id__dist) < abs(curr_node_dist - msg_id__dist);
+            if (lesser)
+            {
+                return new_node[i] < current_node[i];
+            }
+            else if (greater)
+            {
+                return new_node[i] > current_node[i];
+            }
+            else
+            {
+                return abs(new_node[i] - messageID[i]) < abs(current_node[i] - messageID[i]);
+            }
+        }
+        if (new_node[i] > messageID[i])
+        {
+            if (!greater)
+            {
+                lesser = true;
+            }
+        }
+        else if (new_node[i] < messageID[i])
+        {
+            if (!lesser)
+            {
+                greater = true;
+            }
         }
     }
     return false;
 }
 
-void printNode(node_Sptr node)
-{
-    cout << "NodeID: " << node->getNodeID() << " IP: " << node->getIp()
-         << " Port: " << node->getPort() << " Proximity: " << node->getProximity() << endl;
-}
-
 void populateMsgSender(message::Node *sender, node_Sptr node)
 {
-    cout << "in print msg sender" << endl;
-    printNode(node);
     sender->set_ip(node->getIp());
     sender->set_port(node->getPort());
     sender->set_nodeid(node->getNodeID());

@@ -17,7 +17,7 @@
 #include <thread>
 #include "peerCommunicator.h"
 //Pastry parameters
-#define config_parameter_b 1
+#define config_parameter_b 3
 #define parameter_N 1000
 
 class ClientDatabase
@@ -25,6 +25,7 @@ class ClientDatabase
   private:
 	std::mutex seeder_mtx; // mutex for critical section
 	std::mutex shutdown_mtx; // mutex for critical section
+	std::mutex print_mtx; // mutex for critical section
 	int row;
 	int col;
 	std::pair<std::set<node_Sptr, leafComparator>, std::set<node_Sptr, leafComparator>> leafSet;
@@ -78,5 +79,7 @@ class ClientDatabase
 	void lazyUpdateRoutingTable(std::pair<int, int> position);
 	void lockShutdown();
 	void unlockShutdown();
+	void lockPrint();
+	void unlockPrint();
 };
 #endif

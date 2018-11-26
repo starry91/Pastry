@@ -78,8 +78,8 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 	auto prefix = prefixMatchLen(nodeID, this->listener->getNodeID());
 	if (this->routingTable[prefix][nodeID[prefix] - '0'])
 	{
-		std::string log_msg = "node chosen from ROUTING TABLE IP: " + this->routingTable[prefix][nodeID[prefix] - '0']->getIp() + 
-							"Port: " + this->routingTable[prefix][nodeID[prefix] - '0']->getPort();
+		std::string log_msg = "node chosen from ROUTING TABLE IP: " + this->routingTable[prefix][nodeID[prefix] - '0']->getIp() +
+							  "Port: " + this->routingTable[prefix][nodeID[prefix] - '0']->getPort();
 		LogHandler::getInstance().logMsg(log_msg);
 		return routingTable[prefix][nodeID[prefix] - '0'];
 	}
@@ -329,7 +329,10 @@ unordered_map<string, string> ClientDatabase::getHashMap()
 string ClientDatabase::getHashMapValue(string key)
 {
 	std::lock_guard<std::mutex> lock(this->seeder_mtx);
-	return this->hashMap[key];
+	if (this->hashMap.find(key) != this->hashMap.end())
+		return this->hashMap[key];
+	else
+		throw ErrorMsg("Key not present");
 }
 
 void ClientDatabase::deleteFromHashMap(pair<string, string> entry_to_delete)
@@ -479,11 +482,12 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 		if (!leaf_set_side)
 		{
 			auto temp_iterator = this->leafSet.first.end();
-			if(left_iterator != temp_iterator)
+			if (left_iterator != temp_iterator)
 			{
 				fetch_from_node = *left_iterator;
 			}
-			else {
+			else
+			{
 				seeder_mtx.unlock();
 				break;
 			}
@@ -491,11 +495,12 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 		else
 		{
 			auto temp_iterator = this->leafSet.second.rend();
-			if(right_iterator != temp_iterator)
+			if (right_iterator != temp_iterator)
 			{
 				fetch_from_node = *right_iterator;
 			}
-			else {
+			else
+			{
 				seeder_mtx.unlock();
 				break;
 			}
@@ -584,6 +589,11 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 void ClientDatabase::lazyUpdateNeighbourSet()
 {
 	seeder_mtx.lock();
+	if (this->neighbourSet.empty())
+	{
+		seeder_mtx.unlock();
+		return;
+	}
 	auto neighbour_iterator = this->neighbourSet.begin();
 	seeder_mtx.unlock();
 	node_Sptr fetch_from_node;
@@ -699,4 +709,13 @@ void ClientDatabase::lockShutdown()
 void ClientDatabase::unlockShutdown()
 {
 	this->shutdown_mtx.unlock();
+}
+
+void ClientDatabase::lockPrint()
+{
+	this->print_mtx.lock();
+}
+void ClientDatabase::unlockPrint()
+{
+	this->print_mtx.unlock();
 }

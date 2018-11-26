@@ -1,6 +1,6 @@
 
 
-CLIENT_OBJS = clientDatabase.o client_main.o commandHandler.o message.pb.o node.o peerCommunicator.o peerHandler.o peerListener.o peerMessageHandler.o 
+CLIENT_OBJS = clientDatabase.o client_main.o commandHandler.o message.pb.o node.o peerCommunicator.o peerHandler.o peerListener.o peerMessageHandler.o printer.o
 LDFLAGS +=  -lpthread -lcrypto -lssl -lprotobuf -Wall 
 CFLAGS += -g -I$(PROJECT_ROOT)/include
 

@@ -9,6 +9,7 @@
 #include "peerCommunicator.h"
 #include "errorMsg.h"
 #include "logHandler.h"
+#include "printer.h"
 using namespace std;
 
 void PeerMessageHandler::handleJoinMeRequest(message::Message msg)
@@ -290,9 +291,6 @@ void PeerMessageHandler::handleRoutingUpdateRequest(message::Message msg)
 	// cout << "in handle routing update, routing entries count " << req.routingentires_size() << endl;
 	ClientDatabase::getInstance().incrementRecievedUpdateCount(req.routingentires_size());
 
-	// cout << "in handle routing updatemake c";
-	printNode(sender_node);
-
 	for (int i = 0; i < req.routingentires_size(); i++)
 	{
 		auto temp = req.routingentires(i);
@@ -470,8 +468,6 @@ void PeerMessageHandler::handleAllStateUpdateRequest(message::Message msg)
 	auto req = msg.allstateupdate();
 	auto sender = msg.sender();
 	auto sender_node = make_shared<Node>(sender.ip(), sender.port(), sender.nodeid());
-	// cout << "in handle all state update";
-	printNode(sender_node);
 	ClientDatabase::getInstance().updateAllState(sender_node);
 	for (int i = 0; i < req.leaf().node_size(); i++)
 	{
@@ -545,7 +541,15 @@ void PeerMessageHandler::handleGetValRequest(message::Message msg)
 			resp.set_type("GetValResponse");
 			auto temp = resp.mutable_getvalresponse();
 			temp->set_key(req.key());
-			temp->set_value(ClientDatabase::getInstance().getHashMapValue(req.key()));
+			temp->set_actual_key(req.actual_key());
+			try
+			{
+				temp->set_value(ClientDatabase::getInstance().getHashMapValue(req.key()));
+			}
+			catch (ErrorMsg e)
+			{
+				temp->set_value(e.getErrorMsg());
+			}
 			//set value from hash table
 			std::string log_msg = "Sending Get Val response to IP: " + req.node().ip() + " Port: " +
 								  req.node().port() + " NodeID: " + req.node().nodeid();
@@ -583,15 +587,78 @@ void PeerMessageHandler::handleGetValResponse(message::Message msg)
 						  msg.sender().port() + " NodeID: " + msg.sender().nodeid();
 	LogHandler::getInstance().logMsg(log_msg);
 	auto req = msg.getvalresponse();
-	cout << "Key: " << req.key() << " Value: " << req.value() << endl;
+	string print_msg = "Key: " + req.actual_key() + " Value: " + req.value();
+	Custom_Printer().printToConsole(print_msg);
 }
 
 void PeerMessageHandler::handleSetValRequest(message::Message msg)
 {
 	std::string log_msg = "Handling Set Val request from IP: " + msg.sender().ip() + " Port: " +
-						  msg.sender().port() + " NodeID: " + msg.sender().nodeid();
+						  msg.sender().port() + " NodeID: " + msg.sender().nodeid() + " Terminal: " +
+						  (msg.setvalmsg().terminal() ? "TRUE" : "FALSE");
 	LogHandler::getInstance().logMsg(log_msg);
 	auto req = msg.setvalmsg();
+	if (req.terminal())
+	{
+		try
+		{
+			ClientDatabase::getInstance().getHashMapValue(req.key());
+			auto leaf_set = ClientDatabase::getInstance().getLeafSet();
+			if (ClientDatabase::getInstance().getListener()->getNodeID() < msg.sender().nodeid())
+			{
+				for (auto it = leaf_set.first.rbegin(); it != leaf_set.first.rend(); it++)
+				{
+					try
+					{
+						std::string log_msg = "Forwarding to left leaf, REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+											  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+						LogHandler::getInstance().logMsg(log_msg);
+						PeerCommunicator peercommunicator(**it);
+						peercommunicator.sendMsg(msg);
+						return;
+					}
+					catch (ErrorMsg e)
+					{
+						std::string log_msg = "FAILED Forwarding left leaf, REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+											  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+						LogHandler::getInstance().logMsg(log_msg);
+						this->handleLazyUpdates(*it);
+						continue;
+					}
+				}
+			}
+			else
+			{
+				for (auto it = leaf_set.second.begin(); it != leaf_set.second.end(); it++)
+				{
+					try
+					{
+						std::string log_msg = "Forwarding right leaf, REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+											  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+						LogHandler::getInstance().logMsg(log_msg);
+						PeerCommunicator peercommunicator(**it);
+						peercommunicator.sendMsg(msg);
+						return;
+					}
+					catch (ErrorMsg e)
+					{
+						std::string log_msg = "FAILED Forwarding right leaf, REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+											  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+						LogHandler::getInstance().logMsg(log_msg);
+						this->handleLazyUpdates(*it);
+						continue;
+					}
+				}
+			}
+		}
+		catch (ErrorMsg e)
+		{
+			ClientDatabase::getInstance().insertIntoHashMap(req.key(), req.val());
+			std::string log_msg = "Inserting REPLICA into HASH TABLE, key: " + req.key() + " Value: " + req.val();
+			LogHandler::getInstance().logMsg(log_msg);
+		}
+		return;
+	}
 	do
 	{
 		auto next_node_sptr = ClientDatabase::getInstance().getNextRoutingNode(req.key());
@@ -601,8 +668,51 @@ void PeerMessageHandler::handleSetValRequest(message::Message msg)
 			ClientDatabase::getInstance().insertIntoHashMap(req.key(), req.val());
 			std::string log_msg = "Inserting into HASH TABLE, key: " + req.key() + " Value: " + req.val();
 			LogHandler::getInstance().logMsg(log_msg);
-			break;
-			//update local hash table
+			auto leaf_set = ClientDatabase::getInstance().getLeafSet();
+			msg.mutable_setvalmsg()->set_terminal(true);
+			//iterate for left leaf
+			for (auto it = leaf_set.first.rbegin(); it != leaf_set.first.rend(); it++)
+			{
+				try
+				{
+					std::string log_msg = "Forwarding left REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+										  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+					LogHandler::getInstance().logMsg(log_msg);
+					PeerCommunicator peercommunicator(**it);
+					peercommunicator.sendMsg(msg);
+					break;
+				}
+				catch (ErrorMsg e)
+				{
+					std::string log_msg = "FAILED Forwarding left REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+										  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+					LogHandler::getInstance().logMsg(log_msg);
+					this->handleLazyUpdates(*it);
+					continue;
+				}
+			}
+			//iterate for right leaf
+			for (auto it = leaf_set.second.begin(); it != leaf_set.second.end(); it++)
+			{
+				try
+				{
+					std::string log_msg = "Forwarding right REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+										  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+					LogHandler::getInstance().logMsg(log_msg);
+					PeerCommunicator peercommunicator(**it);
+					peercommunicator.sendMsg(msg);
+					break;
+				}
+				catch (ErrorMsg e)
+				{
+					std::string log_msg = "FAILED Forwarding right REPLICATE Set Val request to IP: " + (*it)->getIp() + " Port: " +
+										  (*it)->getPort() + " NodeID: " + (*it)->getNodeID();
+					LogHandler::getInstance().logMsg(log_msg);
+					this->handleLazyUpdates(*it);
+					continue;
+				}
+			}
+			return;
 		}
 		else
 		{
