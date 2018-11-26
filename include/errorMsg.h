@@ -6,10 +6,10 @@
 
 class ErrorMsg
 {
-    std::string msg;
+  std::string msg;
 
-  public:
-    ErrorMsg(std::string msg);
-    std::string getErrorMsg();
+public:
+  ErrorMsg(std::string msg);
+  std::string getErrorMsg();
 };
 #endif

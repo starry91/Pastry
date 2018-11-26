@@ -1,0 +1,1078 @@
+Mon Nov 26 16:08:08 2018
+: Node ID: 4722
+Mon Nov 26 16:08:39 2018
+: In command handler -> join -> sending msg to ip 127.0.0.1 port 8083
+Mon Nov 26 16:08:39 2018
+: Recieved RoutingUpdate request
+Mon Nov 26 16:08:39 2018
+: Handling Routing Update request from IP: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:39 2018
+: Recieved RoutingUpdate request
+Mon Nov 26 16:08:39 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:39 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:39 2018
+: Handling Routing Update request from IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: adding to routing table IP : 127.0.0.1 Port : 8083 NodeID: 0743 Prefix,index = 0,0
+Mon Nov 26 16:08:39 2018
+: In incrementRecievedUpdateCount
+Mon Nov 26 16:08:39 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: before increment: 0
+Mon Nov 26 16:08:39 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: adding to routing table IP : 127.0.0.1 Port : 8081 NodeID: 1722 Prefix,index = 0,1
+Mon Nov 26 16:08:39 2018
+: In incrementRecievedUpdateCount
+Mon Nov 26 16:08:39 2018
+: after increment: 1
+Mon Nov 26 16:08:39 2018
+: before increment: 1
+Mon Nov 26 16:08:39 2018
+: after increment: 1
+Mon Nov 26 16:08:39 2018
+: In Handle Routing Update request Buddy TRUE
+Mon Nov 26 16:08:39 2018
+: In Handle Routing Update request Terminal TRUE
+Mon Nov 26 16:08:39 2018
+: In Handle Routing Update request Buddy TRUE
+Mon Nov 26 16:08:39 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:39 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:39 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: Current route update count: 1 required route update count: 1
+Mon Nov 26 16:08:39 2018
+: In send ALL state update
+Mon Nov 26 16:08:39 2018
+: Current route update count: 1 required route update count: 1
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding neighbour node with node id: 0743
+Mon Nov 26 16:08:39 2018
+: In send ALL state update
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding neighbour node with node id: 1531
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding neighbour node with node id: 0743
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding neighbour node with node id: 1722
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding neighbour node with node id: 1531
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding routing node with node id: 0743
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding neighbour node with node id: 1722
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding routing node with node id: 1722
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding routing node with node id: 0743
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding routing node with node id: 1722
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding left leaf node with node id: 0743
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding left leaf node with node id: 0743
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding left leaf node with node id: 1531
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding left leaf node with node id: 1531
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding left leaf node with node id: 1722
+Mon Nov 26 16:08:39 2018
+: ALL STATE: Adding left leaf node with node id: 1722
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to neighbour IP: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to neighbour IP: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to neighbour IP: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to neighbour IP: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to neighbour IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to neighbour IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to left leaf IP: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to left leaf IP: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to left leaf IP: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to left leaf IP: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to left leaf IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to left leaf IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to routing entry IP: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to routing entry IP: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to routing entry IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: Sending all state update request to routing entry IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:39 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:08:39 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:08:41 2018
+: Recieved JoinMe request for IP: 127.0.0.1 Port: 8085
+Mon Nov 26 16:08:41 2018
+: Handling JoinMe request for IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: Next best route IP: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Sending RoutingUpdate packet to IP: 127.0.0.1 Port: 8085
+Mon Nov 26 16:08:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 8 For fd: 8
+Mon Nov 26 16:08:41 2018
+: Recieved AllStateUpdate request
+Mon Nov 26 16:08:41 2018
+: Handling ALL State Update request from IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: adding to right leaf set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: adding to routing table IP : 127.0.0.1 Port : 8085 NodeID: 5410 Prefix,index = 0,5
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:08:41 2018
+: Recieved AllStateUpdate request
+Mon Nov 26 16:08:41 2018
+: Handling ALL State Update request from IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: adding to routing table with Proximity IP : 127.0.0.1 Port : 8085 NodeID: 5410 Prefix,index = 0,5
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Recieved AllStateUpdate request
+Mon Nov 26 16:08:41 2018
+: Handling ALL State Update request from IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:08:41 2018
+: adding to routing table with Proximity IP : 127.0.0.1 Port : 8085 NodeID: 5410 Prefix,index = 0,5
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:08:41 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:08:41 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:08:41 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:08:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:09:01 2018
+: Recieved SetVal request
+Mon Nov 26 16:09:01 2018
+: Handling Set Val request from IP: 127.0.0.1 Port: 8085 NodeID: 5410 Terminal: TRUE
+Mon Nov 26 16:09:01 2018
+: Inserting into HASH Table key: 7701543420376033070407 Value: gupta
+Mon Nov 26 16:09:01 2018
+: Inserting REPLICA into HASH TABLE, key: 7701543420376033070407 Value: gupta
+Mon Nov 26 16:09:01 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 7 For fd: 7
+Mon Nov 26 16:09:28 2018
+: Recieved SetVal request
+Mon Nov 26 16:09:28 2018
+: Handling Set Val request from IP: 127.0.0.1 Port: 8081 NodeID: 1722 Terminal: TRUE
+Mon Nov 26 16:09:28 2018
+: Inserting into HASH Table key: 6715332742756326657057 Value: rawat
+Mon Nov 26 16:09:28 2018
+: Inserting REPLICA into HASH TABLE, key: 6715332742756326657057 Value: rawat
+Mon Nov 26 16:09:28 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:09:31 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:09:36 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:09:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:09:57 2018
+: Recieved SetVal request
+Mon Nov 26 16:09:57 2018
+: Handling Set Val request from IP: 127.0.0.1 Port: 8081 NodeID: 1722 Terminal: FALSE
+Mon Nov 26 16:09:57 2018
+: node chosen from ip : 127.0.0.1 port : 8084
+Mon Nov 26 16:09:57 2018
+: Inserting into HASH Table key: 4542163256713043465356 Value: cross
+Mon Nov 26 16:09:57 2018
+: Inserting into HASH TABLE, key: 4542163256713043465356 Value: cross
+Mon Nov 26 16:09:57 2018
+: Forwarding left REPLICATE Set Val request to IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:09:57 2018
+: Forwarding right REPLICATE Set Val request to IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:09:57 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:10:05 2018
+: Recieved SetVal request
+Mon Nov 26 16:10:05 2018
+: Handling Set Val request from IP: 127.0.0.1 Port: 8081 NodeID: 1722 Terminal: FALSE
+Mon Nov 26 16:10:05 2018
+: node chosen from ip : 127.0.0.1 port : 8084
+Mon Nov 26 16:10:05 2018
+: Inserting into HASH Table key: 4674637312315714766246 Value: lie
+Mon Nov 26 16:10:05 2018
+: Inserting into HASH TABLE, key: 4674637312315714766246 Value: lie
+Mon Nov 26 16:10:05 2018
+: Forwarding left REPLICATE Set Val request to IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:10:05 2018
+: Forwarding right REPLICATE Set Val request to IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:10:05 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:10:11 2018
+: Recieved SetVal request
+Mon Nov 26 16:10:11 2018
+: Handling Set Val request from IP: 127.0.0.1 Port: 8083 NodeID: 0743 Terminal: FALSE
+Mon Nov 26 16:10:11 2018
+: node chosen from ip : 127.0.0.1 port : 8084
+Mon Nov 26 16:10:11 2018
+: Inserting into HASH Table key: 4543055113313061322266 Value: dude
+Mon Nov 26 16:10:11 2018
+: Inserting into HASH TABLE, key: 4543055113313061322266 Value: dude
+Mon Nov 26 16:10:11 2018
+: Forwarding left REPLICATE Set Val request to IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:10:11 2018
+: Forwarding right REPLICATE Set Val request to IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:10:11 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:10:15 2018
+: Recieved SetVal request
+Mon Nov 26 16:10:15 2018
+: Handling Set Val request from IP: 127.0.0.1 Port: 8082 NodeID: 1531 Terminal: FALSE
+Mon Nov 26 16:10:15 2018
+: node chosen from ip : 127.0.0.1 port : 8084
+Mon Nov 26 16:10:15 2018
+: Inserting into HASH Table key: 4130054560302601313406 Value: out
+Mon Nov 26 16:10:15 2018
+: Inserting into HASH TABLE, key: 4130054560302601313406 Value: out
+Mon Nov 26 16:10:15 2018
+: Forwarding left REPLICATE Set Val request to IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:10:15 2018
+: Forwarding right REPLICATE Set Val request to IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:10:15 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:10:31 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:10:36 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:10:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:11:31 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:11:36 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:11:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:12:16 2018
+: Recieved AllStateUpdate request
+Mon Nov 26 16:12:16 2018
+: Handling ALL State Update request from IP: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:12:16 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:12:16 2018
+: adding to routing table with Proximity IP : 127.0.0.1 Port : 8086 NodeID: 0451 Prefix,index = 0,0
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:12:16 2018
+: Recieved AllStateUpdate request
+Mon Nov 26 16:12:16 2018
+: Handling ALL State Update request from IP: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:12:16 2018
+: adding to routing table with Proximity IP : 127.0.0.1 Port : 8086 NodeID: 0451 Prefix,index = 0,0
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Recieved AllStateUpdate request
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:12:16 2018
+: Handling ALL State Update request from IP: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:12:16 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:12:16 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:12:16 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:12:31 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 7 For fd: 7
+Mon Nov 26 16:12:36 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:12:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:13:16 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:13:31 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:13:36 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:13:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:14:16 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:14:31 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:14:36 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:14:41 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 7 For fd: 7
+Mon Nov 26 16:14:44 2018
+: Recieved AllStateUpdate request
+Mon Nov 26 16:14:44 2018
+: Handling ALL State Update request from IP: 127.0.0.1 Port: 8087 NodeID: 2107
+Mon Nov 26 16:14:44 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8087 NodeID: 2107
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8087 NodeID: 2107
+Mon Nov 26 16:14:44 2018
+: adding to routing table IP : 127.0.0.1 Port : 8087 NodeID: 2107 Prefix,index = 0,2
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to routing table with Proximity IP : 127.0.0.1 Port : 8081 NodeID: 1722 Prefix,index = 0,1
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:14:44 2018
+: Recieved AllStateUpdate request
+Mon Nov 26 16:14:44 2018
+: Handling ALL State Update request from IP: 127.0.0.1 Port: 8087 NodeID: 2107
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8087 NodeID: 2107
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8087 NodeID: 2107
+Mon Nov 26 16:14:44 2018
+: adding to routing table with Proximity IP : 127.0.0.1 Port : 8087 NodeID: 2107 Prefix,index = 0,2
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:14:44 2018
+: Recieved AllStateUpdate request
+Mon Nov 26 16:14:44 2018
+: Handling ALL State Update request from IP: 127.0.0.1 Port: 8087 NodeID: 2107
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8087 NodeID: 2107
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8087 NodeID: 2107
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to routing table with Proximity IP : 127.0.0.1 Port : 8086 NodeID: 0451 Prefix,index = 0,0
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:14:44 2018
+: Leaf Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to left leaf set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8086 NodeID: 0451
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8082 NodeID: 1531
+Mon Nov 26 16:14:44 2018
+: adding to routing table with Proximity IP : 127.0.0.1 Port : 8082 NodeID: 1531 Prefix,index = 0,1
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to routing table with Proximity IP : 127.0.0.1 Port : 8085 NodeID: 5410 Prefix,index = 0,5
+Mon Nov 26 16:14:44 2018
+: Neighbour Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8083 NodeID: 0743
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8081 NodeID: 1722
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8084 NodeID: 4722
+Mon Nov 26 16:14:44 2018
+: Routing Entry-> Ip: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Erasing DUPLICATE in neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: adding to neighbour set IP : 127.0.0.1 Port : 8085 NodeID: 5410
+Mon Nov 26 16:14:44 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:14:51 2018
+: Recieved DeleteNode request
+Mon Nov 26 16:14:51 2018
+: Handling DeleteNode request from IP: 127.0.0.1 Port: 8087 NodeID: 2107
+Mon Nov 26 16:14:51 2018
+: deleteFrom Left Leaf Set IP : 127.0.0.1Port : 8087 NodeID: 2107
+Mon Nov 26 16:14:51 2018
+: deleteFromNeighhbourSet IP : 127.0.0.1Port : 8087 NodeID: 2107
+Mon Nov 26 16:14:51 2018
+: Deleting from routing table IP : 127.0.0.1 Port : 8087 NodeID: 2107 Prefix,index = 0,2
+Mon Nov 26 16:14:51 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 6 For fd: 6
+Mon Nov 26 16:14:51 2018
+: Recieved DeleteNode request
+Mon Nov 26 16:14:51 2018
+: Handling DeleteNode request from IP: 127.0.0.1 Port: 8087 NodeID: 2107
+Mon Nov 26 16:14:51 2018
+: Deleting from routing table IP : 127.0.0.1 Port : 8087 NodeID: 2107 Prefix,index = 0,2
+Mon Nov 26 16:14:51 2018
+: Error - PeerHandler::handleRpc() Exception received: connection  , fd: 5 For fd: 5
+Mon Nov 26 16:15:01 2018
+: Recieved Shutdown request
+Mon Nov 26 16:15:01 2018
+: Error - Shutting Down
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:15:01 2018
+: Recieved Shutdown request
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:15:01 2018
+: Recieved Shutdown request
+Mon Nov 26 16:15:01 2018
+: In handle shutdown, After loop CODEA
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:15:01 2018
+: In handle shutdown, After loop CODEB
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:15:01 2018
+: Recieved Shutdown request
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8083 NodeID: 0743
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:15:01 2018
+: Error - Unable to establish connection with IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:15:01 2018
+: FAILED Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8081 NodeID: 1722
+Mon Nov 26 16:15:01 2018
+: In handle shutdown, After loop CODEC
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:15:01 2018
+: Error - Unable to establish connection with IP: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:15:01 2018
+: Recieved Shutdown request
+Mon Nov 26 16:15:01 2018
+: FAILED Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8086 NodeID: 0451
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:15:01 2018
+: Error - Unable to establish connection with IP: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:15:01 2018
+: FAILED Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8082 NodeID: 1531
+Mon Nov 26 16:15:01 2018
+: Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:15:01 2018
+: Error - Unable to establish connection with IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:15:01 2018
+: Recieved Shutdown request
+Mon Nov 26 16:15:01 2018
+: FAILED Forwarding Set shutdown request to IP: 127.0.0.1 Port: 8085 NodeID: 5410
+Mon Nov 26 16:15:01 2018
+: Error - Shutting Down
