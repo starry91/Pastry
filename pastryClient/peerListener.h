@@ -7,8 +7,8 @@
 
 class PeerListener
 {
-  public:
-    void startListening();
+public:
+  void startListening();
 };
 
 #endif

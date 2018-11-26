@@ -19,11 +19,12 @@
 //Pastry parameters
 #define config_parameter_b 1
 #define parameter_N 1000
+#define timer_limit 60
 
 class ClientDatabase
 {
   private:
-	std::mutex seeder_mtx; // mutex for critical section
+	std::mutex seeder_mtx;   // mutex for critical section
 	std::mutex shutdown_mtx; // mutex for critical section
 	int row;
 	int col;

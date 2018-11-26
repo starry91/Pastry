@@ -56,6 +56,8 @@ void CommandHandler::handleCommand(std::string command)
             PeerCommunicator peercommunicator(ip, port);
             LogHandler::getInstance().logMsg("In command handler -> join -> sending msg to ip " + ip + " port " + port);
             peercommunicator.sendMsg(msg);
+            std ::thread T(&CommandHandler::leafSetRepairer, this);
+            T.detach();
         }
         else if (args.size() == 3 && args[0] == "put")
         {
@@ -276,13 +278,13 @@ void CommandHandler::handleCommand(std::string command)
                 {
                     (*hash_map_message)[entry.first] = entry.second;
                 }
-                try {
+                try
+                {
                     PeerCommunicator peercommunicator(*best_leaf);
                     peercommunicator.sendMsg(msg);
                 }
-                catch(ErrorMsg e)
+                catch (ErrorMsg e)
                 {
-                    
                 }
             }
             exit(0);
@@ -394,4 +396,43 @@ void CommandHandler::printError(std::string e)
 {
     // LogHandler::getInstance().logMsg(e);
     cout << e << endl;
+}
+
+void CommandHandler ::leafSetRepairer()
+{
+    while (true)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(timer_limit));
+        auto leaf_set = ClientDatabase::getInstance().getLeafSet();
+        for (auto leaf : leaf_set.first)
+        {
+            try
+            {
+                PeerCommunicator peercommunicator(*leaf);
+            }
+            catch (ErrorMsg e)
+            {
+                string logMsg = "Removing Node in leafSetRepair Ip: " + leaf->getIp() + " Port: " +
+                                leaf->getPort() + " NodeId: " + leaf->getNodeID();
+                LogHandler::getInstance().logMsg(logMsg);
+                PeerMessageHandler peerHandler;
+                peerHandler.handleLazyUpdates(leaf);
+            }
+        }
+        for (auto leaf : leaf_set.second)
+        {
+            try
+            {
+                PeerCommunicator peercommunicator(*leaf);
+            }
+            catch (ErrorMsg e)
+            {
+                string logMsg = "Removing Node in leafSetRepair Ip: " + leaf->getIp() + " Port: " +
+                                leaf->getPort() + " NodeId: " + leaf->getNodeID();
+                LogHandler::getInstance().logMsg(logMsg);
+                PeerMessageHandler peerHandler;
+                peerHandler.handleLazyUpdates(leaf);
+            }
+        }
+    }
 }

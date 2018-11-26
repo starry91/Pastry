@@ -78,8 +78,8 @@ node_Sptr ClientDatabase::getNextRoutingNode(string nodeID)
 	auto prefix = prefixMatchLen(nodeID, this->listener->getNodeID());
 	if (this->routingTable[prefix][nodeID[prefix] - '0'])
 	{
-		std::string log_msg = "node chosen from ROUTING TABLE IP: " + this->routingTable[prefix][nodeID[prefix] - '0']->getIp() + 
-							"Port: " + this->routingTable[prefix][nodeID[prefix] - '0']->getPort();
+		std::string log_msg = "node chosen from ROUTING TABLE IP: " + this->routingTable[prefix][nodeID[prefix] - '0']->getIp() +
+							  "Port: " + this->routingTable[prefix][nodeID[prefix] - '0']->getPort();
 		LogHandler::getInstance().logMsg(log_msg);
 		return routingTable[prefix][nodeID[prefix] - '0'];
 	}
@@ -479,11 +479,12 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 		if (!leaf_set_side)
 		{
 			auto temp_iterator = this->leafSet.first.end();
-			if(left_iterator != temp_iterator)
+			if (left_iterator != temp_iterator)
 			{
 				fetch_from_node = *left_iterator;
 			}
-			else {
+			else
+			{
 				seeder_mtx.unlock();
 				break;
 			}
@@ -491,11 +492,12 @@ void ClientDatabase::lazyUpdateLeafSet(bool leaf_set_side)
 		else
 		{
 			auto temp_iterator = this->leafSet.second.rend();
-			if(right_iterator != temp_iterator)
+			if (right_iterator != temp_iterator)
 			{
 				fetch_from_node = *right_iterator;
 			}
-			else {
+			else
+			{
 				seeder_mtx.unlock();
 				break;
 			}
