@@ -141,15 +141,21 @@ set<node_Sptr, neighbourComparator> ClientDatabase ::getNeighbourSet()
 void ClientDatabase::addToLeafSet(node_Sptr node)
 {
 	// cout << "Entering in addToLeaf" << endl;
-	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (!node)
 	{
 		return;
 	}
+	seeder_mtx.lock();
 	if (this->is_same_node_as_me(node))
 	{
 		return;
 	}
+	seeder_mtx.unlock();
+
+	int proximity = calculateProximity(node->getIp());
+	node->setProximity(proximity);
+
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (node->getNodeID() < this->listener->getNodeID())
 	{
 		auto &left_leafSet = this->leafSet.first;
@@ -184,15 +190,21 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 
 void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 {
-	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (!node)
 	{
 		return;
 	}
+	seeder_mtx.lock();
 	if (this->is_same_node_as_me(node))
 	{
 		return;
 	}
+	seeder_mtx.unlock();
+
+	int proximity = calculateProximity(node->getIp());
+	node->setProximity(proximity);
+
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	auto &neighbour = this->neighbourSet;
 	auto n_entry = this->findInNeighourSet(neighbour, node->getNodeID());
 	if (n_entry)
@@ -219,15 +231,21 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 {
 	// cout << "Entering in addToRoutingTable" << endl;
-	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	if (!node)
 	{
 		return;
 	}
+	seeder_mtx.lock();
 	if (this->is_same_node_as_me(node))
 	{
 		return;
 	}
+	seeder_mtx.unlock();
+
+	int proximity = calculateProximity(node->getIp());
+	node->setProximity(proximity);
+
+	std::lock_guard<std::mutex> lock(this->seeder_mtx);
 	prefix = prefixMatchLen(this->listener->getNodeID(), node->getNodeID());
 	auto index = node->getNodeID()[prefix] - '0';
 	if (!this->routingTable[prefix][index])
