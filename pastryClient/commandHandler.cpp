@@ -23,7 +23,7 @@
 
 bool PORT_SET_BIT = false;
 bool CREATE_BIT = false;
-// bool JOIN_BIT = false;
+bool JOIN_BIT = false;
 
 using namespace std;
 
@@ -48,8 +48,10 @@ void CommandHandler::handleCommand(std::string command)
             std::thread t1(&PeerListener::startListening, PeerListener());
             t1.detach();
             CREATE_BIT = true;
+            std ::thread T(&CommandHandler::leafSetRepairer, this);
+            T.detach();
         }
-        else if (args.size() == 3 && args[0] == "join" && PORT_SET_BIT && CREATE_BIT)
+        else if (args.size() == 3 && args[0] == "join" && PORT_SET_BIT && CREATE_BIT && !JOIN_BIT)
         {
             string ip = args[1];
             string port = args[2];
@@ -69,8 +71,7 @@ void CommandHandler::handleCommand(std::string command)
             PeerCommunicator peercommunicator(ip, port);
             LogHandler::getInstance().logMsg("In command handler -> join -> sending msg to ip " + ip + " port " + port);
             peercommunicator.sendMsg(msg);
-            std ::thread T(&CommandHandler::leafSetRepairer, this);
-            T.detach();
+            JOIN_BIT = true;
         }
         else if (args.size() == 3 && args[0] == "put")
         {
@@ -438,6 +439,9 @@ void CommandHandler::handleCommand(std::string command)
             }
             else if(args[0] == "create") {
                 print_msg = "Pasty Node already Initialized";
+            }
+            else if(args[0] == "join") {
+                print_msg = "Pasty Node already connected";
             }
             Custom_Printer().printError(print_msg);
         }
