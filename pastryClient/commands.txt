@@ -3,7 +3,7 @@ create
 
 port 127.0.0.1 8082
 create
-join 127.0.0.1 8081
+	join 127.0.0.1 8081
 
 port 127.0.0.1 8083
 create

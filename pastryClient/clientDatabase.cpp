@@ -145,12 +145,13 @@ void ClientDatabase::addToLeafSet(node_Sptr node)
 	{
 		return;
 	}
-	seeder_mtx.lock();
-	if (this->is_same_node_as_me(node))
 	{
-		return;
+		std::lock_guard<std::mutex> lock(this->seeder_mtx);
+		if (this->is_same_node_as_me(node))
+		{
+			return;
+		}
 	}
-	seeder_mtx.unlock();
 
 	int proximity = calculateProximity(node->getIp());
 	node->setProximity(proximity);
@@ -194,12 +195,13 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 	{
 		return;
 	}
-	seeder_mtx.lock();
-	if (this->is_same_node_as_me(node))
 	{
-		return;
+		std::lock_guard<std::mutex> lock(this->seeder_mtx);
+		if (this->is_same_node_as_me(node))
+		{
+			return;
+		}
 	}
-	seeder_mtx.unlock();
 
 	int proximity = calculateProximity(node->getIp());
 	node->setProximity(proximity);
@@ -235,12 +237,13 @@ void ClientDatabase::addToRoutingTable(node_Sptr node, int prefix)
 	{
 		return;
 	}
-	seeder_mtx.lock();
-	if (this->is_same_node_as_me(node))
 	{
-		return;
+		std::lock_guard<std::mutex> lock(this->seeder_mtx);
+		if (this->is_same_node_as_me(node))
+		{
+			return;
+		}
 	}
-	seeder_mtx.unlock();
 
 	int proximity = calculateProximity(node->getIp());
 	node->setProximity(proximity);
