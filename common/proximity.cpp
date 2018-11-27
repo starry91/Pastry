@@ -1,5 +1,6 @@
 #include "proximity.h"
 #include <errno.h>
+#include "logHandler.h"
 using namespace std;
 
 // Define the Packet Constants
@@ -64,13 +65,8 @@ double send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_ip)
     if (setsockopt(ping_sockfd, SOL_IP, IP_TTL,
                    &ttl_val, sizeof(ttl_val)) != 0)
     {
-        // printf("\nSetting socket options   to TTL failed!\n");
+        LogHandler::getInstance().logError("Setting socket options to TTL failed!");
         return __DBL_MAX__;
-    }
-
-    else
-    {
-        // printf("\nSocket set to TTL..\n");
     }
 
     // setting timeout of recv setting
@@ -103,7 +99,7 @@ double send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_ip)
                (struct sockaddr *)ping_addr,
                sizeof(*ping_addr)) <= 0)
     {
-        // printf("\nPacket Sending Failed!\n");
+        LogHandler::getInstance().logError("Packet Sending Failed!");
         flag = 0;
     }
 
@@ -114,7 +110,7 @@ double send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_ip)
                  (struct sockaddr *)&r_addr, (socklen_t *)&addr_len) <= 0 &&
         msg_count > 1)
     {
-        // printf("\nPacket receive failed!\n");
+        LogHandler::getInstance().logError("Packet receive failed!");
     }
 
     else
@@ -132,7 +128,8 @@ double send_ping(int ping_sockfd, struct sockaddr_in *ping_addr, char *ping_ip)
         {
             if (!(pckt.hdr.type == 69 && pckt.hdr.code == 0))
             {
-                // printf("Error..Packet received with ICMP type %d code %d\n", pckt.hdr.type, pckt.hdr.code);
+                LogHandler::getInstance().logError("Packet received with ICMP type " + to_string(pckt.hdr.type) + 
+                                                        " code %d" + to_string(pckt.hdr.code));
             }
             else
             {
@@ -179,7 +176,7 @@ double proximity(char *ip_addr)
     sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
     if (sockfd < 0)
     {
-        printf("\nSocket file descriptor not received: %s\n", strerror(errno));
+        LogHandler::getInstance().logError("Socket file descriptor not received: " + string(strerror(errno)));
         return 0;
     }
     // else

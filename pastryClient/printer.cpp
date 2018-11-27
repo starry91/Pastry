@@ -14,7 +14,9 @@ void Custom_Printer::printToConsole(string msg)
     }
     else
     {
+        ClientDatabase::getInstance().lockPrint();
         cout << msg << endl;
+        ClientDatabase::getInstance().unlockPrint();
     }
 }
 
@@ -30,8 +32,10 @@ void Custom_Printer::printNode(node_Sptr node)
     }
     else
     {
+        ClientDatabase::getInstance().lockPrint();
         cout << "NodeID: " << node->getNodeID() << " IP: " << node->getIp()
              << " Port: " << node->getPort() << " Proximity: " << node->getProximity() << endl;
+        ClientDatabase::getInstance().unlockPrint();
     }
 }
 
@@ -41,11 +45,13 @@ void Custom_Printer::printError(std::string msg)
     {
         ClientDatabase::getInstance().lockPrint();
         cout << "[" << ClientDatabase::getInstance().getListener()->getIp() << ":" << ClientDatabase::getInstance().getListener()->getPort() << "] ";
-        cout << "ERROR: " << msg << endl;
+        cout << "\033[0;31m" << "ERROR: " << "\033[0m" << msg << endl;
         ClientDatabase::getInstance().unlockPrint();
     }
     else
     {
-        cout << "ERROR: " << msg << endl;
+        ClientDatabase::getInstance().lockPrint();
+        cout << "\033[0;31m" << "ERROR: " << "\033[0m" << msg << endl;
+        ClientDatabase::getInstance().unlockPrint();
     }    
 }

@@ -20,6 +20,11 @@
 #include "peerCommunicator.h"
 #include "peerMessageHandler.h"
 #include "printer.h"
+
+bool PORT_SET_BIT = false;
+bool CREATE_BIT = false;
+// bool JOIN_BIT = false;
+
 using namespace std;
 
 using std::cout;
@@ -30,22 +35,29 @@ void CommandHandler::handleCommand(std::string command)
     try
     {
         std::vector<std::string> args = extractArgs(command);
-        if (args.size() == 3 && args[0] == "port")
+        if (args.size() == 3 && args[0] == "port" && !PORT_SET_BIT)
         {
             auto nodeID = getHash(args[1] + args[2], (config_parameter_b)); //b macro defined in Client Database
             auto trimmedNodeID = trimString(nodeID, ClientDatabase::getInstance().getRowSize());
             LogHandler::getInstance().logMsg("Node ID: " + trimmedNodeID);
             ClientDatabase::getInstance().setListener(make_shared<Node>(Node(args[1], args[2], trimmedNodeID)));
+            PORT_SET_BIT = true;
         }
-        else if (args.size() == 1 && args[0] == "create")
+        else if (args.size() == 1 && args[0] == "create" && PORT_SET_BIT && !CREATE_BIT)
         {
             std::thread t1(&PeerListener::startListening, PeerListener());
             t1.detach();
+            CREATE_BIT = true;
         }
-        else if (args.size() == 3 && args[0] == "join")
+        else if (args.size() == 3 && args[0] == "join" && PORT_SET_BIT && CREATE_BIT)
         {
             string ip = args[1];
             string port = args[2];
+            if(ip == ClientDatabase::getInstance().getListener()->getIp() && 
+                    port == ClientDatabase::getInstance().getListener()->getPort())
+            {
+                throw ErrorMsg("Cannot join node to itself");
+            }
             message::Message msg;
             msg.set_type("JoinMe");
             auto sender = msg.mutable_sender();
@@ -415,6 +427,18 @@ void CommandHandler::handleCommand(std::string command)
         else
         {
             std::string print_msg = "Invalid Command";
+            if(!PORT_SET_BIT) {
+                print_msg = "Please assign IP and PORT";
+            }
+            else if(!CREATE_BIT) {
+                print_msg = "Please create Pasty Node first";
+            }
+            else if(args[0] == "port") {
+                print_msg = "PORT already assigned";
+            }
+            else if(args[0] == "create") {
+                print_msg = "Pasty Node already Initialized";
+            }
             Custom_Printer().printError(print_msg);
         }
     }
