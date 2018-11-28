@@ -35,12 +35,12 @@ void CommandHandler::handleCommand(std::string command)
     try
     {
         std::vector<std::string> args = extractArgs(command);
-        if (args.size() == 3 && args[0] == "port" && !PORT_SET_BIT)
+        if (args.size() == 2 && args[0] == "port" && !PORT_SET_BIT)
         {
             auto nodeID = getHash(args[1] + args[2], (config_parameter_b)); //b macro defined in Client Database
             auto trimmedNodeID = trimString(nodeID, ClientDatabase::getInstance().getRowSize());
             LogHandler::getInstance().logMsg("Node ID: " + trimmedNodeID);
-            ClientDatabase::getInstance().setListener(make_shared<Node>(Node(args[1], args[2], trimmedNodeID)));
+            ClientDatabase::getInstance().setListener(make_shared<Node>(Node(getHostIP(), args[1], trimmedNodeID)));
             PORT_SET_BIT = true;
         }
         else if (args.size() == 1 && args[0] == "create" && PORT_SET_BIT && !CREATE_BIT)
@@ -429,7 +429,7 @@ void CommandHandler::handleCommand(std::string command)
         {
             std::string print_msg = "Invalid Command";
             if(!PORT_SET_BIT) {
-                print_msg = "Please assign IP and PORT";
+                print_msg = "Please assign PORT";
             }
             else if(!CREATE_BIT) {
                 print_msg = "Please create Pasty Node first";
