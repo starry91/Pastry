@@ -428,22 +428,43 @@ void PeerMessageHandler::sendAllStateUpdate()
 	{
 		std::string log_msg = "Sending all state update request to neighbour IP: " + node->getIp() + " Port: " + node->getPort() + " NodeID: " + node->getNodeID();
 		LogHandler::getInstance().logMsg(log_msg);
-		PeerCommunicator peercommunicator(*node);
-		peercommunicator.sendMsg(all_state_req);
+		try
+		{
+			PeerCommunicator peercommunicator(*node);
+			peercommunicator.sendMsg(all_state_req);
+		}
+		catch (ErrorMsg e)
+		{
+			continue;
+		}
 	}
 	for (auto node : leafSet.first)
 	{
 		std::string log_msg = "Sending all state update request to left leaf IP: " + node->getIp() + " Port: " + node->getPort() + " NodeID: " + node->getNodeID();
 		LogHandler::getInstance().logMsg(log_msg);
-		PeerCommunicator peercommunicator(*node);
-		peercommunicator.sendMsg(all_state_req);
+		try
+		{
+			PeerCommunicator peercommunicator(*node);
+			peercommunicator.sendMsg(all_state_req);
+		}
+		catch (ErrorMsg e)
+		{
+			continue;
+		}
 	}
 	for (auto node : leafSet.second)
 	{
 		std::string log_msg = "Sending all state update request to right leaf IP: " + node->getIp() + " Port: " + node->getPort() + " NodeID: " + node->getNodeID();
 		LogHandler::getInstance().logMsg(log_msg);
-		PeerCommunicator peercommunicator(*node);
-		peercommunicator.sendMsg(all_state_req);
+		try
+		{
+			PeerCommunicator peercommunicator(*node);
+			peercommunicator.sendMsg(all_state_req);
+		}
+		catch (ErrorMsg e)
+		{
+			continue;
+		}
 	}
 	for (int i = 0; i < routingTable.size(); i++)
 	{
@@ -453,8 +474,15 @@ void PeerMessageHandler::sendAllStateUpdate()
 			{
 				std::string log_msg = "Sending all state update request to routing entry IP: " + node->getIp() + " Port: " + node->getPort() + " NodeID: " + node->getNodeID();
 				LogHandler::getInstance().logMsg(log_msg);
-				PeerCommunicator peercommunicator(*node);
-				peercommunicator.sendMsg(all_state_req);
+				try
+				{
+					PeerCommunicator peercommunicator(*node);
+					peercommunicator.sendMsg(all_state_req);
+				}
+				catch (ErrorMsg e)
+				{
+					continue;
+				}
 			}
 		}
 	}
