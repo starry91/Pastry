@@ -161,7 +161,7 @@ double proximity(char *ip_addr)
     struct hostent *host_entity;
     if ((host_entity = gethostbyname(ip_addr)) == NULL)
     {
-        // No ip found for hostname
+        LogHandler::getInstance().logError("In get proximity, return NULL");
         //
     }
 

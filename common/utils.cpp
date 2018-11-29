@@ -13,15 +13,15 @@
 #include <errno.h>
 #include "proximity.h"
 
-#include <stdio.h> 
-#include <stdlib.h> 
-#include <unistd.h> 
-#include <errno.h> 
-#include <netdb.h> 
-#include <sys/types.h> 
-#include <sys/socket.h> 
-#include <netinet/in.h> 
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include "logHandler.h"
 using std::cout;
 using std::endl;
 using namespace std;
@@ -295,29 +295,38 @@ void populateMsgSender(message::Node *sender, node_Sptr node)
 
 double calculateProximity(string ip_address) //rtt in msec
 {
-    char *ip_addr;
-    ip_addr = (char *)ip_address.c_str();
-    return proximity(ip_addr);
+    try
+    {
+        char *ip_addr;
+        ip_addr = (char *)ip_address.c_str();
+        auto x = proximity(ip_addr);
+        return x;
+    }
+    catch (exception e)
+    {
+        LogHandler::getInstance().logError("Exception in calcProximity");
+        return 0;
+    }
 }
 
 string getHostIP()
 {
-    char hostbuffer[256]; 
-    char *IPbuffer; 
-    struct hostent *host_entry; 
-    int hostname; 
-  
-    // To retrieve hostname 
-    hostname = gethostname(hostbuffer, sizeof(hostbuffer)); 
-    // checkHostName(hostname); 
-  
-    // To retrieve host information 
-    host_entry = gethostbyname(hostbuffer); 
-    // checkHostEntry(host_entry); 
-  
-    // To convert an Internet network 
-    // address into ASCII string 
-    IPbuffer = inet_ntoa(*((struct in_addr*) 
-                           host_entry->h_addr_list[0])); 
-    return string(IPbuffer); 
+    char hostbuffer[256];
+    char *IPbuffer;
+    struct hostent *host_entry;
+    int hostname;
+
+    // To retrieve hostname
+    hostname = gethostname(hostbuffer, sizeof(hostbuffer));
+    // checkHostName(hostname);
+
+    // To retrieve host information
+    host_entry = gethostbyname(hostbuffer);
+    // checkHostEntry(host_entry);
+
+    // To convert an Internet network
+    // address into ASCII string
+    IPbuffer = inet_ntoa(*((struct in_addr *)
+                               host_entry->h_addr_list[0]));
+    return string(IPbuffer);
 }
