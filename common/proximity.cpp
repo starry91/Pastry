@@ -166,8 +166,7 @@ double proximity(char *ip_addr)
     }
 
     //filling up address structure
-    strcpy(ip_addr, inet_ntoa(*(struct in_addr *)
-                                   host_entity->h_addr));
+    memcpy(&(addr_con).sin_addr, host_entity->h_addr_list[0], host_entity->h_length);
 
     (addr_con).sin_family = host_entity->h_addrtype;
     (addr_con).sin_port = htons(PORT_NO);
@@ -191,7 +190,7 @@ double proximity(char *ip_addr)
 // {
 //     string x;
 //     cin >> x;
-//     char* ip_addr;
+//     char* ip_addr = "10.42.0.72";
 //     ip_addr = (char *)x.c_str();
 //     cout << proximity(ip_addr)<< endl;
 // }
