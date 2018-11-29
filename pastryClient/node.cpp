@@ -35,8 +35,9 @@ std::string Node::getNodeID()
 Node::Node()
 {
 }
-void Node::setProximity(int)
+void Node::setProximity(int proximity)
 {
+    this->proximity = proximity;
 }
 int Node::getProximity()
 {
