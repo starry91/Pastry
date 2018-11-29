@@ -35,7 +35,11 @@ void CommandHandler::handleCommand(std::string command)
     try
     {
         std::vector<std::string> args = extractArgs(command);
-        if (args.size() == 2 && args[0] == "port" && !PORT_SET_BIT)
+        if (args.size() == 0)
+        {
+            return;
+        }
+        else if (args.size() == 2 && args[0] == "port" && !PORT_SET_BIT)
         {
             auto nodeID = getHash(getHostIP() + args[1], (config_parameter_b)); //b macro defined in Client Database
             auto trimmedNodeID = trimString(nodeID, ClientDatabase::getInstance().getRowSize());
@@ -63,8 +67,8 @@ void CommandHandler::handleCommand(std::string command)
         {
             string ip = args[1];
             string port = args[2];
-            if(ip == ClientDatabase::getInstance().getListener()->getIp() && 
-                    port == ClientDatabase::getInstance().getListener()->getPort())
+            if (ip == ClientDatabase::getInstance().getListener()->getIp() &&
+                port == ClientDatabase::getInstance().getListener()->getPort())
             {
                 throw ErrorMsg("Cannot join node to itself");
             }
@@ -201,7 +205,7 @@ void CommandHandler::handleCommand(std::string command)
                     auto value = ClientDatabase::getInstance().getHashMapValue(key);
                     // this->printResponse(value); //printing get response to console
                     string print_msg = "Key: " + temp->actual_key() + " Value: " + value;
-                    Custom_Printer().printToConsole(print_msg);         
+                    Custom_Printer().printToConsole(print_msg);
                     break;
                 }
                 else
@@ -436,19 +440,24 @@ void CommandHandler::handleCommand(std::string command)
         else
         {
             std::string print_msg = "Invalid Command";
-            if(!PORT_SET_BIT) {
+            if (!PORT_SET_BIT)
+            {
                 print_msg = "Please assign PORT";
             }
-            else if(!CREATE_BIT) {
+            else if (!CREATE_BIT)
+            {
                 print_msg = "Please create Pasty Node first";
             }
-            else if(args[0] == "port") {
+            else if (args[0] == "port")
+            {
                 print_msg = "PORT already assigned";
             }
-            else if(args[0] == "create") {
+            else if (args[0] == "create")
+            {
                 print_msg = "Pasty Node already Initialized";
             }
-            else if(args[0] == "join") {
+            else if (args[0] == "join")
+            {
                 print_msg = "Pasty Node already connected";
             }
             Custom_Printer().printError(print_msg);

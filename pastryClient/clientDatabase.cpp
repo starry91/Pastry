@@ -214,18 +214,21 @@ void ClientDatabase::addToNeighhbourSet(node_Sptr node)
 		std::string log_msg = "Erasing DUPLICATE in neighbour set IP : " + n_entry->getIp() + " Port : " +
 							  n_entry->getPort() + " NodeID: " + n_entry->getNodeID();
 		LogHandler::getInstance().logMsg(log_msg);
-		neighbour.erase(n_entry);
+		n_entry->setProximity(proximity);
 	}
-	neighbour.insert(node);
+	else
+	{
+		neighbour.insert(node);
+	}
 	std::string log_msg = "adding to neighbour set IP : " + node->getIp() + " Port : " +
 						  node->getPort() + " NodeID: " + node->getNodeID();
 	LogHandler::getInstance().logMsg(log_msg);
 	if (neighbour.size() > this->col)
 	{
-		std::string log_msg = "Erasing in OVERFLOW in neighbour set IP : " + (*neighbour.begin())->getIp() + " Port : " +
-							  (*neighbour.begin())->getPort() + " NodeID: " + (*neighbour.begin())->getNodeID();
+		std::string log_msg = "Erasing in OVERFLOW in neighbour set IP : " + (*neighbour.rbegin())->getIp() + " Port : " +
+							  (*neighbour.rbegin())->getPort() + " NodeID: " + (*neighbour.rbegin())->getNodeID();
 		LogHandler::getInstance().logMsg(log_msg);
-		neighbour.erase(neighbour.begin());
+		neighbour.erase(*neighbour.rbegin());
 	}
 	return;
 }
