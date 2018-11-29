@@ -43,6 +43,14 @@ void CommandHandler::handleCommand(std::string command)
             ClientDatabase::getInstance().setListener(make_shared<Node>(Node(getHostIP(), args[1], trimmedNodeID)));
             PORT_SET_BIT = true;
         }
+        else if (args.size() == 3 && args[0] == "port" && !PORT_SET_BIT)
+        {
+            auto nodeID = getHash(args[1] + args[2], (config_parameter_b)); //b macro defined in Client Database
+            auto trimmedNodeID = trimString(nodeID, ClientDatabase::getInstance().getRowSize());
+            LogHandler::getInstance().logMsg("Node ID: " + trimmedNodeID);
+            ClientDatabase::getInstance().setListener(make_shared<Node>(Node(args[1], args[2], trimmedNodeID)));
+            PORT_SET_BIT = true;
+        }
         else if (args.size() == 1 && args[0] == "create" && PORT_SET_BIT && !CREATE_BIT)
         {
             std::thread t1(&PeerListener::startListening, PeerListener());
