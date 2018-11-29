@@ -801,7 +801,8 @@ void PeerMessageHandler::handleDeleteNodeRequest(message::Message msg)
 	LogHandler::getInstance().logMsg(log_msg);
 	auto node = msg.deletenode().node();
 	auto node_to_delete = make_shared<Node>(node.ip(), node.port(), node.nodeid());
-	ClientDatabase::getInstance().delete_from_all(node_to_delete);
+	// ClientDatabase::getInstance().delete_from_all(node_to_delete);
+	handleLazyUpdates(node_to_delete);
 }
 
 void PeerMessageHandler::handleShutdownRequest()
