@@ -1,5 +1,4 @@
 # Pastry
-==========
 
 ![Screenshot](Architecture.jpg)
 
@@ -41,7 +40,7 @@ Route ( Destination node):
 5. If it is not NULL then route to it. Check in the union of routing table, leaf set and neighbour set. Choose the most suitable node. Then route to it. 
 
 ## Routing Updates
-![Screenshot](routing update.jpg)
+![](routing_update.jpg)
 
 ## Repair Algorithm:
 
